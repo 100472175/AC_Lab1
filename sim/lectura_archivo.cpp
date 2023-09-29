@@ -2,10 +2,11 @@
 // Created by cesar on 27/09/23.
 //
 
+#include <iostream>
 #include "lectura_archivo.hpp"
 
 int read_head(std::ifstream& file, int &np, double &ppm) {
-    std::cout << "cabecera\n";
+    //std::cout << "cabecera\n";
     float float_ppm;
     file.read(reinterpret_cast<char *>(&float_ppm), 4);
     file.read(reinterpret_cast<char *>(&np), 4);
@@ -16,7 +17,6 @@ int read_head(std::ifstream& file, int &np, double &ppm) {
 
 int read_body(std::ifstream& file, int &np, std::vector<Particle>& particles) {
     // body
-    std::cout << "pito\n";
     for (int i = 0; i < np; i++) {
         Vector3d_float p, h, v;
         Particle particle;
@@ -39,11 +39,14 @@ int read_body(std::ifstream& file, int &np, std::vector<Particle>& particles) {
 
 int read_file(const std::string &path, std::vector<Particle> &particles) {
     //head
-    std::cout << "reading file...\n";
+    //std::cout << "reading file...\n";
     double ppm;
     int np;
     std::ifstream file(path, std::ios::binary);
-
+    if (file.fail()){
+        std::cerr <<"Error: Cannot open " << path <<" for reading\n";
+        return -3;
+    }
     read_head(file, np, ppm);
     std::cout << "ppm y np: " << ppm << " " << np << "\n";
     int exit_code = read_body(file, np, particles);
