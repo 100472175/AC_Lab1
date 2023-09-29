@@ -1,4 +1,6 @@
-add_library(sim lectura_archivo.cpp funciones_fisicas.cpp particle.cpp vector_3d.cpp)
+add_library(sim lectura_archivo.cpp funciones_fisicas.cpp particle.cpp vector_3d.cpp
+        progargs.cpp
+        progargs.hpp)
 target_include_directories(sim PUBLIC ..)
 
 #target_link_libraries(sim PRIVATE Microsoft.GSL::GSL)
