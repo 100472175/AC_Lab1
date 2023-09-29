@@ -7,16 +7,17 @@
 }*/
 
 #include "../sim/lectura_archivo.hpp"
+#include "../sim/particle.hpp"
 
 int main() {
-    std::vector<particle> particles;
-    read_file("../small.fld", particles);
-    std::cout << particles.size() << std::endl;
-    int i = 0;
-    for (auto p : particles) {
-        std::cout << "particle " << i++ << ":\n" << p.px << "\n";
-        std::cout << "=========\n";
-    }
+  std::vector<Particle> particles;
+  read_file("../small.fld", particles);
+  std::cout << particles.size() << std::endl;
+  int i = 0;
+  for (auto p : particles) {
+    std::cout << "particle " << i++ << ":\n" << p.p.x << "\n";
+    std::cout << "=========\n";
+  }
 
-    return 0;
+  return 0;
 }

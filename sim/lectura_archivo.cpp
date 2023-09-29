@@ -4,40 +4,44 @@
 
 #include "lectura_archivo.hpp"
 
-int read_file(const std::string &path, std::vector<particle>& particles) {
+int read_file(const std::string &path, std::vector<Particle> &particles) {
     std::cout << "reading file...\n";
+
     particles.clear();
     float float_ppm;
     double ppm;
     int np;
     std::ifstream file(path, std::ios::binary);
     // cabecera
-    file.read(reinterpret_cast<char *> (&float_ppm), 4);
+    file.read(reinterpret_cast<char *>(&float_ppm), 4);
     file.read(reinterpret_cast<char *>(&np), 4);
 
-    ppm = (double) float_ppm;
+    ppm = (double)float_ppm;
 
-    std::cout << "ppm: " << ppm << "\n" << "np: " << np << "\n";
+    std::cout << "ppm: " << ppm << "\n"
+        << "np: " << np << "\n";
+
+
     for (int i = 0; i < np; i++) {
-        float particle_data[9];
-        particle p;
-        file.read(reinterpret_cast<char *>(particle_data), 36); // lectura de particulas +1
+        Vector3d_float p;
+        Vector3d_float h;
+        Vector3d_float v;
 
-        p.density = 0;
-        p.id = i;
-        p.px = (double) particle_data[0];
-        p.py = (double) particle_data[1];
-        p.pz = (double) particle_data[2];
-        p.hx = (double) particle_data[3];
-        p.hy = (double) particle_data[4];
-        p.hz = (double) particle_data[5];
-        p.vx = (double) particle_data[6];
-        p.vy = (double) particle_data[7];
-        p.vz = (double) particle_data[8];
+        Particle particle;
+        particle.densidad=0;
+        particle.a.set_values(0.0, 9.8, 0.0);
 
-        particles.push_back(p);
+        file.read(reinterpret_cast<char *>(&p),12); // lectura posicion particula i
+        file.read(reinterpret_cast<char *>(&h),12); // lectura h particula i
+        file.read(reinterpret_cast<char *>(&v),12); // lectura velocidad particula i
+
+        particle.p.set_values((double)p.x, (double)p.y, (double)p.z);
+        particle.h.set_values((double)h.x, (double)h.y, (double)h.z);
+        particle.v.set_values((double)v.x, (double)v.y, (double)v.z);
+        particles.push_back(particle);
     }
 
+    std::cout << "Almacenadas " << particles.size() << "particulas\n";
 
     return 0;
 }

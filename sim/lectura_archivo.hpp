@@ -5,19 +5,13 @@
 #ifndef AC_LAB1_LECTURA_ARCHIVO_H
 #define AC_LAB1_LECTURA_ARCHIVO_H
 
-#include <vector>
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include "particle.hpp"
+#include "vector_3d.hpp"
 
-typedef struct particle {
-    double px, py, pz;
-    double hx, hy, hz;
-    double vx, vy, vz;
-    double density;
-    int id;
-} particle;
+int read_file(const std::string &path, std::vector<Particle> &particles);
 
-int read_file(const std::string &path, std::vector<particle> &particles);
-
-#endif //AC_LAB1_LECTURA_ARCHIVO_H
+#endif // AC_LAB1_LECTURA_ARCHIVO_H

@@ -30,21 +30,18 @@ namespace func_fis {
         return check_index(floor((posicion - min) / tamano_bloque));
     }
 
-    double delta_densidades(double len_suavizado, particle const& part1, particle const& part2){
-        double suavizado = len_suavizado * len_suavizado;
-        double distancia = pow((part1.px - part2.px), 2) + pow((part1.py - part2.py), 2) + pow((part1.pz - part2.pz), 2);
-        distancia = sqrt(distancia);
-        distancia = distancia * distancia;
-        if (distancia >= suavizado){
-            return 0;
-        }else{
-            return pow((suavizado - distancia), 3);
+    double delta_densidades(double len_suavizado, particle const& part1,
+particle const& part2){ double suavizado = len_suavizado * len_suavizado; double
+distancia = pow((part1.px - part2.px), 2) + pow((part1.py - part2.py), 2) +
+pow((part1.pz - part2.pz), 2); distancia = sqrt(distancia); distancia =
+distancia * distancia; if (distancia >= suavizado){ return 0; }else{ return
+pow((suavizado - distancia), 3);
         }
     }
 
-    double transform_densidad(particle const& particula, double suavizado, double masa){
-        double parte_1 = particula.density + pow(suavizado, 6);
-        double parte_2 = 315/(64* std::numbers::pi *pow(suavizado, 9));
+    double transform_densidad(particle const& particula, double suavizado,
+double masa){ double parte_1 = particula.density + pow(suavizado, 6); double
+parte_2 = 315/(64* std::numbers::pi *pow(suavizado, 9));
         //double parte_3 = masa;
         return parte_1 * parte_2 * masa;
     }
