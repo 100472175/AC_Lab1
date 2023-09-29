@@ -11,7 +11,7 @@
 
 int main() {
   std::vector<Particle> particles;
-  read_file("../small.fld", particles);
+  read_file("../../../small.fld", particles);
   std::cout << particles.size() << std::endl;
   int i = 0;
   for (auto p : particles) {

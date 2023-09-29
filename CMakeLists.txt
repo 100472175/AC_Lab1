@@ -1,5 +1,5 @@
 # General
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.25)
 project(fluid LANGUAGES CXX)
 
 
@@ -15,7 +15,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 include(FetchContent)
 
 # esto relentiza compilación, se puede desactivar y activar
-set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
+
+# ESTA LINEA NO CONSEGUIMOS QUE HAGA NADA
+# set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
 
 # incluir todos los directorios de código
 include_directories(PUBLIC .)

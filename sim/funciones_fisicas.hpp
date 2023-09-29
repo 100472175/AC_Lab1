@@ -1,27 +1,33 @@
 //
 // Created by Eduardo Alarcon on 27/9/23.
 //
-/*
+
 #ifndef PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
 #define PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
 
+#include "particle.hpp"
+#include "vector_3d.hpp"
+#include <numbers>
+#include <cmath>
+#include <vector>
+
 namespace func_fis {
-    double masa(double densidad, double particula_por_metro);
+  double masa(double const& densidad, double const& ppm);
 
-    double suavizado(double radio, double part_por_metro);
+    double suavizado(double const& radio, double const& ppm);
 
-    double num_bloques(double max, double min, double suavizado);
+    double num_bloques(double const& max, double const& min, double const& suavizado);
 
-    double tamanio_bloque(double max, double min, double suavizado);
+    double tamanio_bloque(double const& max, double const& min, double const& suavizado);
 
-    double check_index(double index);
+    int check_index(int index);
 
-    double indice_bloque(double posicion, double min, double tamano_bloque);
+    int indice_bloque(double const& posicion, double const& min, double const& tamanio_bloque);
 
-    double delta_densidades(double len_suavizado, struct pos_part_1, struct
-pos_part_2);
+    void init_dens_accel(std::vector<Particle> &new_vector, int particula);
 
-    double transform_densidad(double densidad, double suavizado, double masa);
+    double delta_densidades(double len_suavizado, Particle const& part1, Particle const& part2);
+
+    double transform_densidad(Particle const& particula, double const& suavizado, double const& masa);
 }
 #endif //PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
-*/
