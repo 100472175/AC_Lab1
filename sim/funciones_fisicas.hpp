@@ -12,7 +12,7 @@ namespace func_fis {
 
     double num_bloques(double max, double min, double suavizado);
 
-    double tamano_bloque(double max, double min, double suavizado);
+    double tamanio_bloque(double max, double min, double suavizado);
 
     double check_index(double index);
 
