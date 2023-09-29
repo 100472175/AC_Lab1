@@ -4,7 +4,7 @@
 
 #ifndef PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
 #define PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
-
+/*
 namespace func_fis {
     double masa(double densidad, double particula_por_metro);
 
@@ -23,3 +23,4 @@ namespace func_fis {
     double transform_densidad(double densidad, double suavizado, double masa);
 }
 #endif //PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
+*/

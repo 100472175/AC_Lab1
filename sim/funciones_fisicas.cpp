@@ -1,7 +1,7 @@
 //
 // Created by Eduardo Alarcon on 27/9/23.
 //
-
+/*
 #include "funciones_fisicas.hpp"
 #include "lectura_archivo.hpp"
 #include <numbers>
@@ -55,3 +55,4 @@ namespace func_fis {
     }
     // Para acceder a la partícula p.px, p.py, p.pz
 }
+*/
