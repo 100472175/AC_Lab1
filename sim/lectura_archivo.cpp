@@ -2,7 +2,6 @@
 // Created by cesar on 27/09/23.
 //
 
-#include <iostream>
 #include "lectura_archivo.hpp"
 
 int read_head(std::ifstream& file) {
@@ -17,6 +16,7 @@ int read_head(std::ifstream& file) {
 
 int read_body(std::ifstream& file, std::vector<Particle>& particles) {
     // body
+    std::cout << "pito\n";
     for (int i = 0; i < np; i++) {
         Vector3d_float p, hv, v;
         Particle particle;
