@@ -32,8 +32,13 @@ int func_fis::check_index(int index){
     return index;
 }
 
-int func_fis::indice_bloque(double const& posicion, double const& min, double const& tamanio_bloque) {
-    return check_index(floor((posicion - min) / tamanio_bloque));
+Vector3d func_fis::indice_bloque(double const& min, double const& tamanio_bloque, Particle const& particula) {
+    int coord_x = floor((particula.p.x - min) / tamanio_bloque);
+    int coord_y = floor((particula.p.y - min) / tamanio_bloque);
+    int coord_z = floor((particula.p.z - min) / tamanio_bloque);
+    Vector3d result{};
+    result.set_values(coord_x, coord_y, coord_z);
+    return result;
 }
 
 void func_fis::init_densidad_accel(std::vector<Particle> &new_vector, int particula){
@@ -61,13 +66,14 @@ double func_fis::transform_densidad(std::vector<Particle> &new_vector, int parti
     return parte_1 * parte_2 * masa_part;
 }
 
-/*
+
 double func_fis::trasnfer_accel_particulas(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector){
+    if ((particula1 > particula2) or (particula1 == particula2)) { return 0.0; }
     //Distancia entre dos partículas 3 dimensionales
     double distancia = pow((old_vector[particula1].p.x - old_vector[particula2].p.x), 2) + pow((old_vector[particula1].p.y - old_vector[particula2].p.y), 2) + pow((old_vector[particula1].p.z - old_vector[particula2].p.z), 2);
     distancia = sqrt(distancia);
     distancia = distancia * distancia;
-    if (distancia >= len_suavizado) { return 0; }
+    if (distancia >= len_suavizado) { return -1.0; }
     //Aceleración entre dos partículas 3 dimensionales
 
     // Se han dividido las operaciones en varias variables para que sea más legible
@@ -76,7 +82,7 @@ double func_fis::trasnfer_accel_particulas(int particula1, int particula2, std::
 
     double acceleration_2 = 15 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part;
     double acceleration_3 = pow(len_suavizado - distancia, 2) / distancia;
-    double acceleration_4 = old_vector[particula1].densidad + old_vector[particula2].densidad - densidad;
+    double acceleration_4 = old_vector[particula1].densidad + old_vector[particula2].densidad - dens_fluido;
 
     Vector3d acceleration_5{}; // Las llaves me las ha puesto el clang-tidy
     acceleration_5.set_values(old_vector[particula2].v.x - old_vector[particula1].v.x, old_vector[particula2].v.y - old_vector[particula1].v.y, old_vector[particula2].v.z - old_vector[particula1].v.z);
@@ -84,9 +90,19 @@ double func_fis::trasnfer_accel_particulas(int particula1, int particula2, std::
     double acceleration_6 = 45 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part;
 
     double acceleration_div = old_vector[particula1].densidad * old_vector[particula2].densidad;
-    //double (acceleration_1 * acceleration_2 * acceleration_3 * acceleration_4 + acceleration_5 * acceleration_6) / acceleration_div;
-    acceleration_2 = acceleration_2 * acceleration_3 * acceleration_4;
-    // Ahora solo vamos a usar accel_1, accel_2, accel_5 y accel_6
+    // Primera parte de la aceleración
+    acceleration_1 *= acceleration_2 * acceleration_3 * acceleration_4;
+    // Segunda parte de la aceleración
+    acceleration_5 *= acceleration_6;
+    // Suma de las dos partes de la aceleración
+    acceleration_1 += acceleration_5;
+    // División de la aceleración
+    acceleration_1 /= acceleration_div;
+    // Suma de la aceleración a la partícula 1
+    new_vector[particula1].a += acceleration_1;
+    new_vector[particula2].a -= acceleration_1;
+    return 0.0;
+
 
 }
-*/
+

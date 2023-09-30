@@ -20,10 +20,8 @@ int Malla::get_pos(int i,int j,int k) const{
 }
 void Malla::poblar_malla(vector<Particle> const &v_particulas){
     for (Particle particula: v_particulas){
-      int i = func_fis::indice_bloque(particula.p.x,b_min.x,func_fis::tamanio_bloque(b_max.x,b_min.x));
-      int j = func_fis::indice_bloque(particula.p.y,b_min.y,func_fis::tamanio_bloque(b_max.y,b_min.y));
-      int k = func_fis::indice_bloque(particula.p.z,b_min.z,func_fis::tamanio_bloque(b_max.z,b_min.z));
-      int ind_real = get_pos(i,j,k);
+      Vector3d bloque_coords = func_fis::indice_bloque(b_min.x,func_fis::tamanio_bloque(b_max.x,b_min.x), particula);
+      int ind_real = get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
       bloques[ind_real].bloque.push_back(particula.id);
     }
 }

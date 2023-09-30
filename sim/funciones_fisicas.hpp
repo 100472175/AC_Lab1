@@ -35,7 +35,7 @@ namespace func_fis {
 
     int check_index(int index);
 
-    int indice_bloque(double const& posicion, double const& min, double const& tamanio_bloque);
+    Vector3d indice_bloque(double const& min, double const& tamanio_bloque, Particle const& particula);
 
     void init_densidad_accel(std::vector<Particle> &new_vector, int particula);
 
@@ -43,7 +43,7 @@ namespace func_fis {
 
     double transform_densidad(std::vector<Particle> &new_vector, int particula);
 
-    //double trasnfer_accel_particulas(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector);
+    double trasnfer_accel_particulas(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector);
 
 }
 #endif //PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
