@@ -1,5 +1,4 @@
 #!/bin/sh
-rm -rf build
-mkdir build
-cd build
+mkdir build_avignon
+cd build_avignon
 cmake ..
