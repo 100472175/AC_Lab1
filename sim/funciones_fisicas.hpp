@@ -27,16 +27,12 @@ extern const double s_c;
 
 namespace func_fis {
 
-
+    // Generales 3.5
     double masa(); //ppm variable global
-
-    //double masa_part = masa();
 
     double suavizado(); //ppm y radio variables globales
 
     double num_bloques(double const& max, double const& min); //
-
-    //double len_suavizado = suavizado();
 
     double tamanio_bloque(double const& max, double const& min);
 
@@ -44,6 +40,8 @@ namespace func_fis {
 
     Vector3d_int indice_bloque(Particle const& particula);
 
+
+    // 4.3.2
     void init_densidad_accel(std::vector<Particle> &new_vector, int particula);
 
     auto delta_densidades(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector);
@@ -52,11 +50,32 @@ namespace func_fis {
 
     double trasnfer_accel_particulas(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector);
 
+    // 4.3.3
     void collisiones_limite_eje_x(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
 
     void collisiones_limite_eje_y(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
 
     void collisiones_limite_eje_z(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
+    // 4.3.4
+    void actualizar_posicion(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
+    void actualizar_velocidad(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
+    void actualizar_gradiente(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
+    void actualizar_movimiento(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
+
+
+
+
+    void interacciones_limite_eje_x(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
+    void interacciones_limite_eje_y(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
+    void interacciones_limite_eje_z(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector);
+
 
 
 }

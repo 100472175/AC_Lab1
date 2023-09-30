@@ -41,8 +41,8 @@ Vector3d_int func_fis::indice_bloque(Particle const& particula) {
     return result;
 }
 
-// Sección 4.3.1 - Cálculo de las aceleraciones
 
+// Sección 4.3.2 - Cálculo de las aceleraciones
 // Inidiación de densidad y aceleraciones [pg. 8]
 void func_fis::init_densidad_accel(std::vector<Particle> &new_vector, int particula){
     new_vector[particula].densidad = 0.0;
@@ -100,6 +100,8 @@ double func_fis::trasnfer_accel_particulas(int particula1, int particula2, std::
     return 1.0;
 }
 
+
+
 // Sección 4.3.3 Colisiones de partículas
 // Colisiones con los límites del eje  x [pg. 9]
 void func_fis::collisiones_limite_eje_x(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
@@ -151,16 +153,110 @@ void func_fis::collisiones_limite_eje_z(int c_z, int particula, std::vector<Part
         }
     }
 }
-/*
+
+
+// Movimiento de las partículas 4.3.4
+void func_fis::actualizar_posicion(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
+    // Que narices, creo que las fórmulas estan mal en el pg, ágina 10 al final
+    new_vector[particula].p.x = old_vector[particula].p.x + old_vector[particula].hv.x * delta_t + old_vector[particula].a.x * delta_t * delta_t;
+    new_vector[particula].p.y = old_vector[particula].p.y + old_vector[particula].hv.y * delta_t + old_vector[particula].a.y * delta_t * delta_t;
+    new_vector[particula].p.z = old_vector[particula].p.z + old_vector[particula].hv.z * delta_t + old_vector[particula].a.z * delta_t * delta_t;
+}
+
+void func_fis::actualizar_velocidad(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
+    new_vector[particula].v.x = old_vector[particula].hv.x + (old_vector[particula].a.x * delta_t) / 2;
+    new_vector[particula].v.y = old_vector[particula].hv.y + (old_vector[particula].a.y * delta_t) / 2;
+    new_vector[particula].v.z = old_vector[particula].hv.z + (old_vector[particula].a.z * delta_t) / 2;
+}
+
+void func_fis::actualizar_gradiente(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
+    new_vector[particula].hv.x = old_vector[particula].hv.x + (old_vector[particula].a.x * delta_t);
+    new_vector[particula].hv.y = old_vector[particula].hv.y + (old_vector[particula].a.y * delta_t);
+    new_vector[particula].hv.z = old_vector[particula].hv.z + (old_vector[particula].a.z * delta_t);
+}
+
+void func_fis::actualizar_movimiento(int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
+    // Actualizar la posición de la partícula
+    new_vector[particula].p.x = old_vector[particula].p.x + old_vector[particula].hv.x * delta_t + old_vector[particula].a.x * delta_t * delta_t;
+    new_vector[particula].p.y = old_vector[particula].p.y + old_vector[particula].hv.y * delta_t + old_vector[particula].a.y * delta_t * delta_t;
+    new_vector[particula].p.z = old_vector[particula].p.z + old_vector[particula].hv.z * delta_t + old_vector[particula].a.z * delta_t * delta_t;
+
+    // Actualizar la velocidad de la partícula
+    new_vector[particula].v.x = old_vector[particula].hv.x + (old_vector[particula].a.x * delta_t) / 2;
+    new_vector[particula].v.y = old_vector[particula].hv.y + (old_vector[particula].a.y * delta_t) / 2;
+    new_vector[particula].v.z = old_vector[particula].hv.z + (old_vector[particula].a.z * delta_t) / 2;
+
+    // Actualizar el gradiente de velocidad de la partícula
+    new_vector[particula].hv.x = old_vector[particula].hv.x + (old_vector[particula].a.x * delta_t);
+    new_vector[particula].hv.y = old_vector[particula].hv.y + (old_vector[particula].a.y * delta_t);
+    new_vector[particula].hv.z = old_vector[particula].hv.z + (old_vector[particula].a.z * delta_t);
+}
+
+
+
+
+
 // 4.3.5 Interacciones con los límites del recinto
 // Colisiones con los límites en el eje x [pg. 10]
-void func_fis::colisiones_limite_eje_x(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
+void func_fis::interacciones_limite_eje_x(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
     double new_dx;
     if (c_x == 0){
         new_dx = old_vector[particula].p.x - b_min.x;
+        if (new_dx < 0.0){
+            new_vector[particula].p.x = b_min.x - new_dx;
+            new_vector[particula].v.x = -old_vector[particula].v.x;
+            new_vector[particula].hv.x = -old_vector[particula].hv.x;
+        }
+    } else if (c_x == func_fis::num_bloques(b_max.x, b_min.x) - 1) {
+        new_dx = b_max.x - old_vector[particula].p.x;
+        if (new_dx < 0.0){
+            new_vector[particula].p.x = b_min.x + new_dx;
+            new_vector[particula].v.x = -old_vector[particula].v.x;
+            new_vector[particula].hv.x = -old_vector[particula].hv.x;
+        }
     }
 }
-*/
+
+// Colisiones con los límites en el eje y [pg. 10]
+void func_fis::interacciones_limite_eje_y(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
+    double new_dy;
+    if (c_x == 0){
+        new_dy = old_vector[particula].p.y - b_min.y;
+        if (new_dy < 0.0){
+            new_vector[particula].p.y = b_min.y - new_dy;
+            new_vector[particula].v.y = -old_vector[particula].v.y;
+            new_vector[particula].hv.y = -old_vector[particula].hv.y;
+        }
+    } else if (c_x == func_fis::num_bloques(b_max.y, b_min.y) - 1) {
+        new_dy = b_max.y - old_vector[particula].p.y;
+        if (new_dy < 0.0){
+            new_vector[particula].p.y = b_min.y + new_dy;
+            new_vector[particula].v.y = -old_vector[particula].v.y;
+            new_vector[particula].hv.y = -old_vector[particula].hv.y;
+        }
+    }
+}
+
+// Colisiones con los límites en el eje z [pg. 10]
+void func_fis::interacciones_limite_eje_z(int c_x, int particula, std::vector<Particle> const& old_vector, std::vector<Particle> &new_vector){
+    double new_dz;
+    if (c_x == 0){
+        new_dz = old_vector[particula].p.z - b_min.z;
+        if (new_dz < 0.0){
+            new_vector[particula].p.z = b_min.z - new_dz;
+            new_vector[particula].v.z = -old_vector[particula].v.z;
+            new_vector[particula].hv.z = -old_vector[particula].hv.z;
+        }
+    } else if (c_x == func_fis::num_bloques(b_max.z, b_min.z) - 1) {
+        new_dz = b_max.z - old_vector[particula].p.z;
+        if (new_dz < 0.0){
+            new_vector[particula].p.z = b_min.z + new_dz;
+            new_vector[particula].v.z = -old_vector[particula].v.z;
+            new_vector[particula].hv.z = -old_vector[particula].hv.z;
+        }
+    }
+}
+
 
 
 
