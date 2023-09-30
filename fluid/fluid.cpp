@@ -41,7 +41,10 @@ int main(int argc, char ** argv) {
   std::cout << "size: " << particles.size() << "\n";
   std::cout << "np: " << np << "\nppm: " << ppm << "\n";
   //Esto no iría aquí, es para probar ejecucion de cosas:
-  func_fis::num_bloques(b_max.x, b_min.x, h);
+  func_fis::num_bloques(b_max.x, b_min.x);
+
+  //Para que no toque el warning de unused variable
+  std::cout << p_s << d_v << mu << g.x << g.y << g.z << "\n";
 
   return 0;
 }

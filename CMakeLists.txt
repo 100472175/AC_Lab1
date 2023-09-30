@@ -15,7 +15,6 @@ set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 include(FetchContent)
 
 # esto relentiza compilación, se puede desactivar y activar
-
 # ESTA LINEA NO CONSEGUIMOS QUE HAGA NADA
 # set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
 

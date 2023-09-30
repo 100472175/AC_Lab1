@@ -3,6 +3,12 @@
 //
 
 #include "funciones_fisicas.hpp"
+#include "vector_3d.hpp"
+
+namespace func_fis {
+  double masa_part = masa();
+  double len_suavizado = suavizado();
+}
 
 
 double func_fis::masa() {
@@ -13,12 +19,12 @@ double func_fis::suavizado() {
     return r / ppm;
 }
 
-double func_fis::num_bloques(double const& max, double const& min, double const& suavizado) {
-    return floor((max - min) / suavizado);
+double func_fis::num_bloques(double const& max, double const& min) {
+    return floor((max - min) / len_suavizado);
 }
 
-double func_fis::tamanio_bloque(double const& max, double const& min, double const& suavizado) {
-    return (max - min) / num_bloques(max, min, suavizado);
+double func_fis::tamanio_bloque(double const& max, double const& min) {
+    return (max - min) / num_bloques(max, min);
 }
 
 int func_fis::check_index(int index){
@@ -30,23 +36,57 @@ int func_fis::indice_bloque(double const& posicion, double const& min, double co
     return check_index(floor((posicion - min) / tamanio_bloque));
 }
 
-void func_fis::init_dens_accel(std::vector<Particle> &new_vector, int particula){
+void func_fis::init_densidad_accel(std::vector<Particle> &new_vector, int particula){
     new_vector[particula].densidad = 0.0;
     //new_vector[particula].a = Vector3D(0.0, 0.0, 0.0);
 }
 
-double func_fis::delta_densidades(double len_suavizado, Particle const& part1, Particle const& part2){
+auto func_fis::delta_densidades(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector){
+    if ((particula1 > particula2) or (particula1 == particula2)) { return 0.0; }
+
     double suavizado = len_suavizado * len_suavizado;
-    double distancia = pow((part1.p.x - part2.p.x), 2);
+    double distancia = pow((old_vector[particula1].p.x - old_vector[particula2].p.x), 2) + pow((old_vector[particula1].p.y - old_vector[particula2].p.y), 2) + pow((old_vector[particula1].p.z - old_vector[particula2].p.z), 2);
     distancia = sqrt(distancia);
     distancia = distancia * distancia;
-    if (distancia >= suavizado) { return 0; }
-    return pow((suavizado - distancia), 3);
+    if (distancia >= suavizado) { return 0.0; }
+    double diff_densidad =  pow((suavizado - distancia), 3);
+    new_vector[particula1].densidad += diff_densidad;
+    new_vector[particula2].densidad += diff_densidad;
+    return 1.0;
 }
 
-double func_fis::transform_densidad(Particle const& particula, double const& suavizado, double const& masa){
-    double parte_1 = particula.densidad + pow(suavizado, 6);
-    double parte_2 = 315/(64 * std::numbers::pi *pow(suavizado, 9));
-    return parte_1 * parte_2 * masa;
+double func_fis::transform_densidad(std::vector<Particle> &new_vector, int particula){
+    double parte_1 = new_vector[particula].densidad + pow(len_suavizado, 6);
+    double parte_2 = 315/(64 * std::numbers::pi *pow(len_suavizado, 9));
+    return parte_1 * parte_2 * masa_part;
 }
 
+/*
+double func_fis::trasnfer_accel_particulas(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector){
+    //Distancia entre dos partículas 3 dimensionales
+    double distancia = pow((old_vector[particula1].p.x - old_vector[particula2].p.x), 2) + pow((old_vector[particula1].p.y - old_vector[particula2].p.y), 2) + pow((old_vector[particula1].p.z - old_vector[particula2].p.z), 2);
+    distancia = sqrt(distancia);
+    distancia = distancia * distancia;
+    if (distancia >= len_suavizado) { return 0; }
+    //Aceleración entre dos partículas 3 dimensionales
+
+    // Se han dividido las operaciones en varias variables para que sea más legible
+    Vector3d acceleration_1{}; // Las llaves me las ha puesto el clang-tidy
+    acceleration_1.set_values(old_vector[particula1].p.x - old_vector[particula2].p.x, old_vector[particula1].p.y - old_vector[particula2].p.y, old_vector[particula1].p.z - old_vector[particula2].p.z);
+
+    double acceleration_2 = 15 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part;
+    double acceleration_3 = pow(len_suavizado - distancia, 2) / distancia;
+    double acceleration_4 = old_vector[particula1].densidad + old_vector[particula2].densidad - densidad;
+
+    Vector3d acceleration_5{}; // Las llaves me las ha puesto el clang-tidy
+    acceleration_5.set_values(old_vector[particula2].v.x - old_vector[particula1].v.x, old_vector[particula2].v.y - old_vector[particula1].v.y, old_vector[particula2].v.z - old_vector[particula1].v.z);
+
+    double acceleration_6 = 45 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part;
+
+    double acceleration_div = old_vector[particula1].densidad * old_vector[particula2].densidad;
+    //double (acceleration_1 * acceleration_2 * acceleration_3 * acceleration_4 + acceleration_5 * acceleration_6) / acceleration_div;
+    acceleration_2 = acceleration_2 * acceleration_3 * acceleration_4;
+    // Ahora solo vamos a usar accel_1, accel_2, accel_5 y accel_6
+
+}
+*/

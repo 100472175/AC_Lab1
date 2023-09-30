@@ -15,24 +15,35 @@ extern double ppm;
 extern int np;
 extern double const r;
 extern const double dens_fluido;
+extern double masa_part;
+extern double len_suavizado;
 
 namespace func_fis {
+
+
     double masa(); //ppm variable global
+
+    //double masa_part = masa();
 
     double suavizado(); //ppm y radio variables globales
 
-    double num_bloques(double const& max, double const& min, double const& suavizado); //
+    double num_bloques(double const& max, double const& min); //
 
-    double tamanio_bloque(double const& max, double const& min, double const& suavizado);
+    //double len_suavizado = suavizado();
+
+    double tamanio_bloque(double const& max, double const& min);
 
     int check_index(int index);
 
     int indice_bloque(double const& posicion, double const& min, double const& tamanio_bloque);
 
-    void init_dens_accel(std::vector<Particle> &new_vector, int particula);
+    void init_densidad_accel(std::vector<Particle> &new_vector, int particula);
 
-    double delta_densidades(double len_suavizado, Particle const& part1, Particle const& part2);
+    auto delta_densidades(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector);
 
-    double transform_densidad(Particle const& particula, double const& suavizado, double const& masa);
+    double transform_densidad(std::vector<Particle> &new_vector, int particula);
+
+    //double trasnfer_accel_particulas(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector);
+
 }
 #endif //PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP

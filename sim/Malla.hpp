@@ -17,9 +17,9 @@ class Malla {
 
   public:
     Malla() {
-      n_x     = (int) func_fis::num_bloques(b_max.x, b_min.x, h);
-      n_y     = (int) func_fis::num_bloques(b_max.y, b_min.y, h);
-      n_z     = (int) func_fis::num_bloques(b_max.z, b_min.z, h);
+      n_x     = (int) func_fis::num_bloques(b_max.x, b_min.x);
+      n_y     = (int) func_fis::num_bloques(b_max.y, b_min.y);
+      n_z     = (int) func_fis::num_bloques(b_max.z, b_min.z);
       bloques = vector<Bloque>(n_x * n_y * n_z);
     }
 
