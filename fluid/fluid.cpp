@@ -5,12 +5,14 @@
 #include "../sim/lectura_archivo.hpp"
 #include "../sim/progargs.hpp"
 #include "../sim/particle.hpp"
+
+
+#include <cmath>
+using namespace std;
+
 double ppm;
 int np;
 
-#include <cmath>
-
-using namespace std;
 const double r = 1.695;
 const double rho = pow(10,3);
 const double p_s = 3.0;
@@ -31,8 +33,9 @@ int main(int argc, char ** argv) {
     return argument_validated;
   }
   std::vector<Particle> particles;
-  read_file(argv[2], particles);
   std::cout << "prev_size: " << particles.size() << std::endl;
+  read_file(argv[2], particles);
   std::cout << "size: " << particles.size() << "\n";
+  std::cout << "np: " << np << "\nppm: " << ppm << "\n";
   return 0;
 }

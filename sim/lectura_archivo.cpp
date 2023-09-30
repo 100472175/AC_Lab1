@@ -10,13 +10,12 @@ int read_head(std::ifstream& file) {
     file.read(reinterpret_cast<char *>(&float_ppm), 4);
     file.read(reinterpret_cast<char *>(&np), 4);
     ppm = (double)float_ppm;
-    std::cout << "ppm y np: " << ppm << " " << np << "\n";
     return 0;
 }
 
 int read_body(std::ifstream& file, std::vector<Particle>& particles) {
     // body
-    std::cout << "pito\n";
+    std::cout << "body\n";
     for (int i = 0; i < np; i++) {
         Vector3d_float p, h, v;
         Particle particle;
@@ -43,7 +42,6 @@ int read_file(const std::string &path, std::vector<Particle> &particles) {
     std::ifstream file(path, std::ios::binary);
 
     read_head(file);
-    std::cout << "ppm y np: " << ppm << " " << np << "\n";
     int exit_code = read_body(file, particles);
     if (exit_code == -5) {
         return -5;
