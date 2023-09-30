@@ -30,7 +30,7 @@ int read_body(std::ifstream& file, std::vector<Particle>& particles) {
         file.read(reinterpret_cast<char *>(&h),12); // lectura h particula i
         file.read(reinterpret_cast<char *>(&v),12); // lectura velocidad particula i
         particle.p.set_values((double)p.x, (double)p.y, (double)p.z);
-        particle.h.set_values((double)h.x, (double)h.y, (double)h.z);
+        particle.hv.set_values((double)h.x, (double)h.y, (double)h.z);
         particle.v.set_values((double)v.x, (double)v.y, (double)v.z);
         particles.push_back(particle);
     }
