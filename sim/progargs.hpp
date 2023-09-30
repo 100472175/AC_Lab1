@@ -6,6 +6,7 @@
 #define FLUID_PROGARGS_HPP
 
 #include <ostream>
+#include "vector_3d.hpp"
 
 namespace Sim {
 
@@ -13,7 +14,7 @@ namespace Sim {
 
   int validate_arguments(int , char**);
 
-
+  Vector3d_int fuera_de_rango(Vector3d_int);
 
 }
 #endif  // FLUID_PROGARGS_HPP

@@ -1,7 +1,7 @@
 //
 // Created by Eduardo Alarcon on 27/9/23.
 //
-
+#include <iostream>
 #include "funciones_fisicas.hpp"
 #include "vector_3d.hpp"
 
@@ -16,11 +16,12 @@ double func_fis::masa() {
 }
 
 double func_fis::suavizado() {
+    h = r/ppm;
     return r / ppm;
 }
 
 double func_fis::num_bloques(double const& max, double const& min) {
-    return floor((max - min) / len_suavizado);
+    return floor((min - max) / h);
 }
 
 double func_fis::tamanio_bloque(double const& max, double const& min) {
@@ -32,12 +33,11 @@ int func_fis::check_index(int index){
     return index;
 }
 
-Vector3d func_fis::indice_bloque(double const& min, double const& tamanio_bloque, Particle const& particula) {
-    int coord_x = floor((particula.p.x - min) / tamanio_bloque);
-    int coord_y = floor((particula.p.y - min) / tamanio_bloque);
-    int coord_z = floor((particula.p.z - min) / tamanio_bloque);
-    Vector3d result{};
-    result.set_values(coord_x, coord_y, coord_z);
+Vector3d_int func_fis::indice_bloque(Particle const& particula) {
+    int coord_x = floor((particula.p.x - b_min.x) / func_fis::tamanio_bloque(b_max.x, b_min.x));
+    int coord_y = floor((particula.p.y - b_min.y) / func_fis::tamanio_bloque(b_max.y, b_min.y));
+    int coord_z = floor((particula.p.z - b_min.z) / func_fis::tamanio_bloque(b_max.z, b_min.z));
+    Vector3d_int result{coord_x, coord_y, coord_z};
     return result;
 }
 

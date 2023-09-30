@@ -11,10 +11,14 @@
 #include <cmath>
 #include <vector>
 
-extern double ppm;
-extern int np;
 extern double const r;
 extern const double dens_fluido;
+extern double h;
+extern const Vector3d b_max;
+extern const Vector3d b_min;
+extern double ppm;
+extern int np;
+
 namespace func_fis {
 
 
@@ -32,7 +36,7 @@ namespace func_fis {
 
     int check_index(int index);
 
-    Vector3d indice_bloque(double const& min, double const& tamanio_bloque, Particle const& particula);
+    Vector3d_int indice_bloque(Particle const& particula);
 
     void init_densidad_accel(std::vector<Particle> &new_vector, int particula);
 

@@ -28,6 +28,8 @@ struct Vector3d_float {
     float x, y, z;
 };
 
-
+struct Vector3d_int {
+    int x, y, z;
+};
 
 #endif //AC_LAB1_VECTOR_3D_H

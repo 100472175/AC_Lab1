@@ -1,4 +1,7 @@
+
+
 #include <iostream>
+#include "progargs.hpp"
 // Created by paula on 29/09/23.
 //
 
@@ -33,4 +36,25 @@ namespace Sim{
     return 0;
   }
 
+  Vector3d_int fuera_de_rango(Vector3d_int indices){
+    if(indices.x < 0){
+      indices.x  = 0;
+    }
+    else if(indices.x > 14){
+      indices.x = 14;
+    }
+    if(indices.y < 0){
+      indices.y = 0;
+    }
+    else if(indices.y > 20){
+      indices.y = 20;
+    }
+    if(indices.z < 0){
+      indices.z = 0;
+    }
+    else if(indices.z > 14){
+      indices.z = 14;
+    }
+    return indices;
+  }
 }

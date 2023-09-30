@@ -6,13 +6,14 @@
 #include "../sim/progargs.hpp"
 #include "../sim/particle.hpp"
 #include "../sim/funciones_fisicas.hpp"
-
+#include "../sim/Malla.hpp"
 
 using namespace std;
 
 double ppm;
 int np;
 
+double h;
 const double r = 1.695;
 const double dens_fluido = pow(10,3);
 const double p_s = 3.0; //presion regidez
@@ -25,7 +26,6 @@ const Vector3d g = {0.0, 9.8, 0.0}; //vector de aceleraciones iniciales
 const Vector3d b_min = {0.065, 0.1, 0.065};
 const Vector3d b_max = {-0.065, -0.08, -0.065};
 double m = func_fis::masa();
-double h = func_fis::suavizado();
 
 int main(int argc, char ** argv) {
   const int argument_validated = Sim::validate_arguments(argc, argv);
@@ -38,11 +38,12 @@ int main(int argc, char ** argv) {
   if(prueba_error != 0){
     return prueba_error;
   }
+  h = func_fis::suavizado();
   std::cout << "size: " << particles.size() << "\n";
+  //población de una malla con las particulas iniciales
+  Malla malla1;
+  malla1.poblar_malla(particles);
   std::cout << "np: " << np << "\nppm: " << ppm << "\n";
-  //Esto no iría aquí, es para probar ejecucion de cosas:
-  func_fis::num_bloques(b_max.x, b_min.x);
-
   //Para que no toque el warning de unused variable
   std::cout << p_s << d_v << mu << g.x << g.y << g.z << "\n";
 
