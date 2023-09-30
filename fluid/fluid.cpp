@@ -38,14 +38,22 @@ int main(int argc, char ** argv) {
   if(prueba_error != 0){
     return prueba_error;
   }
+  //hay que llamar a la funcion de valor antes de que sean usadas, o se usan con valor inf, como dependen de ppm las he puesto debajo de la lectura
   h = func_fis::suavizado();
+  m = func_fis::masa();
   std::cout << "size: " << particles.size() << "\n";
   //población de una malla con las particulas iniciales
   Malla malla1;
   malla1.poblar_malla(particles);
   std::cout << "np: " << np << "\nppm: " << ppm << "\n";
   //Para que no toque el warning de unused variable
-  std::cout << p_s << d_v << mu << g.x << g.y << g.z << "\n";
+  //esto no hace nada, es para comprobar que no se rompe el programa:
+  func_fis::init_densidad_accel(particles, 0);
+  //por tener tipo auto en el return hace cosas raras, si se cambia tipo a int deja de dar errores, pero no se que tiene que devolver esto en el futuro?
+  //func_fis::delta_densidades(0, 1,particles, particles);
+  func_fis::transform_densidad(particles, 0);
+  func_fis::trasnfer_accel_particulas(0, 1, particles, particles);
+  std::cout << p_s << d_v << mu << g.x << g.y << g.z << m <<"\n";
 
   return 0;
 }

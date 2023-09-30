@@ -19,7 +19,7 @@ int read_body(std::ifstream& file, std::vector<Particle>& particles) {
     for (int i = 0; i < np; i++) {
         Vector3d_float p, hv, v;
         Particle particle;
-        particle.densidad=0;
+        particle.densidad=0.0;
         particle.a.set_values(0.0, 9.8, 0.0);
         file.read(reinterpret_cast<char *>(&p),12); // lectura posicion particula i
         if (file.gcount() < 12) {

@@ -14,7 +14,6 @@ struct Particle {
     Vector3d v; // velocidad
     Vector3d a; // aceleracion
     double densidad;
-    int id;
 
     double operator || (Particle const& other) const;
 

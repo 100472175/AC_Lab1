@@ -9,6 +9,7 @@ int Malla::get_pos(int i,int j,int k) const{
   int pos = i + j * n_x + k * n_x * n_y;
   return pos;
 }
+
 void Malla::poblar_malla(vector<Particle> const &v_particulas){
     for (int cont = 0; cont < np; cont ++){
       Vector3d_int bloque_coords = func_fis::indice_bloque(v_particulas[cont]);

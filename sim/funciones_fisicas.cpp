@@ -12,7 +12,7 @@ namespace func_fis {
 
 
 double func_fis::masa() {
-  return dens_fluido * pow(ppm, 3);
+  return dens_fluido / pow(ppm, 3);
 }
 
 double func_fis::suavizado() {
