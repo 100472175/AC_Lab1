@@ -50,9 +50,7 @@ auto func_fis::delta_densidades(int particula1, int particula2, std::vector<Part
     if ((particula1 > particula2) or (particula1 == particula2)) { return 0.0; }
 
     double suavizado = len_suavizado * len_suavizado;
-    double distancia = pow((old_vector[particula1].p.x - old_vector[particula2].p.x), 2) + pow((old_vector[particula1].p.y - old_vector[particula2].p.y), 2) + pow((old_vector[particula1].p.z - old_vector[particula2].p.z), 2);
-    distancia = sqrt(distancia);
-    distancia = distancia * distancia;
+    double distancia = old_vector[particula1] || old_vector[particula2];
     if (distancia >= suavizado) { return 0.0; }
     double diff_densidad =  pow((suavizado - distancia), 3);
     new_vector[particula1].densidad += diff_densidad;
@@ -68,41 +66,33 @@ double func_fis::transform_densidad(std::vector<Particle> &new_vector, int parti
 
 
 double func_fis::trasnfer_accel_particulas(int particula1, int particula2, std::vector<Particle> &old_vector, std::vector<Particle> &new_vector){
-    if ((particula1 > particula2) or (particula1 == particula2)) { return 0.0; }
+    if ((particula1 > particula2) or (particula1 == particula2)) { return -1.0; }
     //Distancia entre dos partículas 3 dimensionales
-    double distancia = pow((old_vector[particula1].p.x - old_vector[particula2].p.x), 2) + pow((old_vector[particula1].p.y - old_vector[particula2].p.y), 2) + pow((old_vector[particula1].p.z - old_vector[particula2].p.z), 2);
-    distancia = sqrt(distancia);
-    distancia = distancia * distancia;
-    if (distancia >= len_suavizado) { return -1.0; }
+    double distancia = old_vector[particula1] || old_vector[particula2];
+    if (distancia >= pow(len_suavizado, 2)) { return 0.0; }
+
     //Aceleración entre dos partículas 3 dimensionales
+    Vector3d diff_posiciones = old_vector[particula1].p - old_vector[particula2].p;
 
-    // Se han dividido las operaciones en varias variables para que sea más legible
-    Vector3d acceleration_1{}; // Las llaves me las ha puesto el clang-tidy
-    acceleration_1.set_values(old_vector[particula1].p.x - old_vector[particula2].p.x, old_vector[particula1].p.y - old_vector[particula2].p.y, old_vector[particula1].p.z - old_vector[particula2].p.z);
-
-    double acceleration_2 = 15 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part;
-    double acceleration_3 = pow(len_suavizado - distancia, 2) / distancia;
-    double acceleration_4 = old_vector[particula1].densidad + old_vector[particula2].densidad - dens_fluido;
-
-    Vector3d acceleration_5{}; // Las llaves me las ha puesto el clang-tidy
-    acceleration_5.set_values(old_vector[particula2].v.x - old_vector[particula1].v.x, old_vector[particula2].v.y - old_vector[particula1].v.y, old_vector[particula2].v.z - old_vector[particula1].v.z);
-
-    double acceleration_6 = 45 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part;
-
+    double acceleration_2 = 15 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part *
+                            pow(len_suavizado - distancia, 2) / distancia;
+    double acceleration_3 = old_vector[particula1].densidad + old_vector[particula2].densidad - dens_fluido;
+    Vector3d acceleration_4 = old_vector[particula2].v - old_vector[particula1].v;
+    double acceleration_5 = 45 / (std::numbers::pi * pow(len_suavizado, 6)) * masa_part;
     double acceleration_div = old_vector[particula1].densidad * old_vector[particula2].densidad;
+
     // Primera parte de la aceleración
-    acceleration_1 *= acceleration_2 * acceleration_3 * acceleration_4;
+    diff_posiciones *= acceleration_2 * acceleration_3;
     // Segunda parte de la aceleración
-    acceleration_5 *= acceleration_6;
+    acceleration_4 *= acceleration_5;
     // Suma de las dos partes de la aceleración
-    acceleration_1 += acceleration_5;
+    diff_posiciones += acceleration_4;
     // División de la aceleración
-    acceleration_1 /= acceleration_div;
+    diff_posiciones /= acceleration_div;
     // Suma de la aceleración a la partícula 1
-    new_vector[particula1].a += acceleration_1;
-    new_vector[particula2].a -= acceleration_1;
-    return 0.0;
-
-
+    new_vector[particula1].a += diff_posiciones;
+    new_vector[particula2].a -= diff_posiciones;
+    return 1.0;
 }
+
 

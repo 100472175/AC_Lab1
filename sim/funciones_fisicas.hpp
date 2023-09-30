@@ -1,5 +1,5 @@
 //
-// Created by Eduardo Alarcon on 27/9/23.
+// Created by Eduardo Alarcón on 27/9/23.
 //
 
 #ifndef PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
@@ -15,9 +15,6 @@ extern double ppm;
 extern int np;
 extern double const r;
 extern const double dens_fluido;
-extern double masa_part;
-extern double len_suavizado;
-
 namespace func_fis {
 
 

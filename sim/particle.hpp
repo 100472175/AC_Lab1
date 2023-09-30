@@ -16,7 +16,8 @@ struct Particle {
     double densidad;
     int id;
 
-    double operator || (Particle const& p);
+    double operator || (Particle const& other) const;
+
 };
 
 

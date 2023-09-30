@@ -14,10 +14,13 @@ public:
     void operator += (Vector3d const& v);
     // Para restar dos vectores
     void operator -= (Vector3d const& v);
+    Vector3d operator - (Vector3d const& other);
     // Para multiplicar todos los elementos por un escalar
     void operator *= (double const& scalar);
     // Para dividir todos los elementos por un escalar
     void operator /= (double const& scalar);
+
+
 
 };
 
