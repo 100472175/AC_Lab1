@@ -12,6 +12,9 @@
 #include "particle.hpp"
 #include "vector_3d.hpp"
 
+extern double ppm;
+extern int np;
+
 int read_file(const std::string &path, std::vector<Particle> &particles);
 
 #endif // AC_LAB1_LECTURA_ARCHIVO_H

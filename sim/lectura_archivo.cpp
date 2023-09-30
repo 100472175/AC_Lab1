@@ -4,7 +4,7 @@
 
 #include "lectura_archivo.hpp"
 
-int read_head(std::ifstream& file, int &np, double &ppm) {
+int read_head(std::ifstream& file) {
     std::cout << "cabecera\n";
     float float_ppm;
     file.read(reinterpret_cast<char *>(&float_ppm), 4);
@@ -14,7 +14,7 @@ int read_head(std::ifstream& file, int &np, double &ppm) {
     return 0;
 }
 
-int read_body(std::ifstream& file, int &np, std::vector<Particle>& particles) {
+int read_body(std::ifstream& file, std::vector<Particle>& particles) {
     // body
     std::cout << "pito\n";
     for (int i = 0; i < np; i++) {
@@ -40,13 +40,11 @@ int read_body(std::ifstream& file, int &np, std::vector<Particle>& particles) {
 int read_file(const std::string &path, std::vector<Particle> &particles) {
     //head
     std::cout << "reading file...\n";
-    double ppm;
-    int np;
     std::ifstream file(path, std::ios::binary);
 
-    read_head(file, np, ppm);
+    read_head(file);
     std::cout << "ppm y np: " << ppm << " " << np << "\n";
-    int exit_code = read_body(file, np, particles);
+    int exit_code = read_body(file, particles);
     if (exit_code == -5) {
         return -5;
     }

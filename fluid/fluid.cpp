@@ -5,6 +5,9 @@
 #include "../sim/lectura_archivo.hpp"
 #include "../sim/progargs.hpp"
 #include "../sim/particle.hpp"
+double ppm;
+int np;
+
 
 int main(int argc, char ** argv) {
   const int argument_validated = Sim::validate_arguments(argc, argv);

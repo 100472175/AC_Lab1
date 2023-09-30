@@ -10,7 +10,7 @@
 
 struct Particle {
     Vector3d p; // posicion
-    Vector3d h; // h
+    Vector3d hv; // h
     Vector3d v; // velocidad
     Vector3d a; // aceleracion
     double densidad;
