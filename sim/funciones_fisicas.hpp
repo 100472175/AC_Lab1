@@ -11,10 +11,15 @@
 #include <cmath>
 #include <vector>
 
-namespace func_fis {
-  double masa(double const& densidad, double const& ppm); //ppm variable global
+extern double ppm;
+extern int np;
+extern double const r;
+extern const double dens_fluido;
 
-    double suavizado(double const& radio, double const& ppm); //ppm y radio variables globales
+namespace func_fis {
+    double masa(); //ppm variable global
+
+    double suavizado(); //ppm y radio variables globales
 
     double num_bloques(double const& max, double const& min, double const& suavizado); //
 

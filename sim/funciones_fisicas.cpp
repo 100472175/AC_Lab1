@@ -5,12 +5,12 @@
 #include "funciones_fisicas.hpp"
 
 
-double func_fis::masa(double const& densidad, double const& ppm) {
-  return densidad * pow(ppm, 3);
+double func_fis::masa() {
+  return dens_fluido * pow(ppm, 3);
 }
 
-double func_fis::suavizado(double const& radio, double const& ppm) {
-    return radio / ppm;
+double func_fis::suavizado() {
+    return r / ppm;
 }
 
 double func_fis::num_bloques(double const& max, double const& min, double const& suavizado) {

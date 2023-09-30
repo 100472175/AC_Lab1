@@ -24,8 +24,8 @@ const double delta_t = pow(10,-3); //paso de tiempo
 const Vector3d g = {0.0, 9.8, 0.0}; //vector de aceleraciones iniciales
 const Vector3d b_min = {0.065, 0.1, 0.065};
 const Vector3d b_max = {-0.065, -0.08, -0.065};
-double m = func_fis::masa(dens_fluido, ppm);
-double h = func_fis::suavizado(r, ppm);
+double m = func_fis::masa();
+double h = func_fis::suavizado();
 
 int main(int argc, char ** argv) {
   const int argument_validated = Sim::validate_arguments(argc, argv);
