@@ -7,11 +7,12 @@
 #include "../sim/particle.hpp"
 #include "../sim/funciones_fisicas.hpp"
 
+
+using namespace std;
+
 double ppm;
 int np;
 
-
-using namespace std;
 const double r = 1.695;
 const double dens_fluido = pow(10,3);
 const double p_s = 3.0; //presion regidez
@@ -32,12 +33,13 @@ int main(int argc, char ** argv) {
     return argument_validated;
   }
   std::vector<Particle> particles;
+  std::cout << "prev_size: " << particles.size() << std::endl;
   int prueba_error = read_file(argv[2], particles);
   if(prueba_error != 0){
     return prueba_error;
   }
-  std::cout << "prev_size: " << particles.size() << std::endl;
   std::cout << "size: " << particles.size() << "\n";
+  std::cout << "np: " << np << "\nppm: " << ppm << "\n";
   //Esto no iría aquí, es para probar ejecucion de cosas:
   func_fis::num_bloques(b_max.x, b_min.x, h);
 
