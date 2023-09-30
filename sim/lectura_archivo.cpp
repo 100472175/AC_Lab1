@@ -2,6 +2,7 @@
 // Created by cesar on 27/09/23.
 //
 
+#include <iostream>
 #include "lectura_archivo.hpp"
 
 int read_head(std::ifstream& file) {
@@ -16,9 +17,8 @@ int read_head(std::ifstream& file) {
 
 int read_body(std::ifstream& file, std::vector<Particle>& particles) {
     // body
-    std::cout << "pito\n";
     for (int i = 0; i < np; i++) {
-        Vector3d_float p, h, v;
+        Vector3d_float p, hv, v;
         Particle particle;
         particle.densidad=0;
         particle.a.set_values(0.0, 9.8, 0.0);
@@ -27,10 +27,10 @@ int read_body(std::ifstream& file, std::vector<Particle>& particles) {
             std::cerr << "ERROR: MENOS PARTÍCULAS DE LAS ESPERADAS " << np << " > " << i << "\n";
             return -5;
         }
-        file.read(reinterpret_cast<char *>(&h),12); // lectura h particula i
+        file.read(reinterpret_cast<char *>(&hv),12); // lectura h particula i
         file.read(reinterpret_cast<char *>(&v),12); // lectura velocidad particula i
         particle.p.set_values((double)p.x, (double)p.y, (double)p.z);
-        particle.h.set_values((double)h.x, (double)h.y, (double)h.z);
+        particle.hv.set_values((double)hv.x, (double)hv.y, (double)hv.z);
         particle.v.set_values((double)v.x, (double)v.y, (double)v.z);
         particles.push_back(particle);
     }
@@ -41,7 +41,10 @@ int read_file(const std::string &path, std::vector<Particle> &particles) {
     //head
     std::cout << "reading file...\n";
     std::ifstream file(path, std::ios::binary);
-
+    if (file.fail()){
+        std::cerr <<"Error: Cannot open " << path <<" for reading\n";
+        return -3;
+    }
     read_head(file);
     std::cout << "ppm y np: " << ppm << " " << np << "\n";
     int exit_code = read_body(file, particles);

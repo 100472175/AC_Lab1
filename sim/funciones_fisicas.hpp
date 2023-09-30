@@ -12,11 +12,11 @@
 #include <vector>
 
 namespace func_fis {
-  double masa(double const& densidad, double const& ppm);
+  double masa(double const& densidad, double const& ppm); //ppm variable global
 
-    double suavizado(double const& radio, double const& ppm);
+    double suavizado(double const& radio, double const& ppm); //ppm y radio variables globales
 
-    double num_bloques(double const& max, double const& min, double const& suavizado);
+    double num_bloques(double const& max, double const& min, double const& suavizado); //
 
     double tamanio_bloque(double const& max, double const& min, double const& suavizado);
 
