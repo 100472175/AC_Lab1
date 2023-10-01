@@ -5,23 +5,19 @@
 #ifndef AC_LAB1_VECTOR_3D_H
 #define AC_LAB1_VECTOR_3D_H
 
-
 struct Vector3d {
-public:
+  public:
     double x, y, z;
     void set_values(double a, double b, double c);
     // Para sumar dos vectores
-    void operator += (Vector3d const& v);
+    void operator+=(Vector3d const & v);
     // Para restar dos vectores
-    void operator -= (Vector3d const& v);
-    Vector3d operator - (Vector3d const& other);
+    void operator-=(Vector3d const & v);
+    Vector3d operator-(Vector3d const & other);
     // Para multiplicar todos los elementos por un escalar
-    void operator *= (double const& scalar);
+    void operator*=(double const & scalar);
     // Para dividir todos los elementos por un escalar
-    void operator /= (double const& scalar);
-
-
-
+    void operator/=(double const & scalar);
 };
 
 struct Vector3d_float {
@@ -32,4 +28,4 @@ struct Vector3d_int {
     int x, y, z;
 };
 
-#endif //AC_LAB1_VECTOR_3D_H
+#endif  // AC_LAB1_VECTOR_3D_H

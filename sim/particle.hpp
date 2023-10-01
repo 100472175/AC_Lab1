@@ -5,22 +5,18 @@
 #ifndef AC_LAB1_PARTICLE_H
 #define AC_LAB1_PARTICLE_H
 
-#include <cmath>
-
 #include "vector_3d.hpp"
 
+#include <cmath>
 
 struct Particle {
-    Vector3d p; // posicion
-    Vector3d hv; // h
-    Vector3d v; // velocidad
-    Vector3d a; // aceleracion
+    Vector3d p;   // posicion
+    Vector3d hv;  // h
+    Vector3d v;   // velocidad
+    Vector3d a;   // aceleracion
     double densidad;
 
-    double operator || (Particle const& other) const;
-
+    double operator||(Particle const & other) const;
 };
 
-
-
-#endif //AC_LAB1_PARTICLE_H
+#endif  // AC_LAB1_PARTICLE_H
