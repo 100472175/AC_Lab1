@@ -3,7 +3,6 @@
 //
 
 #include "particle.hpp"
-#include <cmath>
 
 
 double Particle::operator||(Particle const& other) const {

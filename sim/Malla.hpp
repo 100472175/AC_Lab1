@@ -2,10 +2,13 @@
 #define AC_LAB1_MALLA_H
 
 #include <vector>
+
 #include "iostream"
 #include "funciones_fisicas.hpp"
 #include "Bloques.hpp"
 #include "particle.hpp"
+#include "progargs.hpp"
+
 using namespace std;
 
 extern const Vector3d b_max;

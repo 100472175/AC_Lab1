@@ -2,7 +2,7 @@
 // Created by adrian on 9/29/23.
 //
 #include "Malla.hpp"
-#include "progargs.hpp"
+
 using namespace std;
 // el const de esta función se puso por clang
 int Malla::get_pos(int i,int j,int k) const{
@@ -10,7 +10,7 @@ int Malla::get_pos(int i,int j,int k) const{
   return pos;
 }
 
-void Malla::poblar_malla(vector<Particle> const &v_particulas){
+void Malla::poblar_malla(const vector<Particle> &v_particulas){
     for (int cont = 0; cont < np; cont ++){
       Vector3d_int bloque_coords = func_fis::indice_bloque(v_particulas[cont]);
       bloque_coords = Sim::fuera_de_rango(bloque_coords);

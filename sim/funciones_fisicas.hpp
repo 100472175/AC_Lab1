@@ -5,11 +5,14 @@
 #ifndef PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
 #define PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
 
-#include "particle.hpp"
-#include "vector_3d.hpp"
 #include <numbers>
 #include <cmath>
 #include <vector>
+#include <iostream>
+
+#include "vector_3d.hpp"
+#include "particle.hpp"
+
 
 extern double ppm;
 extern int np;

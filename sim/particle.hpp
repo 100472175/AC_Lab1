@@ -5,6 +5,8 @@
 #ifndef AC_LAB1_PARTICLE_H
 #define AC_LAB1_PARTICLE_H
 
+#include <cmath>
+
 #include "vector_3d.hpp"
 
 

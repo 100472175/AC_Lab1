@@ -5,7 +5,7 @@
 #ifndef FLUID_PROGARGS_HPP
 #define FLUID_PROGARGS_HPP
 
-#include <ostream>
+#include <iostream>
 #include "vector_3d.hpp"
 
 namespace Sim {

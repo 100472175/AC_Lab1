@@ -1,9 +1,7 @@
 //
 // Created by Eduardo Alarcon on 27/9/23.
 //
-#include <iostream>
 #include "funciones_fisicas.hpp"
-#include "vector_3d.hpp"
 
 namespace func_fis {
   double masa_part = masa();
