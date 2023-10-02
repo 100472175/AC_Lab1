@@ -13,8 +13,8 @@ using namespace std;
 
 extern Vector3d const b_max;
 extern Vector3d const b_min;
-extern double h;
-extern int np;
+extern double const suavizado;
+extern int const n_p;
 
 class Malla {
   private:

@@ -4,8 +4,8 @@
 #include "funciones_fisicas.hpp"
 
 namespace func_fis {
-  double masa_part     = masa();
-  double len_suavizado = suavizado();
+  double const masa_part     = masa();
+  double const len_suavizado = suavizado_calc();
 }  // namespace func_fis
 
 // Sección 3.5 - La malla de simulación
@@ -13,13 +13,12 @@ double func_fis::masa() {
   return dens_fluido / pow(ppm, 3);
 }
 
-double func_fis::suavizado() {
-  h = r / ppm;
-  return r / ppm;
+double func_fis::suavizado_calc() {
+  return radio / ppm;
 }
 
 double func_fis::num_bloques(double const & max, double const & min) {
-  return floor((min - max) / h);
+  return floor((min - max) / suavizado);
 }
 
 double func_fis::tamanio_bloque(double const & max, double const & min) {
@@ -51,10 +50,10 @@ auto func_fis::delta_densidades(int particula1, int particula2, std::vector<Part
                                 std::vector<Particle> & new_vector) {
   if ((particula1 > particula2) or (particula1 == particula2)) { return 0.0; }
 
-  double suavizado = len_suavizado * len_suavizado;
-  double distancia = old_vector[particula1] || old_vector[particula2];
+  double const suavizado_2 = len_suavizado * len_suavizado;
+  double const distancia = old_vector[particula1] || old_vector[particula2];
   if (distancia >= suavizado) { return 0.0; }
-  double diff_densidad             = pow((suavizado - distancia), 3);
+  double const diff_densidad             = pow((suavizado_2 - distancia), 3);
   new_vector[particula1].densidad += diff_densidad;
   new_vector[particula2].densidad += diff_densidad;
   return 1.0;

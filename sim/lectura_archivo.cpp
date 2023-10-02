@@ -4,26 +4,34 @@
 
 #include "lectura_archivo.hpp"
 
+#include <cmath>
+
 int read_head(std::ifstream & file) {
   std::cout << "cabecera\n";
-  float float_ppm;
+  float float_ppm = NAN;
+  int n_p_temp;
   file.read(reinterpret_cast<char *>(&float_ppm), 4);
-  file.read(reinterpret_cast<char *>(&np), 4);
-  ppm = (double) float_ppm;
+  file.read(reinterpret_cast<char *>(&n_p_temp), 4);
+
+  int const n_p = const_cast<const int &>(n_p_temp);
+  auto const ppm = static_cast<double>(float_ppm);
+  std::cout << "ppm: " << ppm << "\n";
+  std::cout << "n_p: " << n_p << "\n";
+
   return 0;
 }
 
 int read_body(std::ifstream & file, std::vector<Particle> & particles) {
   // body
   std::cout << "body\n";
-  for (int i = 0; i < np; i++) {
+  for (int i = 0; i < n_p; i++) {
     Vector3d_float p, hv, v;
     Particle particle;
     particle.densidad = 0.0;
     particle.a.set_values(0.0, 9.8, 0.0);
     file.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
     if (file.gcount() < 12) {
-      std::cerr << "ERROR: MENOS PARTÍCULAS DE LAS ESPERADAS " << np << " > " << i << "\n";
+      std::cerr << "ERROR: MENOS PARTÍCULAS DE LAS ESPERADAS " << n_p << " > " << i << "\n";
       return -5;
     }
     file.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i

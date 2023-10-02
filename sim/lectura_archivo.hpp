@@ -13,8 +13,6 @@
 #include <string>
 #include <vector>
 
-extern double ppm;
-extern int np;
 
 int read_file(std::string const & path, std::vector<Particle> & particles);
 

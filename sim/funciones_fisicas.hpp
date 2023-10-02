@@ -14,10 +14,10 @@
 #include <vector>
 
 extern double ppm;
-extern int np;
-extern double const r;
+extern int const n_p;
+extern double const radio;
 extern double const dens_fluido;
-extern double h;
+extern double const suavizado;
 extern Vector3d const b_max;
 extern Vector3d const b_min;
 extern double const delta_t;
@@ -30,7 +30,7 @@ namespace func_fis {
   // Generales 3.5
   double masa();  // ppm variable global
 
-  double suavizado();  // ppm y radio variables globales
+  double suavizado_calc();  // ppm y radio variables globales
 
   double num_bloques(double const & max, double const & min);  //
 
