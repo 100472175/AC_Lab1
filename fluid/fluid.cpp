@@ -21,7 +21,8 @@ int main(int argc, char ** argv) {
   if (prueba_error != 0) { return prueba_error; }
   // hay que llamar a la funcion de valor antes de que sean usadas, o se usan con valor inf, como
   // dependen de ppm las he puesto debajo de la lectura
-  suavizado = func_fis::suavizado_calc();
+  double const suavizado = func_fis::suavizado_calc();
+  std::cout << "suavizado: " << suavizado << "\n";
   // ESTO SOBRA ------------------------------------------- m = func_fis::masa();
   std::cout << "size: " << particles.size() << "\n";
   // población de una malla con las particulas iniciales
@@ -36,6 +37,6 @@ int main(int argc, char ** argv) {
   // particles);
   func_fis::transform_densidad(particles, 0);
   func_fis::trasnfer_accel_particulas(0, 1, particles, particles);
-  std::cout << p_s << d_v << mu << g.x << g.y << g.z << m << "\n";
+  std::cout << p_s << d_v << muu << gravedad.x << gravedad.y << gravedad.z << masa << "\n";
   return 0;
 }

@@ -6,15 +6,18 @@
 
 #include <cmath>
 
+int n_p = 0;
+double ppm = NAN;
+
 int read_head(std::ifstream & file) {
   std::cout << "cabecera\n";
   float float_ppm = NAN;
-  int n_p_temp;
+  int n_p_temp = 0;
   file.read(reinterpret_cast<char *>(&float_ppm), 4);
-  file.read(reinterpret_cast<char *>(&n_p_temp), 4);
+  file.read(reinterpret_cast<char *>(&n_p), 4);
 
-  int const n_p = const_cast<const int &>(n_p_temp);
-  auto const ppm = static_cast<double>(float_ppm);
+  n_p = const_cast<const int &>(n_p_temp);
+  ppm = static_cast<double>(float_ppm);
   std::cout << "ppm: " << ppm << "\n";
   std::cout << "n_p: " << n_p << "\n";
 
