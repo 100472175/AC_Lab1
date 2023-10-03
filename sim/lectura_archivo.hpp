@@ -14,7 +14,7 @@
 #include <vector>
 
 extern double ppm;
-extern int np;
+extern int num_particulas;
 
 int read_file(std::string const & path, std::vector<Particle> & particles);
 

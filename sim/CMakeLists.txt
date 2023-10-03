@@ -6,6 +6,7 @@ add_library(sim lectura_archivo.cpp
         progargs.cpp
         progargs.hpp
         Malla.cpp
+        constantes.hpp
 )
 
 target_include_directories(sim PUBLIC ..)

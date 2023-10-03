@@ -8,7 +8,7 @@ int read_head(std::ifstream & file) {
   std::cout << "cabecera\n";
   float float_ppm;
   file.read(reinterpret_cast<char *>(&float_ppm), 4);
-  file.read(reinterpret_cast<char *>(&np), 4);
+  file.read(reinterpret_cast<char *>(&num_particulas), 4);
   ppm = (double) float_ppm;
   return 0;
 }
@@ -16,14 +16,15 @@ int read_head(std::ifstream & file) {
 int read_body(std::ifstream & file, std::vector<Particle> & particles) {
   // body
   std::cout << "body\n";
-  for (int i = 0; i < np; i++) {
+  for (int i = 0; i < num_particulas; i++) {
     Vector3d_float p, hv, v;
     Particle particle;
     particle.densidad = 0.0;
     particle.a.set_values(0.0, 9.8, 0.0);
     file.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
     if (file.gcount() < 12) {
-      std::cerr << "ERROR: MENOS PARTÍCULAS DE LAS ESPERADAS " << np << " > " << i << "\n";
+      std::cerr << "ERROR: MENOS PARTÍCULAS DE LAS ESPERADAS " << num_particulas << " > " << i
+                << "\n";
       return -5;
     }
     file.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i
