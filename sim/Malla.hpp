@@ -13,8 +13,8 @@ using namespace std;
 
 extern Vector3d const b_max;
 extern Vector3d const b_min;
-extern double h;
-extern int np;
+extern double suavizado;
+extern int num_particulas;
 
 class Malla {
   private:
@@ -25,9 +25,9 @@ class Malla {
 
   public:
     Malla() {
-      n_x     = (int) func_fis::num_bloques(b_max.x, b_min.x);
-      n_y     = (int) func_fis::num_bloques(b_max.y, b_min.y);
-      n_z     = (int) func_fis::num_bloques(b_max.z, b_min.z);
+      n_x     = (int) func_fis::num_bloques_por_eje(b_max.x, b_min.x);
+      n_y     = (int) func_fis::num_bloques_por_eje(b_max.y, b_min.y);
+      n_z     = (int) func_fis::num_bloques_por_eje(b_max.z, b_min.z);
       bloques = vector<Bloque>(n_x * n_y * n_z);
     }
 
