@@ -14,7 +14,7 @@ int Malla::get_pos(int i, int j, int k) const {
 void Malla::poblar_malla(vector<Particle> const & v_particulas) {
   for (int cont = 0; cont < num_particulas; cont++) {
     Vector3d_int bloque_coords = func_fis::indice_bloque(v_particulas[cont]);
-    bloque_coords              = Sim::fuera_de_rango(bloque_coords);
+    bloque_coords              = Sim::Progargs::fuera_de_rango(bloque_coords);
     int ind_real               = get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
     bloques[ind_real].bloque.push_back(cont);
   }

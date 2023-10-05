@@ -17,7 +17,7 @@ namespace Sim {
     archivo_salida = args[2];
   }
 
-  int my_is_digit(std::string const & string_to_try) {
+  int Progargs::my_is_digit(std::string const & string_to_try) {
     for (int i = 1; i < int(string_to_try.length()); i++) {
       if (std::isdigit(string_to_try[i]) != 1) {
         std::cout << "Error: time steps must be numeric.\n";
@@ -45,7 +45,7 @@ namespace Sim {
   }
   */
 
-  Vector3d_int fuera_de_rango(Vector3d_int indices) {
+  Vector3d_int Progargs::fuera_de_rango(Vector3d_int indices) {
     if (indices.x < 0) {
       indices.x = 0;
     } else if (indices.x > 14) {

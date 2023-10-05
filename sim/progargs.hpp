@@ -19,13 +19,14 @@ namespace Sim {
 
     public:
       Progargs(std::vector<std::string> const & args);
+
+      static int my_is_digit(std::string const &);
+
+      //int validate_arguments(int, char **);
+
+      static Vector3d_int fuera_de_rango(Vector3d_int);
   };
 
-  int my_is_digit(std::string const &);
-
-  int validate_arguments(int, char **);
-
-  Vector3d_int fuera_de_rango(Vector3d_int);
 
 }  // namespace Sim
 #endif  // FLUID_PROGARGS_HPP
