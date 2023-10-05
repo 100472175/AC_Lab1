@@ -8,6 +8,7 @@
 #include "../sim/progargs.hpp"
 
 #include <cmath>
+#include <span>
 #include "../sim/constantes.hpp"
 
 using namespace std;
@@ -18,8 +19,13 @@ double suavizado;
 double masa;
 
 int main(int argc, char ** argv) {
-  int const argument_validated = Sim::validate_arguments(argc, argv);
-  if (argument_validated != 0) { return argument_validated; }
+  std::span const args_span(argv, static_cast<std::size_t>(argc));
+  std::vector<std::string> const argumentos(args_span.begin() +1, args_span.end());
+
+  Sim::Progargs const nuestros_args{argumentos};
+
+  //int const argument_validated = Sim::validate_arguments(argc, argv);
+  //if (argument_validated != 0) { return argument_validated; }
   std::vector<Particle> particles;
   std::cout << "prev_size: " << particles.size() << "\n";
   int prueba_error = read_file(argv[2], particles);
@@ -33,7 +39,6 @@ int main(int argc, char ** argv) {
   Malla malla1;
   malla1.poblar_malla(particles);
   std::cout << "num_particulas: " << num_particulas << "\nppm: " << ppm << "\n";
-  // Para que no toque el warning de unused variable
   // esto no hace nada, es para comprobar que no se rompe el programa:
   func_fis::init_densidad_accel(particles, 0);
   // por tener tipo auto en el return hace cosas raras, si se cambia tipo a int deja de dar errores,

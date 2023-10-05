@@ -6,10 +6,20 @@
 #define FLUID_PROGARGS_HPP
 
 #include "vector_3d.hpp"
-
 #include <iostream>
+#include <vector>
 
 namespace Sim {
+
+  class Progargs {
+    private:
+      int numero_iteraciones;
+      std::string archivo_entrada;
+      std::string archivo_salida;
+
+    public:
+      Progargs(std::vector<std::string> const & args);
+  };
 
   int my_is_digit(std::string const &);
 
