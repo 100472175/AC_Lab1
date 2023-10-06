@@ -3,11 +3,14 @@
 //
 
 #include "vector_3d.hpp"
-
+#include <cmath>
 void Vector3d::set_values(double a, double b, double c) {
   x = a;
   y = b;
   z = c;
+}
+double Vector3d::distancia() const{
+ return sqrt(pow(x,2)+ pow(y,2)+ pow(z,2));
 }
 
 void Vector3d::operator+=(Vector3d const & v) {
