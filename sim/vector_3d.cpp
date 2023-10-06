@@ -51,7 +51,7 @@ Vector3d Vector3d::operator/(Vector3d const & other) {
   aux.x = x / other.x;
   aux.y = y / other.y;
   aux.z = z / other.z;
-  return aux
+  return aux;
 }
 
 Vector3d_float Vector3d::to_float() {
