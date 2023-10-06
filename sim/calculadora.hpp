@@ -44,7 +44,7 @@ class Calculadora {
 
     Vector3d num_bloques_por_eje() const;
 
-    Vector3d tamanio_bloque(double const & max, double const & min) const;
+    Vector3d tamanio_bloque();
 
     Vector3d_int indice_bloque(Vector3d const & posicion);
 
@@ -52,8 +52,9 @@ class Calculadora {
     // Inidiación de densidad y aceleraciones [pg. 8]
     void init_densidad_accel();
 
-    int delta_densidades(int particula1, int particula2, std::vector<double> & densidad,
-                         std::vector<Vector3d> & posicion) const;
+    int delta_densidades(int particula1, int particula2, std::vector<double> densidad,
+                                      std::vector<Vector3d> posicion) const;
+
 
     double transform_densidad(int particula, std::vector<double> densidad) const;
 
@@ -70,9 +71,11 @@ class Calculadora {
     void collisiones_limite_eje_x(int particula, std::vector<Vector3d> & posicion,
                                   std::vector<Vector3d> & velocidad,
                                   std::vector<Vector3d> & aceleracion);
+
     void collisiones_limite_eje_y(int particula, std::vector<Vector3d> & posicion,
                                   std::vector<Vector3d> & velocidad,
                                   std::vector<Vector3d> & aceleracion);
+
     void collisiones_limite_eje_z(int particula, std::vector<Vector3d> & posicion,
                                   std::vector<Vector3d> & velocidad,
                                   std::vector<Vector3d> & aceleracion);

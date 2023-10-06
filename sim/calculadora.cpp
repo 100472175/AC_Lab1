@@ -21,21 +21,20 @@ Vector3d Calculadora::num_bloques_por_eje() const {
     aux.x = floor(aux.x);
     aux.y = floor(aux.y);
     aux.z = floor(aux.z);
-    return aux
-
+    return aux;
 }
 
-Vector3d tamanio_bloque(double const & max, double const & min) const {
-  return (max - min) / num_bloques_por_eje();
+Vector3d Calculadora::tamanio_bloque() {
+  return (b_max - b_min) / num_bloques_por_eje();
 }
 
 Vector3d_int Calculadora::indice_bloque(Vector3d const & posicion) {
   int const coord_x =
-      floor((posicion.x - b_min.x) / Calculadora::tamanio_bloque_por_eje(b_max.x, b_min.x));
+      floor((posicion.x - b_min.x) / tamanio_bloque().x);
   int const coord_y =
-      floor((posicion.y - b_min.y) / Calculadora::tamanio_bloque_por_eje(b_max.y, b_min.y));
+      floor((posicion.y - b_min.y) / tamanio_bloque().y);
   int const coord_z =
-      floor((posicion.z - b_min.z) / Calculadora::tamanio_bloque_por_eje(b_max.z, b_min.z));
+      floor((posicion.z - b_min.z) / tamanio_bloque().z);
   Vector3d_int result{coord_x, coord_y, coord_z};
   return result;
 }
@@ -129,8 +128,8 @@ void Calculadora::collisiones_limite_eje_x(int particula, std::vector<Vector3d> 
 
 // Colisiones con los límites del eje y [pg. 10]
 void Calculadora::collisiones_limite_eje_y(int particula, std::vector<Vector3d> & posicion,
-                                           std::vector<Vector3d> velocidad,
-                                           std::vector<Vector3d> aceleracion) {
+                                           std::vector<Vector3d> & velocidad,
+                                           std::vector<Vector3d> & aceleracion) {
   double new_x = posicion[particula].y + velocidad[particula].y * delta_t;
   double delta_x;
   int const c_x = Calculadora::indice_bloque(posicion[particula]).y;
