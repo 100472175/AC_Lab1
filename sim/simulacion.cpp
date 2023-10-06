@@ -3,12 +3,11 @@
 //
 #include "simulacion.hpp"
 
-Particle Simulacion::iterador() {
+void Simulacion::iterador() {
   poblar_malla();
   for (int i = 0; i < num_iteraciones; i++){
     iteracion();
   }
-
 }
 
 void Simulacion::iteracion(){
@@ -27,4 +26,32 @@ void Simulacion::iteracion(){
   for (int i = 0; i < num_particulas; i++){
     rebote_particula_limite();
   }
+}
+
+void Simulacion::poblar_malla() {
+  std::cout << "XD";
+  /*for (int cont = 0; cont < num_particulas; cont++) {
+    Vector3d_int bloque_coords = func_fis::indice_bloque(v_particulas[cont]);
+    bloque_coords = Sim::Progargs::fuera_de_rango(bloque_coords);
+    int const ind_real = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
+    std::vector<Bloque>bloques = malla.get_bloques();
+    bloques[ind_real].bloque.push_back(cont);
+  }
+   */
+}
+void Simulacion::colision_particula_limite() {
+  std::cout << "XD";
+}
+
+void Simulacion::reposicionamiento() {
+  std::cout << "XD";
+}
+void Simulacion::colisiones_particulas() {
+  std::cout << "XD";
+}
+void Simulacion::rebote_particula_limite() {
+  std::cout << "XD";
+}
+void Simulacion::movimiento_particulas() {
+  std::cout << "XD";
 }

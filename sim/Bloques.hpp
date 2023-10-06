@@ -3,12 +3,11 @@
 
 #include <vector>
 
-using namespace std;
 
 class Bloque {
   public:
-    vector<int> bloque;
-    vector<Bloque> bloques_contiguos;
+    std::vector<int> bloque;
+    std::vector<Bloque> bloques_contiguos;
 };
 
 #endif

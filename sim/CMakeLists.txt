@@ -6,7 +6,7 @@ add_library(sim
         vector_3d.cpp
         progargs.hpp
         progargs.cpp
-        Malla.cpp
+        malla.cpp
         constantes.hpp
         simulacion.hpp
         simulacion.cpp
