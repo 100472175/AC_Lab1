@@ -31,7 +31,7 @@ struct Vector3d {
     // Para dividir todos los elementos por un escalar
     void operator/=(double const & scalar);
     // Para dividir todos los elementos por un vector
-    void operator/(Vector3d const & other);
+    Vector3d operator/(Vector3d const & other);
 };
 
 

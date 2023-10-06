@@ -46,10 +46,12 @@ void Vector3d::operator/=(double const & scalar) {
   z /= scalar;
 }
 
-void Vector3d::operator/(Vector3d const & other) {
-  x / other.x;
-  y / other.y;
-  z / other.z;
+Vector3d Vector3d::operator/(Vector3d const & other) {
+  Vector3d aux(0.0,0.0,0.0);
+  aux.x = x / other.x;
+  aux.y = y / other.y;
+  aux.z = z / other.z;
+  return aux
 }
 
 Vector3d_float Vector3d::to_float() {
