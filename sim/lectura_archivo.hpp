@@ -18,4 +18,6 @@ extern int num_particulas;
 
 int read_file(std::string const & path, std::vector<Particle> & particles);
 
+int write_file(const std::string &path, std::vector<Particle> &particles, int number_of_particles, float particles_per_meter);
+
 #endif  // AC_LAB1_LECTURA_ARCHIVO_H

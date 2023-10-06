@@ -29,7 +29,8 @@ int main(int argc, char ** argv) {
   std::vector<Particle> particles;
   std::cout << "prev_size: " << particles.size() << "\n";
   int prueba_error = read_file(argv[2], particles);
-  if (prueba_error != 0) { return prueba_error; }
+  int err_escritura = write_file(argv[3], particles, num_particulas, (float)ppm);
+  if (prueba_error != 0 || err_escritura != 0) { return prueba_error; }
   // hay que llamar a la funcion de valor antes de que sean usadas, o se usan con valor inf, como
   // dependen de ppm las he puesto debajo de la lectura
   suavizado = func_fis::suavizado_calc();
@@ -46,6 +47,8 @@ int main(int argc, char ** argv) {
   func_fis::transform_densidad(particles, 0);
   func_fis::trasnfer_accel_particulas(0, 1, particles, particles);
   std::cout << p_s << d_v << viscosidad << gravedad.x << gravedad.y << gravedad.z << masa << "\n";
+
+
 
   return 0;
 }

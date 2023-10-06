@@ -17,7 +17,7 @@ int read_body(std::ifstream & file, std::vector<Particle> & particles) {
   // body
   std::cout << "body\n";
   for (int i = 0; i < num_particulas; i++) {
-    Vector3d_float p, hv, v;
+    Vector3d_float p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
     Particle particle;
     particle.densidad = 0.0;
     particle.a.set_values(0.0, 9.8, 0.0);
@@ -53,12 +53,25 @@ int read_file(std::string const & path, std::vector<Particle> & particles) {
   return 0;
 }
 
-/*
-int main() {
-    std::vector<particle> particles;
-    std::cout << "size: " << particles.size() << "\n";
-    read_file("small.fld", &particles);
-    std::cout << "size: " << particles.size() << "\n";
+int write_file(const std::string &path, std::vector<Particle> &particles, int number_of_particles, float particles_per_meter) {
+    std::cout << "writing file...\n";
+    std::ofstream file(path, std::ios::binary);
+    if (file.fail()) {
+        std::cerr << "Error: Cannot open " << path << "file\n";
+        return -3;
+    }
+    file.write(reinterpret_cast<char*>(&particles_per_meter), 4);
+    file.write(reinterpret_cast<char*>(&number_of_particles), 4);
+
+    for (int i = 0; i < number_of_particles; ++i) {
+        Vector3d_float p = particles[i].p.to_float();
+        Vector3d_float hv = particles[i].hv.to_float();
+        Vector3d_float v = particles[i].v.to_float();
+
+        file.write(reinterpret_cast<char*>(&p), 12);
+        file.write(reinterpret_cast<char*>(&hv), 12);
+        file.write(reinterpret_cast<char*>(&v), 12);
+    }
 
     return 0;
-}*/
+}

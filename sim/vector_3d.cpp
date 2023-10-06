@@ -42,3 +42,7 @@ void Vector3d::operator/=(double const & scalar) {
   y /= scalar;
   z /= scalar;
 }
+
+Vector3d_float Vector3d::to_float() {
+    return Vector3d_float((float)x, (float)y, (float)z);
+}

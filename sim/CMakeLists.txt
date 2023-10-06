@@ -1,5 +1,6 @@
 set(CMAKE_CXX_STANDARD 20)
 add_library(sim lectura_archivo.cpp
+        lectura_archivo.hpp
         funciones_fisicas.cpp
         particle.cpp
         vector_3d.cpp
