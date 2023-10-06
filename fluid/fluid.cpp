@@ -9,9 +9,10 @@
 
 #include <cmath>
 #include <span>
+
 #include "../sim/constantes.hpp"
 
-using namespace std;
+
 
 double ppm;
 int num_particulas;

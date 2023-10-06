@@ -58,7 +58,7 @@ int write_file(const std::string &path, std::vector<Particle> &particles, int nu
     std::ofstream file(path, std::ios::binary);
     if (file.fail()) {
         std::cerr << "Error: Cannot open " << path << "file\n";
-        return -3;
+        return -4;
     }
     file.write(reinterpret_cast<char*>(&particles_per_meter), 4);
     file.write(reinterpret_cast<char*>(&number_of_particles), 4);
