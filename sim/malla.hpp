@@ -7,12 +7,6 @@
 
 
 class Malla {
-  private:
-    std::vector<Bloque> bloques;
-    int n_x;
-    int n_y;
-    int n_z;
-    int  tamano;
 
   public:
     Malla(int num_x, int num_y, int num_z) : n_x(num_x), n_y(num_y), n_z(num_z), tamano(num_x * num_y * num_z) {
@@ -22,6 +16,12 @@ class Malla {
     [[nodiscard]] int get_pos(int i, int j, int k) const ;
     std::vector<Bloque> get_bloques();
     std::vector<Bloque> bloques_contiguos(Bloque & bloque);
+
+    std::vector<Bloque> bloques;
+    int n_x;
+    int n_y;
+    int n_z;
+    int tamano;
 };
 
 #endif

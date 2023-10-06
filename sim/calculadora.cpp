@@ -14,16 +14,19 @@ double Calculadora::suavizado_calc() const {
   return radio / ppm;
 }
 
-// Constructor
-Calculadora::Calculadora(double const & ppm_)
-  : ppm(ppm_), suavizado(suavizado_calc()), masa(masa_calc()) { }
 
-double Calculadora::num_bloques_por_eje(double const & max, double const & min) const {
-  return floor((min - max) / suavizado);
+Vector3d Calculadora::num_bloques_por_eje() const {
+    Vector3d aux = b_max - b_min;
+    aux /= suavizado;
+    aux.x = floor(aux.x);
+    aux.y = floor(aux.y);
+    aux.z = floor(aux.z);
+    return aux
+
 }
 
-double Calculadora::tamanio_bloque_por_eje(double const & max, double const & min) const {
-  return (max - min) / num_bloques_por_eje(max, min);
+Vector3d tamanio_bloque(double const & max, double const & min) const {
+  return (max - min) / num_bloques_por_eje();
 }
 
 Vector3d_int Calculadora::indice_bloque(Vector3d const & posicion) {
@@ -115,7 +118,7 @@ void Calculadora::collisiones_limite_eje_x(int particula, std::vector<Vector3d> 
       aceleracion[particula].x =
           aceleracion[particula].x + s_c * delta_x - d_v * velocidad[particula].x;
     }
-  } else if (c_x == Calculadora::num_bloques_por_eje(b_max.x, b_min.x) - 1) {
+  } else if (c_x == Calculadora::num_bloques_por_eje().x - 1) {
     delta_x = d_p - (b_max.x - new_x);
     if (delta_x > 10e-10) {
       aceleracion[particula].x =
@@ -137,7 +140,7 @@ void Calculadora::collisiones_limite_eje_y(int particula, std::vector<Vector3d> 
       aceleracion[particula].y =
           aceleracion[particula].y + s_c * delta_x - d_v * velocidad[particula].y;
     }
-  } else if (c_x == Calculadora::num_bloques_por_eje(b_max.y, b_min.y) - 1) {
+  } else if (c_x == Calculadora::num_bloques_por_eje().y - 1) {
     delta_x = d_p - (b_max.y - new_x);
     if (delta_x > 10e-10) {
       aceleracion[particula].y =
@@ -159,7 +162,7 @@ void Calculadora::collisiones_limite_eje_z(int particula, std::vector<Vector3d> 
       aceleracion[particula].z =
           aceleracion[particula].z + s_c * delta_x - d_v * velocidad[particula].z;
     }
-  } else if (c_x == Calculadora::num_bloques_por_eje(b_max.z, b_min.z) - 1) {
+  } else if (c_x == Calculadora::num_bloques_por_eje().z - 1) {
     delta_x = d_p - (b_max.z - new_x);
     if (delta_x > 10e-10) {
       aceleracion[particula].z =
@@ -210,7 +213,7 @@ void Calculadora::interacciones_limite_eje_x(int particula, std::vector<Vector3d
       velocidad[particula].x     = -velocidad[particula].x;
       suavizado_vec[particula].x = -suavizado_vec[particula].x;
     }
-  } else if (c_x == Calculadora::num_bloques_por_eje(b_max.x, b_min.x) - 1) {
+  } else if (c_x == Calculadora::num_bloques_por_eje().x - 1) {
     new_dx = b_max.x - posicion[particula].x;
     if (new_dx < 0.0) {
       posicion[particula].x      = b_min.x + new_dx;
@@ -233,7 +236,7 @@ void Calculadora::interacciones_limite_eje_y(int particula, std::vector<Vector3d
       velocidad[particula].y     = -velocidad[particula].y;
       suavizado_vec[particula].y = -suavizado_vec[particula].y;
     }
-  } else if (c_x == Calculadora::num_bloques_por_eje(b_max.y, b_min.y) - 1) {
+  } else if (c_x == Calculadora::num_bloques_por_eje().y - 1) {
     new_dx = b_max.y - posicion[particula].y;
     if (new_dx < 0.0) {
       posicion[particula].y      = b_min.y + new_dx;
@@ -256,7 +259,7 @@ void Calculadora::interacciones_limite_eje_z(int particula, std::vector<Vector3d
       velocidad[particula].z     = -velocidad[particula].z;
       suavizado_vec[particula].z = -suavizado_vec[particula].z;
     }
-  } else if (c_x == Calculadora::num_bloques_por_eje(b_max.z, b_min.z) - 1) {
+  } else if (c_x == Calculadora::num_bloques_por_eje().z - 1) {
     new_dx = b_max.z - posicion[particula].z;
     if (new_dx < 0.0) {
       posicion[particula].z      = b_min.z + new_dx;

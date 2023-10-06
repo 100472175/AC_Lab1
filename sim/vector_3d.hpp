@@ -9,7 +9,6 @@ struct Vector3d;
 
 struct Vector3d_float {
     float x, y, z;
-
     Vector3d_float(float x, float y, float z) : x(x), y (y), z(z) {};
     Vector3d to_double();
 };
@@ -26,18 +25,18 @@ struct Vector3d {
     void operator+=(Vector3d const & v);
     // Para restar dos vectores
     void operator-=(Vector3d const & v);
-    Vector3d operator-(Vector3d const & other);
+    Vector3d operator-(Vector3d const & other) const;
     // Para multiplicar todos los elementos por un escalar
     void operator*=(double const & scalar);
     // Para dividir todos los elementos por un escalar
     void operator/=(double const & scalar);
+    // Para dividir todos los elementos por un vector
+    void operator/(Vector3d const & other);
 };
-
 
 
 struct Vector3d_int {
     int x, y, z;
-
 };
 
 #endif  // AC_LAB1_VECTOR_3D_H

@@ -36,15 +36,15 @@ class Calculadora {
 
     double suavizado_calc() const;  // ppm y radio variables globales
 
-    double const ppm;
+    double ppm;
     double suavizado;
     double masa;
+    double num_particulas;
 
-    Calculadora(double const & ppm_);
 
-    double num_bloques_por_eje(double const & max, double const & min) const;
+    Vector3d num_bloques_por_eje() const;
 
-    double tamanio_bloque_por_eje(double const & max, double const & min) const;
+    Vector3d tamanio_bloque(double const & max, double const & min) const;
 
     Vector3d_int indice_bloque(Vector3d const & posicion);
 

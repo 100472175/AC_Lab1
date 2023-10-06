@@ -25,7 +25,7 @@ void Vector3d::operator-=(Vector3d const & v) {
   z -= v.z;
 }
 
-Vector3d Vector3d::operator-(Vector3d const & other) {
+Vector3d Vector3d::operator-(Vector3d const & other) const {
   double x1 = x - other.x;
   double y1 = y - other.y;
   double z1 = z - other.z;
@@ -44,6 +44,12 @@ void Vector3d::operator/=(double const & scalar) {
   x /= scalar;
   y /= scalar;
   z /= scalar;
+}
+
+void Vector3d::operator/(Vector3d const & other) {
+  x / other.x;
+  y / other.y;
+  z / other.z;
 }
 
 Vector3d_float Vector3d::to_float() {
