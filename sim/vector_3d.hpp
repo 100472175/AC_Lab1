@@ -18,7 +18,7 @@ struct Vector3d {
   public:
     double x, y, z;
     void set_values(double a, double b, double c);
-
+    double distancia() const;
     Vector3d(double x, double y, double z) : x(x), y(y), z(z) {};
     Vector3d_float to_float();
 
