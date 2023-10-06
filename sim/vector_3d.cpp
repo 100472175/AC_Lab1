@@ -9,8 +9,8 @@ void Vector3d::set_values(double a, double b, double c) {
   y = b;
   z = c;
 }
-double Vector3d::distancia() const{
- return sqrt(pow(x,2)+ pow(y,2)+ pow(z,2));
+double Vector3d::distancia(Vector3d pos1, Vector3d pos2) const{
+ return sqrt(pow(pos1.x-pos2.x,2)+ pow(pos1.y-pos2.y,2)+ pow(pos1.z-pos2.z,2));
 }
 
 void Vector3d::operator+=(Vector3d const & v) {
