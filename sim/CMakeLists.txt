@@ -8,6 +8,9 @@ add_library(sim lectura_archivo.cpp
         progargs.hpp
         Malla.cpp
         constantes.hpp
+        funcion_iteracion.cpp
+        simulacion.hpp
+        simulacion.cpp
 )
 
 target_include_directories(sim PUBLIC ..)

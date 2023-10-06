@@ -24,8 +24,8 @@ class Malla {
     int n_z;
 
   public:
-    Malla() {
-      n_x     = (int) func_fis::num_bloques_por_eje(b_max.x, b_min.x);
+    Malla() : n_x((int) func_fis::num_bloques_por_eje(b_max.x, b_min.x)) {
+
       n_y     = (int) func_fis::num_bloques_por_eje(b_max.y, b_min.y);
       n_z     = (int) func_fis::num_bloques_por_eje(b_max.z, b_min.z);
       bloques = vector<Bloque>(n_x * n_y * n_z);
@@ -33,6 +33,8 @@ class Malla {
 
     int get_pos(int i, int j, int k) const;
     void poblar_malla(vector<Particle> const &);
+    vector<Bloque> get_bloques();
+    vector<Bloque> bloques_contiguos(Bloque & bloque);
 };
 
 #endif

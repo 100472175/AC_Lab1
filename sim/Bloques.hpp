@@ -8,6 +8,7 @@ using namespace std;
 class Bloque {
   public:
     vector<int> bloque;
+    vector<Bloque> bloques_contiguos;
 };
 
 #endif
