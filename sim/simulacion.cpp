@@ -3,6 +3,14 @@
 //
 #include "simulacion.hpp"
 
+/*Simulacion::Simulacion() : num_iteraciones(0), num_particulas(0), ppm(0.0) {
+                                             Calculadora inst_calculadora(ppm);
+                                             calculadora = inst_calculadora;
+                                             Malla inst_malla(calculadora.indice_bloques(), calculadora.indice_bloques(), calculadora.indice_bloques())
+                                             malla = inst_malla;
+                                           };*/
+
+
 void Simulacion::iterador() {
   poblar_malla();
   for (int i = 0; i < num_iteraciones; i++){

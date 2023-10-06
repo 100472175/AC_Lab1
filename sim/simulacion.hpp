@@ -5,7 +5,7 @@
 #ifndef FLUID_SIMULACION_HPP
 #define FLUID_SIMULACION_HPP
 
-//#include "calculadora.hpp"
+#include "calculadora.hpp"
 #include "malla.hpp"
 #include "particle.hpp"
 
@@ -14,12 +14,14 @@
 
 class Simulacion {
   public:
-    int num_iteraciones = 0;
-    int num_particulas = 0;
-    double ppm = 0.0;
+    int num_iteraciones;
+    int num_particulas;
+    double ppm;
     Particulas particulas;
-    //Malla malla;
-    //Calculadora calculadora(ppm);
+    Malla malla;
+    Calculadora calculadora;
+
+    Simulacion();
     void iterador();
     void iteracion();
     void poblar_malla();
