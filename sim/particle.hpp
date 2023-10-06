@@ -16,6 +16,7 @@ struct Particulas {
     std::vector<Vector3d> aceleracion;   // aceleracion
     std::vector<double> densidad;   // densidad
 
+    Particulas();
 };
 
 #endif  // AC_LAB1_PARTICLE_H
