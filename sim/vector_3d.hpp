@@ -5,10 +5,13 @@
 #ifndef AC_LAB1_VECTOR_3D_H
 #define AC_LAB1_VECTOR_3D_H
 
+struct Vector3d;
+
 struct Vector3d_float {
     float x, y, z;
 
     Vector3d_float(float x, float y, float z) : x(x), y (y), z(z) {};
+    Vector3d to_double();
 };
 
 struct Vector3d {
@@ -16,6 +19,7 @@ struct Vector3d {
     double x, y, z;
     void set_values(double a, double b, double c);
 
+    Vector3d(double x, double y, double z) : x(x), y(y), z(z) {};
     Vector3d_float to_float();
 
     // Para sumar dos vectores
