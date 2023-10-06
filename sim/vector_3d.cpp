@@ -26,7 +26,7 @@ Vector3d Vector3d::operator-(Vector3d const & other) {
   double x1 = x - other.x;
   double y1 = y - other.y;
   double z1 = z - other.z;
-  Vector3d result{};
+  Vector3d result(x1, y1, z1);
   result.set_values(x1, y1, z1);
   return result;
 }

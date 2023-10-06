@@ -6,7 +6,7 @@
 #define FLUID_PROGARGS_HPP
 
 #include "vector_3d.hpp"
-#include "simularion.hpp"
+#include "simulacion.hpp"
 
 #include <iostream>
 #include <vector>
@@ -23,6 +23,8 @@ namespace Sim {
       Progargs(std::vector<std::string> const & args);
 
       int read_file(Simulacion & simulacion);
+
+      int write_file(Simulacion & simulacion);
 
       static int my_is_digit(std::string const &);
 

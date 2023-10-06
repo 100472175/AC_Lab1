@@ -44,17 +44,17 @@ namespace Sim {
             file.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i
             file.read(reinterpret_cast<char *>(&v), 12);   // lectura velocidad particula i
 
-            simulacion.particulas.posicion.pushback(p.to_double());
-            simulacion.particulas.suavizado.pushback(hv.to_double());
-            simulacion.particulas.velocidad.pushback(v.to_double());
-            simulacion.particulas.aceleracion.pushback(Vector3d(0.0, -9.8, 0.0));
+            simulacion.particulas.posicion.push_back(p.to_double());
+            simulacion.particulas.suavizado.push_back(hv.to_double());
+            simulacion.particulas.velocidad.push_back(v.to_double());
+            simulacion.particulas.aceleracion.push_back(Vector3d(0.0, -9.8, 0.0));
         }
         return 0;
     }
 
     int Progargs::read_file(Simulacion &simulacion) {
         // head
-        simulacion.setter_iteraciones(numero_iteraciones);
+        simulacion.num_iteraciones = numero_iteraciones;
         std::cout << "reading file...\n";
         std::ifstream file(archivo_entrada, std::ios::binary);
         if (file.fail()) {
@@ -62,7 +62,7 @@ namespace Sim {
             return -3;
         }
         read_head(file, simulacion);
-        read_body(file, Simulacion simulacion)
+        read_body(file, simulacion);
         int exit_code = read_body(file, simulacion);
         if (exit_code == -5) { return -5; }
 
@@ -70,21 +70,20 @@ namespace Sim {
         return 0;
     }
 
-    int write_file(const std::string &path, std::vector<Particle> &particles, int number_of_particles,
-                   float particles_per_meter) {
+    int Progargs::write_file(Simulacion & simulacion) {
         std::cout << "writing file...\n";
-        std::ofstream file(path, std::ios::binary);
+        std::ofstream file(archivo_salida, std::ios::binary);
         if (file.fail()) {
-            std::cerr << "Error: Cannot open " << path << "file\n";
+            std::cerr << "Error: Cannot open " << archivo_salida << "file\n";
             return -4;
         }
-        file.write(reinterpret_cast<char *>(&particles_per_meter), 4);
-        file.write(reinterpret_cast<char *>(&number_of_particles), 4);
+        file.write(reinterpret_cast<char *>(&simulacion.ppm), 4);
+        file.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
 
-        for (int i = 0; i < number_of_particles; ++i) {
-            Vector3d_float p = particles[i].p.to_float();
-            Vector3d_float hv = particles[i].hv.to_float();
-            Vector3d_float v = particles[i].v.to_float();
+        for (int i = 0; i < simulacion.num_particulas; ++i) {
+            Vector3d_float p = simulacion.particulas.posicion[i].to_float();
+            Vector3d_float hv = simulacion.particulas.suavizado[i].to_float();;
+            Vector3d_float v = simulacion.particulas.velocidad[i].to_float();;
 
             file.write(reinterpret_cast<char *>(&p), 12);
             file.write(reinterpret_cast<char *>(&hv), 12);

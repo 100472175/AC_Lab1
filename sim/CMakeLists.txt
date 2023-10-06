@@ -1,14 +1,13 @@
 set(CMAKE_CXX_STANDARD 20)
-add_library(sim lectura_archivo.cpp
-        lectura_archivo.hpp
-        funciones_fisicas.cpp
+add_library(sim
+        particle.hpp
         particle.cpp
+        vector_3d.hpp
         vector_3d.cpp
-        progargs.cpp
         progargs.hpp
+        progargs.cpp
         Malla.cpp
         constantes.hpp
-        funcion_iteracion.cpp
         simulacion.hpp
         simulacion.cpp
 )
