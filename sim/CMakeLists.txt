@@ -4,12 +4,13 @@ add_library(sim
         particle.cpp
         vector_3d.hpp
         vector_3d.cpp
-        progargs.hpp
-        progargs.cpp
+        malla.hpp
         malla.cpp
-        constantes.hpp
+
         simulacion.hpp
         simulacion.cpp
+        progargs.cpp
+        progargs.hpp
 )
 
 target_include_directories(sim PUBLIC ..)

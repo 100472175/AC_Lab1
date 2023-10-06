@@ -3,7 +3,7 @@
 //
 #include "../sim/progargs.hpp"
 #include "../sim/simulacion.hpp"
-#include "../sim/calculadora"
+//#include "../sim/calculadora"
 
 #include <cmath>
 #include <span>
@@ -19,6 +19,7 @@ int main(int argc, char ** argv) {
 
     std::cout << simulacion.ppm << "\n" << simulacion.num_particulas << "\n";
     std::cout << simulacion.particulas.posicion[53].x << ", " << simulacion.particulas.posicion[53].y << ", " << simulacion.particulas.posicion[53].z << "\n";
+
 /*
     //int const argument_validated = Sim::validate_arguments(argc, argv);
     //if (argument_validated != 0) { return argument_validated; }

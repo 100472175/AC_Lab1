@@ -77,7 +77,8 @@ namespace Sim {
             std::cerr << "Error: Cannot open " << archivo_salida << "file\n";
             return -4;
         }
-        file.write(reinterpret_cast<char *>(&simulacion.ppm), 4);
+        float ppm_float = (float)simulacion.ppm;
+        file.write(reinterpret_cast<char *>(&ppm_float), 4);
         file.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
 
         for (int i = 0; i < simulacion.num_particulas; ++i) {
