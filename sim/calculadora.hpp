@@ -52,51 +52,51 @@ class Calculadora {
     // Inidiación de densidad y aceleraciones [pg. 8]
     void init_densidad_accel();
 
-    int delta_densidades(int particula1, int particula2, std::vector<double> densidad,
-                         std::vector<Vector3d> posicion) const;
+    int delta_densidades(int particula1, int particula2, std::vector<double> & densidad,
+                         std::vector<Vector3d> & posicion) const;
 
     double transform_densidad(int particula, std::vector<double> densidad) const;
 
     Vector3d trasnfer_accel_particulas_calculo(std::tuple<int, int> particula,
-                                               std::vector<Vector3d> posicion,
-                                               std::vector<double> densidad,
-                                               std::vector<Vector3d> velocidad);
+                                               std::vector<Vector3d> & posicion,
+                                               std::vector<double> & densidad,
+                                               std::vector<Vector3d> & velocidad);
 
     static void trasnfer_accel_particulas(int particula1, int particula2,
-                                          std::vector<Vector3d> aceleracion,
-                                          Vector3d delta_aceleracion);
+                                          std::vector<Vector3d> & aceleracion,
+                                          Vector3d & delta_aceleracion);
 
     // 4.3.3
-    void collisiones_limite_eje_x(int particula, std::vector<Vector3d> posicion,
-                                  std::vector<Vector3d> velocidad,
-                                  std::vector<Vector3d> aceleracion);
-    void collisiones_limite_eje_y(int particula, std::vector<Vector3d> posicion,
-                                  std::vector<Vector3d> velocidad,
-                                  std::vector<Vector3d> aceleracion);
-    void collisiones_limite_eje_z(int particula, std::vector<Vector3d> posicion,
-                                  std::vector<Vector3d> velocidad,
-                                  std::vector<Vector3d> aceleracion);
+    void collisiones_limite_eje_x(int particula, std::vector<Vector3d> & posicion,
+                                  std::vector<Vector3d> & velocidad,
+                                  std::vector<Vector3d> & aceleracion);
+    void collisiones_limite_eje_y(int particula, std::vector<Vector3d> & posicion,
+                                  std::vector<Vector3d> & velocidad,
+                                  std::vector<Vector3d> & aceleracion);
+    void collisiones_limite_eje_z(int particula, std::vector<Vector3d> & posicion,
+                                  std::vector<Vector3d> & velocidad,
+                                  std::vector<Vector3d> & aceleracion);
 
     // 4.3.4
-    void actualizar_posicion(int particula, std::vector<Vector3d> posicion,
-                             std::vector<Vector3d> suavizado_vec,
-                             std::vector<Vector3d> aceleracion);
+    void actualizar_posicion(int particula, std::vector<Vector3d> & posicion,
+                             std::vector<Vector3d> & suavizado_vec,
+                             std::vector<Vector3d> & aceleracion);
 
-    void actualizar_velocidad(int particula, std::vector<Vector3d> velocidad,
-                              std::vector<Vector3d> suavizado_vec,
-                              std::vector<Vector3d> aceleracion);
+    void actualizar_velocidad(int particula, std::vector<Vector3d> & velocidad,
+                              std::vector<Vector3d> & suavizado_vec,
+                              std::vector<Vector3d> & aceleracion);
 
-    void actualizar_gradiente(int particula, std::vector<Vector3d> suavizado_vec,
-                              std::vector<Vector3d> aceleracion);
+    void actualizar_gradiente(int particula, std::vector<Vector3d> & suavizado_vec,
+                              std::vector<Vector3d> & aceleracion);
 
-    void interacciones_limite_eje_x(int particula, std::vector<Vector3d> posicion,
-                                    std::vector<Vector3d> velocidad,
-                                    std::vector<Vector3d> suavizado_vec);
-    void interacciones_limite_eje_y(int particula, std::vector<Vector3d> posicion,
-                                    std::vector<Vector3d> velocidad,
-                                    std::vector<Vector3d> suavizado_vec);
-    void interacciones_limite_eje_z(int particula, std::vector<Vector3d> posicion,
-                                    std::vector<Vector3d> velocidad,
-                                    std::vector<Vector3d> suavizado_vec);
+    void interacciones_limite_eje_x(int particula, std::vector<Vector3d> & posicion,
+                                    std::vector<Vector3d> & velocidad,
+                                    std::vector<Vector3d> & suavizado_vec);
+    void interacciones_limite_eje_y(int particula, std::vector<Vector3d> & posicion,
+                                    std::vector<Vector3d> & velocidad,
+                                    std::vector<Vector3d> & suavizado_vec);
+    void interacciones_limite_eje_z(int particula, std::vector<Vector3d> & posicion,
+                                    std::vector<Vector3d> & velocidad,
+                                    std::vector<Vector3d> & suavizado_vec);
 };
 #endif  // PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP

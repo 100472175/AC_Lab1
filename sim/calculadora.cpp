@@ -65,9 +65,9 @@ double Calculadora::transform_densidad(int particula, std::vector<double> densid
 
 // Transferencia de aceleración [pg. 8]
 Vector3d Calculadora::trasnfer_accel_particulas_calculo(std::tuple<int, int> particula,
-                                                        std::vector<Vector3d> posicion,
-                                                        std::vector<double> densidad,
-                                                        std::vector<Vector3d> velocidad) {
+                                                        std::vector<Vector3d> & posicion,
+                                                        std::vector<double> & densidad,
+                                                        std::vector<Vector3d> & velocidad) {
   // if ((particula1 > particula2) or (particula1 == particula2)) { return -1.0; }
   // Distancia entre dos partículas 3 dimensionales
   double distancia = 10.0;  // TODO: Cesar, la función de distancia
@@ -94,8 +94,8 @@ Vector3d Calculadora::trasnfer_accel_particulas_calculo(std::tuple<int, int> par
 
 
 void Calculadora::trasnfer_accel_particulas(int particula1, int particula2,
-                                            std::vector<Vector3d> aceleracion,
-                                            Vector3d delta_aceleracion) {
+                                            std::vector<Vector3d> & aceleracion,
+                                            Vector3d & delta_aceleracion) {
   aceleracion[particula1] += delta_aceleracion;
   aceleracion[particula2] -= delta_aceleracion;
   return;
@@ -103,9 +103,9 @@ void Calculadora::trasnfer_accel_particulas(int particula1, int particula2,
 
 // Sección 4.3.3 Colisiones de partículas
 // Colisiones con los límites del eje  x [pg. 9]
-void Calculadora::collisiones_limite_eje_x(int particula, std::vector<Vector3d> posicion,
-                                           std::vector<Vector3d> velocidad,
-                                           std::vector<Vector3d> aceleracion) {
+void Calculadora::collisiones_limite_eje_x(int particula, std::vector<Vector3d> & posicion,
+                                           std::vector<Vector3d> & velocidad,
+                                           std::vector<Vector3d> & aceleracion) {
   double new_x = posicion[particula].x + velocidad[particula].x * delta_t;
   double delta_x;
   int const c_x = Calculadora::indice_bloque(posicion[particula]).x;
@@ -125,7 +125,7 @@ void Calculadora::collisiones_limite_eje_x(int particula, std::vector<Vector3d> 
 }
 
 // Colisiones con los límites del eje y [pg. 10]
-void Calculadora::collisiones_limite_eje_y(int particula, std::vector<Vector3d> posicion,
+void Calculadora::collisiones_limite_eje_y(int particula, std::vector<Vector3d> & posicion,
                                            std::vector<Vector3d> velocidad,
                                            std::vector<Vector3d> aceleracion) {
   double new_x = posicion[particula].y + velocidad[particula].y * delta_t;
@@ -147,9 +147,9 @@ void Calculadora::collisiones_limite_eje_y(int particula, std::vector<Vector3d> 
 }
 
 // Colisiones con los límites del eje z [pg. 10]
-void Calculadora::collisiones_limite_eje_z(int particula, std::vector<Vector3d> posicion,
-                                           std::vector<Vector3d> velocidad,
-                                           std::vector<Vector3d> aceleracion) {
+void Calculadora::collisiones_limite_eje_z(int particula, std::vector<Vector3d> & posicion,
+                                           std::vector<Vector3d> & velocidad,
+                                           std::vector<Vector3d> & aceleracion) {
   double new_x = posicion[particula].z + velocidad[particula].z * delta_t;
   double delta_x;
   int const c_x = Calculadora::indice_bloque(posicion[particula]).z;
@@ -169,9 +169,9 @@ void Calculadora::collisiones_limite_eje_z(int particula, std::vector<Vector3d> 
 }
 
 // Movimiento de las partículas 4.3.4
-void Calculadora::actualizar_posicion(int particula, std::vector<Vector3d> posicion,
-                                      std::vector<Vector3d> suavizado_vec,
-                                      std::vector<Vector3d> aceleracion) {
+void Calculadora::actualizar_posicion(int particula, std::vector<Vector3d> & posicion,
+                                      std::vector<Vector3d> & suavizado_vec,
+                                      std::vector<Vector3d> & aceleracion) {
   // Que narices, creo que las fórmulas estan mal en el pg, ágina 10 al final
   posicion[particula].x = posicion[particula].x + suavizado_vec[particula].x * delta_t +
                           aceleracion[particula].x * delta_t * delta_t;
@@ -181,16 +181,16 @@ void Calculadora::actualizar_posicion(int particula, std::vector<Vector3d> posic
                           aceleracion[particula].z * delta_t * delta_t;
 }
 
-void Calculadora::actualizar_velocidad(int particula, std::vector<Vector3d> velocidad,
-                                       std::vector<Vector3d> suavizado_vec,
-                                       std::vector<Vector3d> aceleracion) {
+void Calculadora::actualizar_velocidad(int particula, std::vector<Vector3d> & velocidad,
+                                       std::vector<Vector3d> & suavizado_vec,
+                                       std::vector<Vector3d> & aceleracion) {
   velocidad[particula].x = suavizado_vec[particula].x + (aceleracion[particula].x * delta_t) / 2;
   velocidad[particula].y = suavizado_vec[particula].y + (aceleracion[particula].y * delta_t) / 2;
   velocidad[particula].z = suavizado_vec[particula].z + (aceleracion[particula].z * delta_t) / 2;
 }
 
-void Calculadora::actualizar_gradiente(int particula, std::vector<Vector3d> suavizado_vec,
-                                       std::vector<Vector3d> aceleracion) {
+void Calculadora::actualizar_gradiente(int particula, std::vector<Vector3d> & suavizado_vec,
+                                       std::vector<Vector3d> & aceleracion) {
   suavizado_vec[particula].x = suavizado_vec[particula].x + (aceleracion[particula].x * delta_t);
   suavizado_vec[particula].y = suavizado_vec[particula].y + (aceleracion[particula].y * delta_t);
   suavizado_vec[particula].z = suavizado_vec[particula].z + (aceleracion[particula].z * delta_t);
@@ -198,9 +198,9 @@ void Calculadora::actualizar_gradiente(int particula, std::vector<Vector3d> suav
 
 // 4.3.5 Interacciones con los límites del recinto
 // Colisiones con los límites en el eje x [pg. 10]
-void Calculadora::interacciones_limite_eje_x(int particula, std::vector<Vector3d> posicion,
-                                             std::vector<Vector3d> velocidad,
-                                             std::vector<Vector3d> suavizado_vec) {
+void Calculadora::interacciones_limite_eje_x(int particula, std::vector<Vector3d> & posicion,
+                                             std::vector<Vector3d> & velocidad,
+                                             std::vector<Vector3d> & suavizado_vec) {
   double new_dx;
   int const c_x = Calculadora::indice_bloque(posicion[particula]).x;
   if (c_x == 0) {
@@ -221,9 +221,9 @@ void Calculadora::interacciones_limite_eje_x(int particula, std::vector<Vector3d
 }
 
 // Colisiones con los límites en el eje y [pg. 10]
-void Calculadora::interacciones_limite_eje_y(int particula, std::vector<Vector3d> posicion,
-                                             std::vector<Vector3d> velocidad,
-                                             std::vector<Vector3d> suavizado_vec) {
+void Calculadora::interacciones_limite_eje_y(int particula, std::vector<Vector3d> & posicion,
+                                             std::vector<Vector3d> & velocidad,
+                                             std::vector<Vector3d> & suavizado_vec) {
   double new_dx;
   int const c_x = Calculadora::indice_bloque(posicion[particula]).y;
   if (c_x == 0) {
@@ -244,9 +244,9 @@ void Calculadora::interacciones_limite_eje_y(int particula, std::vector<Vector3d
 }
 
 // Colisiones con los límites en el eje z [pg. 10]
-void Calculadora::interacciones_limite_eje_z(int particula, std::vector<Vector3d> posicion,
-                                             std::vector<Vector3d> velocidad,
-                                             std::vector<Vector3d> suavizado_vec) {
+void Calculadora::interacciones_limite_eje_z(int particula, std::vector<Vector3d> & posicion,
+                                             std::vector<Vector3d> & velocidad,
+                                             std::vector<Vector3d> & suavizado_vec) {
   double new_dx;
   int const c_x = Calculadora::indice_bloque(posicion[particula]).z;
   if (c_x == 0) {
