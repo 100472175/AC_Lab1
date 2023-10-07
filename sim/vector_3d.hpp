@@ -9,7 +9,7 @@ struct Vector3d;
 
 struct Vector3d_float {
     float x, y, z;
-    Vector3d_float(float x, float y, float z) : x(x), y (y), z(z) {};
+    constexpr Vector3d_float(float x, float y, float z) : x(x), y (y), z(z) {};
     Vector3d to_double();
 };
 
@@ -18,7 +18,7 @@ struct Vector3d {
     double x, y, z;
     void set_values(double a, double b, double c);
     double distancia(Vector3d pos1, Vector3d pos2) const;
-    Vector3d(double x, double y, double z) : x(x), y(y), z(z) {};
+    constexpr Vector3d(double x, double y, double z) : x(x), y(y), z(z) {};
     Vector3d_float to_float();
 
     // Para sumar dos vectores

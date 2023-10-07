@@ -2,8 +2,6 @@
 
 #include "progargs.hpp"
 
-#include <fstream>
-
 // Created by paula on 29/09/23.
 //
 
@@ -17,32 +15,43 @@ namespace Sim {
         numero_iteraciones = my_is_digit(args[0]);
         archivo_entrada = args[1];
         archivo_salida = args[2];
+        std::ifstream inst_input(archivo_entrada);
+        input_file = std::move(inst_input);
     }
 
-    int read_head(std::ifstream &file, Simulacion & simulacion) {
+    int Progargs::read_head(Malla & malla, Calculadora & calculadora) {
         std::cout << "cabecera\n";
         float float_ppm;
         int num_particulas;
-        file.read(reinterpret_cast<char *>(&float_ppm), 4);
-        file.read(reinterpret_cast<char *>(&num_particulas), 4);
-        simulacion.num_particulas = num_particulas;
-        simulacion.ppm = (double)float_ppm;
+        input_file.read(reinterpret_cast<char *>(&float_ppm), 4);
+        input_file.read(reinterpret_cast<char *>(&num_particulas), 4);
+        std::cout << "ppm: " << float_ppm << "\n";
+        std::cout << "np: " << num_particulas << "\n";
+        calculadora.ppm = (double)float_ppm;
+        calculadora.num_particulas = num_particulas;
+
+        Vector3d aux = calculadora.num_bloques_por_eje();
+
+        malla.n_x = aux.x;
+        malla.n_y = aux.y;
+        malla.n_z = aux.z;
+
         return 0;
     }
 
-    int read_body(std::ifstream &file, Simulacion & simulacion) {
+    int Progargs::read_body(Simulacion & simulacion) {
         // body
         std::cout << "body\n";
         for (int i = 0; i < simulacion.num_particulas; i++) {
             Vector3d_float p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
-            file.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
-            if (file.gcount() < 12) {
+            input_file.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
+            if (input_file.gcount() < 12) {
                 std::cerr << "Error: Number of particles mismatch. Header: " << simulacion.num_particulas << ", Found: "
                           << i << "\n";
                 return -5;
             }
-            file.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i
-            file.read(reinterpret_cast<char *>(&v), 12);   // lectura velocidad particula i
+            input_file.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i
+            input_file.read(reinterpret_cast<char *>(&v), 12);   // lectura velocidad particula i
 
             simulacion.particulas.posicion.push_back(p.to_double());
             simulacion.particulas.suavizado.push_back(hv.to_double());
@@ -52,7 +61,7 @@ namespace Sim {
         return 0;
     }
 
-    int Progargs::read_file(Simulacion &simulacion) {
+    /*int Progargs::read_file(Simulacion &simulacion) {
         // head
         simulacion.num_iteraciones = numero_iteraciones;
         std::cout << "reading file...\n";
@@ -68,7 +77,7 @@ namespace Sim {
 
         file.close();
         return 0;
-    }
+    }*/
 
     int Progargs::write_file(Simulacion & simulacion) {
         std::cout << "writing file...\n";

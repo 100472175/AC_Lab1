@@ -3,7 +3,9 @@
 //
 #include "../sim/progargs.hpp"
 #include "../sim/simulacion.hpp"
-//#include "../sim/calculadora"
+#include "../sim/malla.hpp"
+#include "../sim/calculadora.hpp"
+#include "../sim/calculadora.hpp"
 
 #include <cmath>
 #include <span>
@@ -13,8 +15,17 @@ int main(int argc, char ** argv) {
     std::vector<std::string> const argumentos(args_span.begin() +1, args_span.end());
 
     Sim::Progargs nuestros_args{argumentos};
+
+    Malla malla{};
+    Calculadora calc{};
+
+    nuestros_args.read_head(malla, calc);
     Simulacion simulacion;
-    nuestros_args.read_file(simulacion);
+    simulacion.num_particulas = calc.num_particulas;
+    simulacion.ppm = calc.ppm;
+    simulacion.calculadora = calc;
+    simulacion.malla = malla;
+    nuestros_args.read_body(simulacion);
     nuestros_args.write_file(simulacion);
 
     std::cout << simulacion.ppm << "\n" << simulacion.num_particulas << "\n";

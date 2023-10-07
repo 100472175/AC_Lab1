@@ -39,10 +39,10 @@ class Calculadora {
     double ppm;
     double suavizado;
     double masa;
-    double num_particulas;
+    int num_particulas;
 
 
-    Vector3d num_bloques_por_eje() const;
+    Vector3d num_bloques_por_eje();
 
     Vector3d tamanio_bloque();
 

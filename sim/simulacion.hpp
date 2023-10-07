@@ -21,7 +21,6 @@ class Simulacion {
     Malla malla;
     Calculadora calculadora;
 
-    Simulacion();
     void iterador();
     void iteracion();
     void poblar_malla();

@@ -10,11 +10,11 @@
 #include <cmath>
 
 struct Particulas {
-    std::vector<Vector3d> posicion{};     // posicion
-    std::vector<Vector3d> suavizado{};    // suavizado
-    std::vector<Vector3d> velocidad{};    // velocidad
-    std::vector<Vector3d> aceleracion{};  // aceleracion
-    std::vector<double> densidad{};       // densidad
+    std::vector<Vector3d> posicion{};   // posicion
+    std::vector<Vector3d> suavizado{};   // suavizado
+    std::vector<Vector3d> velocidad{};   // velocidad
+    std::vector<Vector3d> aceleracion{};   // aceleracion
+    std::vector<double> densidad{};   // densidad
 };
 
 #endif  // AC_LAB1_PARTICLE_H

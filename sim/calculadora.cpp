@@ -15,7 +15,7 @@ double Calculadora::suavizado_calc() const {
 }
 
 
-Vector3d Calculadora::num_bloques_por_eje() const {
+Vector3d Calculadora::num_bloques_por_eje() {
     Vector3d aux = b_max - b_min;
     aux /= suavizado;
     aux.x = floor(aux.x);
