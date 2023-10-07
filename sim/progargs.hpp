@@ -14,14 +14,13 @@
 #include <vector>
 #include <fstream>
 
-namespace Sim {
 
   class Progargs {
     private:
       int numero_iteraciones;
-      std::string archivo_entrada;
-      std::string archivo_salida;
-      std::ifstream input_file;
+      std::ifstream archivo_entrada;
+      std::ofstream  archivo_salida;
+      //std::ifstream input_file;
 
     public:
       Progargs(std::vector<std::string> const & args);
@@ -37,8 +36,11 @@ namespace Sim {
       //int validate_arguments(int, char **);
 
       static Vector3d_int fuera_de_rango(Vector3d_int);
+      std::ifstream valida_entrada(std::string const & argumento_entrada);
+      std::ifstream valida_fichero(std::string const & fichero_a_probar, bool tipo);
+      std::ofstream valida_salida(std::string const & argumento_salida);
   };
 
 
-}  // namespace Sim
+ // namespace Sim
 #endif  // FLUID_PROGARGS_HPP

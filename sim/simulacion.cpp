@@ -40,7 +40,7 @@ void Simulacion::poblar_malla() {
   std::cout << "XD";
   /*for (int cont = 0; cont < num_particulas; cont++) {
     Vector3d_int bloque_coords = func_fis::indice_bloque(v_particulas[cont]);
-    bloque_coords = Sim::Progargs::fuera_de_rango(bloque_coords);
+    bloque_coords = Progargs::fuera_de_rango(bloque_coords);
     int const ind_real = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
     std::vector<Bloque>bloques = malla.get_bloques();
     bloques[ind_real].bloque.push_back(cont);

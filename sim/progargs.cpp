@@ -5,7 +5,7 @@
 // Created by paula on 29/09/23.
 //
 
-namespace Sim {
+
 
     Progargs::Progargs(std::vector<std::string> const &args) {
         if (args.size() != 3) {
@@ -13,18 +13,16 @@ namespace Sim {
             std::exit(-1);
         };
         numero_iteraciones = my_is_digit(args[0]);
-        archivo_entrada = args[1];
-        archivo_salida = args[2];
-        std::ifstream inst_input(archivo_entrada);
-        input_file = std::move(inst_input);
+        archivo_entrada = valida_entrada(args[1]);
+        archivo_salida = valida_salida(args[2]);
     }
 
     int Progargs::read_head(Malla & malla, Calculadora & calculadora) {
         std::cout << "cabecera\n";
         float float_ppm;
         int num_particulas;
-        input_file.read(reinterpret_cast<char *>(&float_ppm), 4);
-        input_file.read(reinterpret_cast<char *>(&num_particulas), 4);
+        archivo_entrada.read(reinterpret_cast<char *>(&float_ppm), 4);
+        archivo_entrada.read(reinterpret_cast<char *>(&num_particulas), 4);
         std::cout << "ppm: " << float_ppm << "\n";
         std::cout << "np: " << num_particulas << "\n";
         calculadora.ppm = (double)float_ppm;
@@ -44,14 +42,14 @@ namespace Sim {
         std::cout << "body\n";
         for (int i = 0; i < simulacion.num_particulas; i++) {
             Vector3d_float p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
-            input_file.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
-            if (input_file.gcount() < 12) {
+            archivo_entrada.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
+            if (archivo_entrada.gcount() < 12) {
                 std::cerr << "Error: Number of particles mismatch. Header: " << simulacion.num_particulas << ", Found: "
                           << i << "\n";
                 return -5;
             }
-            input_file.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i
-            input_file.read(reinterpret_cast<char *>(&v), 12);   // lectura velocidad particula i
+            archivo_entrada.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i
+            archivo_entrada.read(reinterpret_cast<char *>(&v), 12);   // lectura velocidad particula i
 
             simulacion.particulas.posicion.push_back(p.to_double());
             simulacion.particulas.suavizado.push_back(hv.to_double());
@@ -79,30 +77,47 @@ namespace Sim {
         return 0;
     }*/
 
+    std::ifstream Progargs::valida_entrada(const std::string& argumento_entrada){
+        std::ifstream entrada(argumento_entrada);
+        if (entrada.fail()) {
+            std::cerr << "Error: Cannot open " << argumento_entrada << " for reading\n";
+            std::exit(-3);
+        }
+        return entrada;
+    }
+
+    std::ofstream Progargs::valida_salida(const std::string& argumento_salida){
+        std::ofstream salida(argumento_salida, std::ios::binary);
+        if (salida.fail()) {
+            std::cerr << "Error: Cannot open " << argumento_salida << " for writing\n";
+            std::exit(-4);
+        }
+        return salida;
+    }
+
     int Progargs::write_file(Simulacion & simulacion) {
         std::cout << "writing file...\n";
+        /*
         std::ofstream file(archivo_salida, std::ios::binary);
         if (file.fail()) {
             std::cerr << "Error: Cannot open " << archivo_salida << "file\n";
             return -4;
-        }
+        }*/
         float ppm_float = (float)simulacion.ppm;
-        file.write(reinterpret_cast<char *>(&ppm_float), 4);
-        file.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
+        archivo_salida.write(reinterpret_cast<char *>(&ppm_float), 4);
+        archivo_salida.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
 
         for (int i = 0; i < simulacion.num_particulas; ++i) {
             Vector3d_float p = simulacion.particulas.posicion[i].to_float();
             Vector3d_float hv = simulacion.particulas.suavizado[i].to_float();;
             Vector3d_float v = simulacion.particulas.velocidad[i].to_float();;
 
-            file.write(reinterpret_cast<char *>(&p), 12);
-            file.write(reinterpret_cast<char *>(&hv), 12);
-            file.write(reinterpret_cast<char *>(&v), 12);
+            archivo_salida.write(reinterpret_cast<char *>(&p), 12);
+            archivo_salida.write(reinterpret_cast<char *>(&hv), 12);
+            archivo_salida.write(reinterpret_cast<char *>(&v), 12);
         }
-
         return 0;
     }
-
 
     int Progargs::my_is_digit(std::string const &string_to_try) {
         for (int i = 1; i < int(string_to_try.length()); i++) {
@@ -119,7 +134,6 @@ namespace Sim {
         return 0;
     }
 
-
     /*
     int validate_arguments(int num_args, char ** args) {
       if (num_args != 4) {
@@ -129,8 +143,7 @@ namespace Sim {
       int first_argument_validation = my_is_digit(args[1]);
       if (first_argument_validation != 0) { return first_argument_validation; }
       return 0;
-    }
-    */
+    }*/
 
     Vector3d_int Progargs::fuera_de_rango(Vector3d_int indices) {
         if (indices.x < 0) {
@@ -151,4 +164,4 @@ namespace Sim {
         return indices;
     }
 
-}  // namespace Sim
+ // namespace Sim

@@ -14,7 +14,7 @@ int main(int argc, char ** argv) {
     std::span const args_span(argv, static_cast<std::size_t>(argc));
     std::vector<std::string> const argumentos(args_span.begin() +1, args_span.end());
 
-    Sim::Progargs nuestros_args{argumentos};
+    Progargs nuestros_args{argumentos};
 
     Malla malla{};
     Calculadora calc{};
@@ -27,7 +27,6 @@ int main(int argc, char ** argv) {
     simulacion.malla = malla;
     nuestros_args.read_body(simulacion);
     nuestros_args.write_file(simulacion);
-
     std::cout << simulacion.ppm << "\n" << simulacion.num_particulas << "\n";
     std::cout << simulacion.particulas.posicion[53].x << ", " << simulacion.particulas.posicion[53].y << ", " << simulacion.particulas.posicion[53].z << "\n";
 
