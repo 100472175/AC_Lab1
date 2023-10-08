@@ -109,7 +109,7 @@ void Calculadora::trasnfer_accel_particulas(int particula1, int particula2,
 
  */
 
-constexpr Vector3d Calculadora::aceleracion_primera_parte(Vector3d & posicion_1,
+Vector3d Calculadora::aceleracion_primera_parte(Vector3d & posicion_1,
                                                           Vector3d & posicion_2, double densidad_1,
                                                           double densidad_2) const {
   double distancia = posicion_1.distancia(posicion_1, posicion_2);
@@ -124,14 +124,14 @@ constexpr Vector3d Calculadora::aceleracion_primera_parte(Vector3d & posicion_1,
   return Vector3d{0.0, 0.0, 0.0};
 }
 
-constexpr Vector3d Calculadora::aceleracion_segunda_parte(Vector3d & velocidad_1,
+Vector3d Calculadora::aceleracion_segunda_parte(Vector3d & velocidad_1,
                                                           Vector3d & velocidad_2) const {
   return velocidad_2 -
          velocidad_1 * (45 / (std::numbers::pi * pow(pow(suavizado, 3), 2) * viscosidad * masa));
 }
 
 // Devuelve la aceleación que se tiene que sumar o restar a la original
-constexpr Vector3d Calculadora::transferencia_aceleracion(Vector3d & parte1, Vector3d & parte2,
+Vector3d Calculadora::transferencia_aceleracion(Vector3d & parte1, Vector3d & parte2,
                                                           double const denominador) {
   parte1 += parte2;
   parte1 /= denominador;

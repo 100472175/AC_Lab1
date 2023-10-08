@@ -67,13 +67,13 @@ class Calculadora {
                                               std::vector<Vector3d> & aceleracion,
                                               Vector3d & delta_aceleracion);
     */
-    constexpr Vector3d aceleracion_primera_parte(Vector3d & posicion_1, Vector3d & posicion_2,
+    Vector3d aceleracion_primera_parte(Vector3d & posicion_1, Vector3d & posicion_2,
                                                  double densidad_1, double densidad_2) const;
 
-    constexpr Vector3d aceleracion_segunda_parte(Vector3d & velocidad_1,
+    Vector3d aceleracion_segunda_parte(Vector3d & velocidad_1,
                                                  Vector3d & velocidad_2) const;
 
-    static constexpr Vector3d transferencia_aceleracion(Vector3d & parte1, Vector3d & parte2,
+    Vector3d transferencia_aceleracion(Vector3d & parte1, Vector3d & parte2,
                                                         double const denominador);
 
     // 4.3.3
