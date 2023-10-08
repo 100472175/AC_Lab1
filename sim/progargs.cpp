@@ -121,17 +121,24 @@
     }
 
     int Progargs::my_is_digit(std::string const &string_to_try) {
+        bool negativo = false;
+        if (string_to_try[0] == '-') {
+            negativo = true;
+        }
+        else if (std::isdigit(string_to_try[0]) == 0){
+            std::cerr << "Error: time steps must be numeric.\n";
+            std::exit(-1);
+        }
         for (int i = 1; i < int(string_to_try.length()); i++) {
             if (std::isdigit(string_to_try[i]) == 0) {
                 std::cerr << "Error: time steps must be numeric.\n";
                 std::exit(-1);
             }
         }
-        if (string_to_try[0] == '-') {
+        if (negativo) {
             std::cerr << "Error: Invalid number of time steps.\n";
             std::exit(-2);
         }
-        if (std::isdigit(string_to_try[0]) != 1) { return -1; }
         return stoi(string_to_try);
     }
 
