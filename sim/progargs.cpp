@@ -123,12 +123,12 @@
     int Progargs::my_is_digit(std::string const &string_to_try) {
         for (int i = 1; i < int(string_to_try.length()); i++) {
             if (std::isdigit(string_to_try[i]) == 0) {
-                std::cout << "Error: time steps must be numeric.\n";
+                std::cerr << "Error: time steps must be numeric.\n";
                 std::exit(-1);
             }
         }
         if (string_to_try[0] == '-') {
-            std::cout << "Error: Invalid number of time steps.\n";
+            std::cerr << "Error: Invalid number of time steps.\n";
             std::exit(-2);
         }
         if (std::isdigit(string_to_try[0]) != 1) { return -1; }
