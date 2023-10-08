@@ -20,9 +20,9 @@ int main(int argc, char ** argv) {
     Calculadora calc{};
 
     nuestros_args.read_head(malla, calc);
-    malla.inicializar_malla();
-    calc.inicializar_calculadora();
 
+    calc.inicializar_calculadora();
+    malla.inicializar_malla(calc.num_bloques_por_eje());
     Simulacion simulacion;
     simulacion.num_particulas = calc.num_particulas;
     simulacion.ppm = calc.ppm;

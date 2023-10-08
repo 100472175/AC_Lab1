@@ -2,9 +2,10 @@
 #define AC_LAB1_MALLA_H
 
 #include "Bloques.hpp"
+#include "vector_3d.hpp"
 
 #include <vector>
-
+#include <algorithm>
 
 class Malla {
 public:
@@ -14,13 +15,13 @@ public:
     int n_z;
     int tamano;
 
-    /*Malla(int num_x, int num_y, int num_z) : n_x(num_x), n_y(num_y), n_z(num_z), tamano(num_x * num_y * num_z) {
-      bloques = std::vector<Bloque>(tamano);
-    }*/
+    void crear_bloques();
+    void inicializar_malla(Vector3d n);
     // No entiendo el [[nodiscard]], culpas a .clang-tidy
     [[nodiscard]] int get_pos(int i, int j, int k) const ;
-    std::vector<Bloque> get_bloques();
-    std::vector<Bloque> bloques_contiguos(Bloque & bloque);
+    [[nodiscard]] Vector3d_int fuera_de_rango(Vector3d_int & indices) const;
+    void bloques_contiguos(Bloque & bloque);
+
 };
 
 #endif

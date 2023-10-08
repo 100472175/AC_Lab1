@@ -52,7 +52,7 @@ void Calculadora::init_densidad_accel() {
 // Incremento de densidades [pg. 8]
 double Calculadora::delta_densidades(Vector3d pos_1, Vector3d pos_2) const {
   double const suavizado_temp = suavizado * suavizado;
-  double distancia            = Vector3d::distancia(pos_1, pos_2);
+  double distancia            = pos_1.distancia(pos_1, pos_2);
   distancia                   = distancia * distancia;
   if (distancia >= suavizado_temp) { return 0.0; }
   return pow((suavizado_temp - distancia), 3);
@@ -112,7 +112,7 @@ void Calculadora::trasnfer_accel_particulas(int particula1, int particula2,
 constexpr Vector3d Calculadora::aceleracion_primera_parte(Vector3d & posicion_1,
                                                           Vector3d & posicion_2, double densidad_1,
                                                           double densidad_2) const {
-  double distancia = Vector3d::distancia(posicion_1, posicion_2);
+  double distancia = posicion_1.distancia(posicion_1, posicion_2);
   distancia        = distancia * distancia;
   if (distancia < pow(suavizado, 2)) {
     Vector3d const diff_posiciones = posicion_1 - posicion_2;
