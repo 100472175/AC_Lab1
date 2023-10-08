@@ -10,7 +10,7 @@ void Malla::crear_bloques() {
   }
 }
 
-void Malla::inicializar_malla(Vector3d n) {
+void Malla::inicializar_malla(Vector3d<double> n) {
   n_x = int(n.x);
   n_y = int(n.y);
   tamano = n_x * n_y * int(n.z);
@@ -22,7 +22,7 @@ int Malla::get_pos(int i, int j, int k) const {
   return pos;
 }
 
-Vector3d_int Malla::fuera_de_rango(Vector3d_int & indices) const {
+Vector3d<int> Malla::fuera_de_rango(Vector3d<int> & indices) const {
   if (indices.x < 0) {
     indices.x = 0;
   } else if (indices.x > n_x-1) {

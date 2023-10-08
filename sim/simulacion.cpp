@@ -42,7 +42,7 @@ void Simulacion::iteracion() {
 
 void Simulacion::poblar_malla() {
     for (int cont = 0; cont < num_particulas; cont++) {
-        Vector3d_int bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
+        Vector3d<int> bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
         bloque_coords = malla.fuera_de_rango(bloque_coords);
         int const ind_real = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
         malla.bloques[ind_real].bloque.push_back(cont);
@@ -56,7 +56,7 @@ void Simulacion::reposicionamiento() {
     }
     // Y la vuelvo a repoblar
     for (int cont = 0; cont < num_particulas; cont++) {
-        Vector3d_int const bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
+        Vector3d<int> const bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
         int const ind_real = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
         malla.bloques[ind_real].bloque.push_back(cont);
     }
@@ -87,7 +87,7 @@ void Simulacion::movimiento_particulas() {
 }
 
 void Simulacion::print_simulation_parameters() {
-    Vector3d tamanio_bloque = calculadora.tamanio_bloque();
+    Vector3d<double> tamanio_bloque = calculadora.tamanio_bloque();
     std::cout << "Number of particles: " << num_particulas << "\n" <<
               "Particles per meter: " << ppm << "\n" <<
               "Smoothing length: " << calculadora.suavizado << "\n" <<

@@ -25,7 +25,7 @@
         calculadora.ppm = (double)float_ppm;
         calculadora.num_particulas = num_particulas;
 
-        Vector3d aux = calculadora.num_bloques_por_eje();
+        Vector3d<double> aux = calculadora.num_bloques_por_eje();
 
         malla.n_x = aux.x;
         malla.n_y = aux.y;
@@ -38,7 +38,7 @@
         // body
         simulacion.num_iteraciones = numero_iteraciones;
         for (int i = 0; i < simulacion.num_particulas; i++) {
-            Vector3d_float p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
+            Vector3d<float> p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
             archivo_entrada.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
             if (archivo_entrada.gcount() < 12) {
                 std::cerr << "Error: Number of particles mismatch. Header: " << simulacion.num_particulas << ", Found: "
@@ -51,7 +51,7 @@
             simulacion.particulas.posicion.push_back(p.to_double());
             simulacion.particulas.gradiente.push_back(hv.to_double());
             simulacion.particulas.velocidad.push_back(v.to_double());
-            simulacion.particulas.aceleracion.push_back(Vector3d(0.0, -9.8, 0.0));
+            simulacion.particulas.aceleracion.push_back(Vector3d<double>(0.0, -9.8, 0.0));
         }
         return 0;
     }
@@ -87,9 +87,9 @@
         archivo_salida.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
 
         for (int i = 0; i < simulacion.num_particulas; ++i) {
-            Vector3d_float p = simulacion.particulas.posicion[i].to_float();
-            Vector3d_float hv = simulacion.particulas.gradiente[i].to_float();;
-            Vector3d_float v = simulacion.particulas.velocidad[i].to_float();;
+            Vector3d<float> p = simulacion.particulas.posicion[i].to_float();
+            Vector3d<float> hv = simulacion.particulas.gradiente[i].to_float();;
+            Vector3d<float> v = simulacion.particulas.velocidad[i].to_float();;
 
             archivo_salida.write(reinterpret_cast<char *>(&p), 12);
             archivo_salida.write(reinterpret_cast<char *>(&hv), 12);
@@ -131,7 +131,7 @@
       return 0;
     }*/
 
-    Vector3d_int Progargs::fuera_de_rango(Vector3d_int indices) {
+    Vector3d<int> Progargs::fuera_de_rango(Vector3d<int> indices) {
         if (indices.x < 0) {
             indices.x = 0;
         } else if (indices.x > 14) {

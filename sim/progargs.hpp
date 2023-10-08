@@ -35,7 +35,7 @@
 
       //int validate_arguments(int, char **);
 
-      static Vector3d_int fuera_de_rango(Vector3d_int);
+      static Vector3d<int> fuera_de_rango(Vector3d<int>);
       std::ifstream valida_entrada(std::string const & argumento_entrada);
       std::ifstream valida_fichero(std::string const & fichero_a_probar, bool tipo);
       std::ofstream valida_salida(std::string const & argumento_salida);

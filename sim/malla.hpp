@@ -16,10 +16,10 @@ public:
     int tamano;
 
     void crear_bloques();
-    void inicializar_malla(Vector3d n);
+    void inicializar_malla(Vector3d<double> n);
     // No entiendo el [[nodiscard]], culpas a .clang-tidy
     [[nodiscard]] int get_pos(int i, int j, int k) const ;
-    [[nodiscard]] Vector3d_int fuera_de_rango(Vector3d_int & indices) const;
+    [[nodiscard]] Vector3d<int> fuera_de_rango(Vector3d<int> & indices) const;
     void bloques_contiguos(Bloque & bloque);
 
 };

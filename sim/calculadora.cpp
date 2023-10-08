@@ -23,8 +23,8 @@ void Calculadora::inicializar_calculadora() {
   masa      = dens_fluido / pow(ppm, 3);
 }
 
-Vector3d Calculadora::num_bloques_por_eje() {
-  Vector3d aux  = b_max - b_min;
+Vector3d<double> Calculadora::num_bloques_por_eje() {
+  Vector3d<double> aux  = b_max - b_min;
   aux          /= suavizado;
   aux.x         = floor(aux.x);
   aux.y         = floor(aux.y);
@@ -32,25 +32,25 @@ Vector3d Calculadora::num_bloques_por_eje() {
   return aux;
 }
 
-Vector3d Calculadora::tamanio_bloque() {
+Vector3d<double> Calculadora::tamanio_bloque() {
   return (b_max - b_min) / num_bloques_por_eje();
 }
 
-Vector3d_int Calculadora::indice_bloque(Vector3d const & posicion) {
+Vector3d<int> Calculadora::indice_bloque(Vector3d<double> const & posicion) {
   int const coord_x = floor((posicion.x - b_min.x) / tamanio_bloque().x);
   int const coord_y = floor((posicion.y - b_min.y) / tamanio_bloque().y);
   int const coord_z = floor((posicion.z - b_min.z) / tamanio_bloque().z);
-  return Vector3d_int{coord_x, coord_y, coord_z};
+  return Vector3d<int>{coord_x, coord_y, coord_z};
 }
 
 // Sección 4.3.2 - Cálculo de las aceleraciones
 // Inidiación de densidad y aceleraciones [pg. 8]
 void Calculadora::init_densidad_accel() {
-  // return Vector3d{0.0, 0.0, 0.0}
+  // return Vector3d<double>{0.0, 0.0, 0.0}
 }
 
 // Incremento de densidades [pg. 8]
-double Calculadora::delta_densidades(Vector3d pos_1, Vector3d pos_2) const {
+double Calculadora::delta_densidades(Vector3d<double> pos_1, Vector3d<double> pos_2) const {
   double const suavizado_temp = suavizado * suavizado;
   double distancia            = pos_1.distancia(pos_1, pos_2);
   distancia                   = distancia * distancia;
@@ -109,29 +109,29 @@ void Calculadora::trasnfer_accel_particulas(int particula1, int particula2,
 
  */
 
-Vector3d Calculadora::aceleracion_primera_parte(Vector3d & posicion_1,
-                                                          Vector3d & posicion_2, double densidad_1,
+Vector3d<double> Calculadora::aceleracion_primera_parte(Vector3d<double> & posicion_1,
+                                                          Vector3d<double> & posicion_2, double densidad_1,
                                                           double densidad_2) const {
   double distancia = posicion_1.distancia(posicion_1, posicion_2);
   distancia        = distancia * distancia;
   if (distancia < pow(suavizado, 2)) {
-    Vector3d const diff_posiciones = posicion_1 - posicion_2;
+    Vector3d<double> const diff_posiciones = posicion_1 - posicion_2;
     double const acceleration_2    = 15 / (std::numbers::pi * pow(suavizado, 6)) * masa *
                                   pow(suavizado - distancia, 2) / distancia;
     double const acceleration_3 = densidad_1 + densidad_2 - 2 * dens_fluido;
     return diff_posiciones * acceleration_2 * acceleration_3;
   }
-  return Vector3d{0.0, 0.0, 0.0};
+  return Vector3d<double>{0.0, 0.0, 0.0};
 }
 
-Vector3d Calculadora::aceleracion_segunda_parte(Vector3d & velocidad_1,
-                                                          Vector3d & velocidad_2) const {
+Vector3d<double> Calculadora::aceleracion_segunda_parte(Vector3d<double> & velocidad_1,
+                                                          Vector3d<double> & velocidad_2) const {
   return velocidad_2 -
          velocidad_1 * (45 / (std::numbers::pi * pow(pow(suavizado, 3), 2) * viscosidad * masa));
 }
 
 // Devuelve la aceleación que se tiene que sumar o restar a la original
-Vector3d Calculadora::transferencia_aceleracion(Vector3d & parte1, Vector3d & parte2,
+Vector3d<double> Calculadora::transferencia_aceleracion(Vector3d<double> & parte1, Vector3d<double> & parte2,
                                                           double const denominador) {
   parte1 += parte2;
   parte1 /= denominador;
@@ -142,8 +142,8 @@ Vector3d Calculadora::transferencia_aceleracion(Vector3d & parte1, Vector3d & pa
 // Colisiones con los límites del eje x [pg. 9]
 /// Hay que sumarle el rsultado a la aceleración, no se hace dentro de la función por límite de
 /// parámetros
-double Calculadora::collisiones_limite_eje_x(Vector3d & posicion, Vector3d & velocidad,
-                                             Vector3d & gradiente) {
+double Calculadora::collisiones_limite_eje_x(Vector3d<double> & posicion, Vector3d<double> & velocidad,
+                                             Vector3d<double> & gradiente) {
   double const new_x = posicion.x + gradiente.x * delta_t;
   double delta_x     = NAN;
   int const c_x      = Calculadora::indice_bloque(posicion).x;
@@ -157,8 +157,8 @@ double Calculadora::collisiones_limite_eje_x(Vector3d & posicion, Vector3d & vel
   return 0.0;
 }
 
-double Calculadora::collisiones_limite_eje_y(Vector3d & posicion, Vector3d & velocidad,
-                                             Vector3d & gradiente) {
+double Calculadora::collisiones_limite_eje_y(Vector3d<double> & posicion, Vector3d<double> & velocidad,
+                                             Vector3d<double> & gradiente) {
   double const new_y = posicion.y + gradiente.y * delta_t;
   double delta_y     = NAN;
   int const c_y      = Calculadora::indice_bloque(posicion).y;
@@ -172,8 +172,8 @@ double Calculadora::collisiones_limite_eje_y(Vector3d & posicion, Vector3d & vel
   return 0.0;
 }
 
-double Calculadora::collisiones_limite_eje_z(Vector3d & posicion, Vector3d & velocidad,
-                                             Vector3d & gradiente) {
+double Calculadora::collisiones_limite_eje_z(Vector3d<double> & posicion, Vector3d<double> & velocidad,
+                                             Vector3d<double> & gradiente) {
   double const new_z = posicion.z + gradiente.z * delta_t;
   double delta_z     = NAN;
   int const c_z      = Calculadora::indice_bloque(posicion).z;
@@ -199,17 +199,17 @@ double Calculadora::collisiones_limite_eje_z(Vector3d & posicion, Vector3d & vel
   return {posicion, velocidad, gradiente};
 }*/
 
-Vector3d Calculadora::actualizar_posicion(Vector3d & posicion, Vector3d & gradiente,
-                                          Vector3d & aceleracion) {
+Vector3d<double> Calculadora::actualizar_posicion(Vector3d<double> & posicion, Vector3d<double> & gradiente,
+                                          Vector3d<double> & aceleracion) {
   return posicion + gradiente * delta_t + aceleracion * delta_t * delta_t;
 }
 
-Vector3d Calculadora::actualizar_velocidad(Vector3d & gradiente, Vector3d & aceleracion) {
-  Vector3d velocidad  = gradiente + aceleracion * (delta_t / (double)2);
+Vector3d<double> Calculadora::actualizar_velocidad(Vector3d<double> & gradiente, Vector3d<double> & aceleracion) {
+  Vector3d<double> velocidad  = gradiente + aceleracion * (delta_t / (double)2);
   return velocidad;
 }
 
-Vector3d Calculadora::actualizar_gradiente(Vector3d & gradiente, Vector3d & aceleracion) {
+Vector3d<double> Calculadora::actualizar_gradiente(Vector3d<double> & gradiente, Vector3d<double> & aceleracion) {
   return gradiente + aceleracion * delta_t;
 }
 
@@ -217,7 +217,7 @@ Vector3d Calculadora::actualizar_gradiente(Vector3d & gradiente, Vector3d & acel
 // Cuando se llame a la función, hay que comprobar si el rsultado es negativo, y si lo es, invertir
 // la velocidad y el gradiente
 // Colisiones con los límites en el eje x [pg. 10]
-double Calculadora::interacciones_limite_eje_x(Vector3d posicion) {
+double Calculadora::interacciones_limite_eje_x(Vector3d<double> posicion) {
   double new_dx = 0.0;
   int const c_x = Calculadora::indice_bloque(posicion).x;
   if (c_x == 0) {
@@ -234,7 +234,7 @@ double Calculadora::interacciones_limite_eje_x(Vector3d posicion) {
 }
 
 // Colisiones con los límites en el eje y [pg. 10]
-double Calculadora::interacciones_limite_eje_y(Vector3d posicion) {
+double Calculadora::interacciones_limite_eje_y(Vector3d<double> posicion) {
   double new_dy = 0.0;
   int const c_y = Calculadora::indice_bloque(posicion).y;
   if (c_y == 0) {
@@ -251,7 +251,7 @@ double Calculadora::interacciones_limite_eje_y(Vector3d posicion) {
 }
 
 // Colisiones con los límites en el eje z [pg. 10]
-double Calculadora::interacciones_limite_eje_z(Vector3d posicion) {
+double Calculadora::interacciones_limite_eje_z(Vector3d<double> posicion) {
   double new_dz = 0.0;
   int const c_z = Calculadora::indice_bloque(posicion).z;
   if (c_z == 0) {
