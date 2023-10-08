@@ -39,6 +39,7 @@
 
     int Progargs::read_body(Simulacion & simulacion) {
         // body
+        simulacion.num_iteraciones = numero_iteraciones;
         std::cout << "body\n";
         for (int i = 0; i < simulacion.num_particulas; i++) {
             Vector3d_float p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
@@ -121,7 +122,7 @@
 
     int Progargs::my_is_digit(std::string const &string_to_try) {
         for (int i = 1; i < int(string_to_try.length()); i++) {
-            if (std::isdigit(string_to_try[i]) != 1) {
+            if (std::isdigit(string_to_try[i]) == 0) {
                 std::cout << "Error: time steps must be numeric.\n";
                 std::exit(-1);
             }
@@ -131,7 +132,7 @@
             std::exit(-2);
         }
         if (std::isdigit(string_to_try[0]) != 1) { return -1; }
-        return 0;
+        return stoi(string_to_try);
     }
 
     /*
