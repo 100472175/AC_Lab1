@@ -12,6 +12,10 @@
 
 
 void Simulacion::iterador() {
+  malla.crear_bloques();
+  for (int i = 0; i < malla.tamano; i++){
+    malla.bloques_contiguos(malla.bloques[i]);
+  }
   poblar_malla();
   for (int i = 0; i < num_iteraciones; i++){
     iteracion();
@@ -37,29 +41,34 @@ void Simulacion::iteracion(){
 }
 
 void Simulacion::poblar_malla() {
-  std::cout << "XD";
-  /*for (int cont = 0; cont < num_particulas; cont++) {
-    Vector3d_int bloque_coords = func_fis::indice_bloque(v_particulas[cont]);
-    bloque_coords = Progargs::fuera_de_rango(bloque_coords);
+  for (int cont = 0; cont < num_particulas; cont++) {
+    Vector3d_int bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
+    bloque_coords = malla.fuera_de_rango(bloque_coords);
     int const ind_real = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
-    std::vector<Bloque>bloques = malla.get_bloques();
-    bloques[ind_real].bloque.push_back(cont);
+    malla.bloques[ind_real].bloque.push_back(cont);
   }
-   */
 }
-void Simulacion::colision_particula_limite() {
-  std::cout << "XD";
-}
-
 void Simulacion::reposicionamiento() {
-  std::cout << "XD";
+  for (int i = 0; i < malla.tamano; i++) {
+    // Limpio las partículas de cada bloue
+    malla.bloques[i].bloque.erase(malla.bloques[i].bloque.begin(), malla.bloques[i].bloque.end());
+  }
+  // Y la vuelvo a repoblar
+  for (int cont = 0; cont < num_particulas; cont++) {
+    Vector3d_int const bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
+    int const ind_real = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
+    malla.bloques[ind_real].bloque.push_back(cont);
+  }
 }
-void Simulacion::colisiones_particulas() {
-  std::cout << "XD";
-}
-void Simulacion::rebote_particula_limite() {
-  std::cout << "XD";
-}
-void Simulacion::movimiento_particulas() {
-  std::cout << "XD";
-}
+  void Simulacion::colisiones_particulas() {
+    std::cout << "XD";
+  }
+  void Simulacion::colision_particula_limite() {
+    std::cout << "XD";
+  }
+  void Simulacion::rebote_particula_limite() {
+    std::cout << "XD";
+  }
+  void Simulacion::movimiento_particulas() {
+    std::cout << "XD";
+  }
