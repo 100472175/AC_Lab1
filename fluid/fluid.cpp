@@ -31,9 +31,11 @@ int main(int argc, char ** argv) {
 
 
     nuestros_args.read_body(simulacion);
+    simulacion.print_simulation_parameters();
+
+    std::cout << "\n\n=====DEBUG====\n";
     nuestros_args.write_file(simulacion);
-    std::cout << simulacion.ppm << "\n" << simulacion.num_particulas << "\n";
-    std::cout << simulacion.particulas.posicion[53].x << ", " << simulacion.particulas.posicion[53].y << ", " << simulacion.particulas.posicion[53].z << "\n";
+    std::cout << "particula 53: " << simulacion.particulas.posicion[53].x << ", " << simulacion.particulas.posicion[53].y << ", " << simulacion.particulas.posicion[53].z << "\n";
 
 /*
     //int const argument_validated = Sim::validate_arguments(argc, argv);

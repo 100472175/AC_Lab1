@@ -18,13 +18,10 @@
     }
 
     int Progargs::read_head(Malla & malla, Calculadora & calculadora) {
-        std::cout << "cabecera\n";
         float float_ppm;
         int num_particulas;
         archivo_entrada.read(reinterpret_cast<char *>(&float_ppm), 4);
         archivo_entrada.read(reinterpret_cast<char *>(&num_particulas), 4);
-        std::cout << "ppm: " << float_ppm << "\n";
-        std::cout << "np: " << num_particulas << "\n";
         calculadora.ppm = (double)float_ppm;
         calculadora.num_particulas = num_particulas;
 
@@ -40,7 +37,6 @@
     int Progargs::read_body(Simulacion & simulacion) {
         // body
         simulacion.num_iteraciones = numero_iteraciones;
-        std::cout << "body\n";
         for (int i = 0; i < simulacion.num_particulas; i++) {
             Vector3d_float p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
             archivo_entrada.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
@@ -53,30 +49,12 @@
             archivo_entrada.read(reinterpret_cast<char *>(&v), 12);   // lectura velocidad particula i
 
             simulacion.particulas.posicion.push_back(p.to_double());
-            simulacion.particulas.suavizado.push_back(hv.to_double());
+            simulacion.particulas.gradiente.push_back(hv.to_double());
             simulacion.particulas.velocidad.push_back(v.to_double());
             simulacion.particulas.aceleracion.push_back(Vector3d(0.0, -9.8, 0.0));
         }
         return 0;
     }
-
-    /*int Progargs::read_file(Simulacion &simulacion) {
-        // head
-        simulacion.num_iteraciones = numero_iteraciones;
-        std::cout << "reading file...\n";
-        std::ifstream file(archivo_entrada, std::ios::binary);
-        if (file.fail()) {
-            std::cerr << "Error: Cannot open " << archivo_entrada << " for reading\n";
-            return -3;
-        }
-        read_head(file, simulacion);
-        read_body(file, simulacion);
-        int exit_code = read_body(file, simulacion);
-        if (exit_code == -5) { return -5; }
-
-        file.close();
-        return 0;
-    }*/
 
     std::ifstream Progargs::valida_entrada(const std::string& argumento_entrada){
         std::ifstream entrada(argumento_entrada);
@@ -110,7 +88,7 @@
 
         for (int i = 0; i < simulacion.num_particulas; ++i) {
             Vector3d_float p = simulacion.particulas.posicion[i].to_float();
-            Vector3d_float hv = simulacion.particulas.suavizado[i].to_float();;
+            Vector3d_float hv = simulacion.particulas.gradiente[i].to_float();;
             Vector3d_float v = simulacion.particulas.velocidad[i].to_float();;
 
             archivo_salida.write(reinterpret_cast<char *>(&p), 12);
