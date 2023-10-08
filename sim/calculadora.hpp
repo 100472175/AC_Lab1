@@ -90,6 +90,10 @@ class Calculadora {
                                                                           Vector3d & gradiente,
                                                                           Vector3d & aceleracion);
 
+    Vector3d actualizar_posicion(Vector3d & posicion, Vector3d & gradiente, Vector3d & aceleracion);
+    Vector3d actualizar_velocidad(Vector3d & gradiente, Vector3d & aceleracion);
+    Vector3d actualizar_gradiente(Vector3d & gradiente, Vector3d & aceleracion);
+
     double interacciones_limite_eje_x(Vector3d posicion);
     double interacciones_limite_eje_y(Vector3d posicion);
     double interacciones_limite_eje_z(Vector3d posicion);

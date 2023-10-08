@@ -199,6 +199,21 @@ std::tuple<Vector3d, Vector3d, Vector3d>
   return {posicion, velocidad, gradiente};
 }
 
+Vector3d Calculadora::actualizar_posicion(Vector3d & posicion, Vector3d & gradiente,
+                                          Vector3d & aceleracion) {
+  return posicion + gradiente * delta_t + aceleracion * delta_t * delta_t;
+}
+
+Vector3d Calculadora::actualizar_velocidad(Vector3d & gradiente, Vector3d & aceleracion) {
+  Vector3d velocidad  = gradiente + aceleracion * delta_t;
+  velocidad          /= 2;
+  return velocidad;
+}
+
+Vector3d Calculadora::actualizar_gradiente(Vector3d & gradiente, Vector3d & aceleracion) {
+  return gradiente + aceleracion * delta_t;
+}
+
 // 4.3.5 Interacciones con los límites del recinto
 // Cuando se llame a la función, hay que comprobar si el rsultado es negativo, y si lo es, invertir
 // la velocidad y el gradiente
