@@ -189,7 +189,7 @@ double Calculadora::collisiones_limite_eje_z(Vector3d & posicion, Vector3d & vel
 
 // Movimiento de las partículas 4.3.4
 // Que narices, creo que las fórmulas estan mal en el pgágina 10 al final
-std::tuple<Vector3d, Vector3d, Vector3d>
+/*std::tuple<Vector3d, Vector3d, Vector3d>
     Calculadora::actualizar_movimiento(Vector3d & posicion, Vector3d & velocidad,
                                        Vector3d & gradiente, Vector3d & aceleracion) {
   posicion   = posicion + gradiente * delta_t + aceleracion * delta_t * delta_t;
@@ -197,7 +197,7 @@ std::tuple<Vector3d, Vector3d, Vector3d>
   velocidad /= 2;
   gradiente  = gradiente + aceleracion * delta_t;
   return {posicion, velocidad, gradiente};
-}
+}*/
 
 Vector3d Calculadora::actualizar_posicion(Vector3d & posicion, Vector3d & gradiente,
                                           Vector3d & aceleracion) {
@@ -205,8 +205,7 @@ Vector3d Calculadora::actualizar_posicion(Vector3d & posicion, Vector3d & gradie
 }
 
 Vector3d Calculadora::actualizar_velocidad(Vector3d & gradiente, Vector3d & aceleracion) {
-  Vector3d velocidad  = gradiente + aceleracion * delta_t;
-  velocidad          /= 2;
+  Vector3d velocidad  = gradiente + aceleracion * (delta_t / (double)2);
   return velocidad;
 }
 
