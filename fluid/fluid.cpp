@@ -20,11 +20,16 @@ int main(int argc, char ** argv) {
     Calculadora calc{};
 
     nuestros_args.read_head(malla, calc);
+    malla.inicializar_malla();
+    calc.inicializar_calculadora();
+
     Simulacion simulacion;
     simulacion.num_particulas = calc.num_particulas;
     simulacion.ppm = calc.ppm;
     simulacion.calculadora = calc;
     simulacion.malla = malla;
+
+
     nuestros_args.read_body(simulacion);
     nuestros_args.write_file(simulacion);
     std::cout << simulacion.ppm << "\n" << simulacion.num_particulas << "\n";

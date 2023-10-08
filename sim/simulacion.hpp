@@ -30,6 +30,7 @@ class Simulacion {
     void colision_particula_limite();
     void rebote_particula_limite();
     void movimiento_particulas();
+    void print_simulation_parameters();
 };
 
 

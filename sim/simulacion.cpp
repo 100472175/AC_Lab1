@@ -72,3 +72,14 @@ void Simulacion::reposicionamiento() {
   void Simulacion::movimiento_particulas() {
     std::cout << "XD";
   }
+
+void Simulacion::print_simulation_parameters() {
+    Vector3d tamanio_bloque = calculadora.tamanio_bloque();
+    std::cout << "Number of particles: " << num_particulas << "\n" <<
+    "Particles per meter: " << ppm << "\n" <<
+    "Smoothing length: " << calculadora.suavizado << "\n" <<
+    "Particle mass: " << calculadora.masa << "\n" <<
+    "Grid size: " << malla.n_x << " x " << malla.n_y << " x " << malla.n_z << "\n" <<
+    "Number of blocks: " << malla.tamano << "\n" <<
+    "Block size: " << tamanio_bloque.x << " x " << tamanio_bloque.y << " x " << tamanio_bloque.z << "\n";
+}
