@@ -14,9 +14,26 @@ set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 
 include(FetchContent)
 
+#Enable google test
+FETCHCONTENT_DECLARE(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG v1.14.0
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FETCHCONTENT_MAKEAVAILABLE(googletest)
+
+#enable gsl
+#FETCHCONTENT_DECLARE(
+#        GIT_REPOSITORY "https://github.com/microsoft/GSL"
+#        GIT_TAG v4.0.0
+#        GIT_SHALLOW ON
+#)
+#FETCHCONTENT_MAKEAVAILABLE(GSL)
+
 # esto relentiza compilación, se puede desactivar y activar
 # ESTA LINEA NO CONSEGUIMOS QUE HAGA NADA
-#set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
+set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
 
 # incluir todos los directorios de código
 include_directories(PUBLIC .)
@@ -25,6 +42,5 @@ include_directories(PUBLIC .)
 add_subdirectory(sim)
 add_subdirectory(fluid)
 
-#enable_testing()
-#add_subdirectory(utest)
-#add_subdirectory(ftest)
+enable_testing()
+add_subdirectory(utest)
