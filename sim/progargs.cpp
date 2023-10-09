@@ -3,7 +3,6 @@
 #include "progargs.hpp"
 
 // Created by paula on 29/09/23.
-//
 
 Progargs::Progargs(std::vector<std::string> const & args) {
   if (args.size() != 3) {
@@ -118,17 +117,6 @@ int Progargs::my_is_digit(std::string const & string_to_try) {
   }
   return stoi(string_to_try);
 }
-
-/*
-int validate_arguments(int num_args, char ** args) {
-  if (num_args != 4) {
-    std::cerr << "Error: invalid number of arguments: " << num_args - 1 << ".\n";
-    return -1;
-  }
-  int first_argument_validation = my_is_digit(args[1]);
-  if (first_argument_validation != 0) { return first_argument_validation; }
-  return 0;
-}*/
 
 Vector3d<int> Progargs::fuera_de_rango(Vector3d<int> indices) {
   if (indices.x < 0) {
