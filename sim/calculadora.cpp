@@ -14,8 +14,6 @@ void Calculadora::inicializar_calculadora() {
 }
 
 Vector3d<double> Calculadora::num_bloques_por_eje() {
-  std::cout << b_max.x << ", " << b_max.y << ", " << b_max.z << "\n";
-  std::cout << b_min.x << ", " << b_min.y << ", " << b_min.z << "\n";
   Vector3d<double> aux  = b_max - b_min;
   aux                  /= (double)suavizado;
   aux.x                 = floor(aux.x);
@@ -37,6 +35,10 @@ Vector3d<int> Calculadora::indice_bloque(Vector3d<double> const & posicion) {
 }
 
 // Sección 4.3.2 - Cálculo de las aceleraciones
+// Inidiación de densidad y aceleraciones [pg. 8]
+void Calculadora::init_densidad_accel() {
+  // return Vector3d<double>{0.0, 0.0, 0.0}
+}
 
 // Incremento de densidades [pg. 8]
 double Calculadora::delta_densidades(Vector3d<double> pos_1, Vector3d<double> pos_2) const {
@@ -55,6 +57,49 @@ double Calculadora::transform_densidad(double densidad) const {
 }
 
 // Transferencia de aceleración [pg. 8]
+// XXX: Ver que esta función no se puede hacer como se quería, porque solo se pueden pasar 3
+// argumentos
+/* Obsoleto:
+Vector3d Calculadora::trasnfer_accel_particulas_calculo(std::tuple<int, int> particula,
+                                                        std::vector<Vector3d> & posicion,
+                                                        std::vector<double> & densidad,
+                                                        std::vector<Vector3d> & velocidad) {
+
+
+  // Distancia entre dos partículas 3 dimensionales
+  double distancia = Vector3d::distancia(posicion[get<0>(particula)], posicion[get<1>(particula)]);
+  distancia = distancia * distancia;
+  if (distancia < pow(suavizado, 2)) {
+    // Aceleración entre dos partículas 3 dimensionales
+    Vector3d diff_posiciones    = posicion[get<0>(particula)] - posicion[get<1>(particula)];
+    double const acceleration_2 = 15 / (std::numbers::pi * pow(suavizado, 6)) * masa *
+                                  pow(suavizado - distancia, 2) / distancia;
+    double const acceleration_3 =
+        densidad[get<0>(particula)] + densidad[get<1>(particula)] - dens_fluido;
+    Vector3d acceleration_4     = velocidad[get<1>(particula)] - velocidad[get<0>(particula)];
+    double const acceleration_5 = 45 / (std::numbers::pi * pow(suavizado, 6)) * masa;
+    double acceleration_div     = densidad[get<0>(particula)] * densidad[get<1>(particula)];
+    // Primera parte de la aceleración
+    diff_posiciones *= acceleration_2 * acceleration_3;
+    acceleration_4  *= acceleration_5;
+    diff_posiciones += acceleration_4;
+    diff_posiciones /= acceleration_div;
+    // Devuelve la aceleración, que se suma en otra función, aqui solo se calcula el delta
+    return diff_posiciones;
+  }
+  return Vector3d{0.0, 0.0, 0.0};
+  }
+
+
+void Calculadora::trasnfer_accel_particulas(int particula1, int particula2,
+                                            std::vector<Vector3d> & aceleracion,
+                                            Vector3d & delta_aceleracion) {
+  aceleracion[particula1] += delta_aceleracion;
+  aceleracion[particula2] -= delta_aceleracion;
+}
+
+ */
+
 Vector3d<double> Calculadora::aceleracion_primera_parte(Vector3d<double> & posicion_1,
                                                         Vector3d<double> & posicion_2,
                                                         double densidad_1,
