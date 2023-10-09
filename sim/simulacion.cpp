@@ -143,5 +143,4 @@ void Simulacion::print_simulation_parameters() {
             << "Number of blocks: " << malla.tamano << "\n"
             << "Block size: " << tamanio_bloque.x << " x " << tamanio_bloque.y << " x "
             << tamanio_bloque.z << "\n";
-  std::cout << "aaaaa -> " << calculadora.masa << "\n";
 }
