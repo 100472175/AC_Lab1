@@ -6,15 +6,16 @@
 #define AC_LAB1_PARTICLE_H
 
 #include "vector_3d.hpp"
-#include <vector>
+
 #include <cmath>
+#include <vector>
 
 struct Particulas {
-    std::vector<Vector3d<double>> posicion{};   // posicion
-    std::vector<Vector3d<double>> gradiente{};   // gradiente
-    std::vector<Vector3d<double>> velocidad{};   // velocidad
-    std::vector<Vector3d<double>> aceleracion{};   // aceleracion
-    std::vector<double> densidad{};   // densidad
+    std::vector<Vector3d<double>> posicion{};     // posicion
+    std::vector<Vector3d<double>> gradiente{};    // gradiente
+    std::vector<Vector3d<double>> velocidad{};    // velocidad
+    std::vector<Vector3d<double>> aceleracion{};  // aceleracion
+    std::vector<double> densidad{};               // densidad
 };
 
 #endif  // AC_LAB1_PARTICLE_H

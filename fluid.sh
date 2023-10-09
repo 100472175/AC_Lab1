@@ -1,3 +1,3 @@
 #!/bin/sh
-cp build_avignon/fluid/fluid fluid_e
-./fluid_e 1 small.fld 1
+./fluid/fluid 1 ../small.fld ../out_small.out
+diff ../small ../out_small.out

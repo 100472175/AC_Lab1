@@ -27,13 +27,13 @@ class Simulacion {
     void reposicionamiento();
     // Son funciones para estructurar el código, cambiad lo que sea necesario
     void colisiones_particulas();
+    void colision_particula_limite_x(int indice);
+    void colision_particula_limite_y(int indice);
+    void colision_particula_limite_z(int indice);
     void colision_particula_limite();
     void rebote_particula_limite();
     void movimiento_particulas();
     void print_simulation_parameters();
 };
-
-
-
 
 #endif  // FLUID_SIMULACION_HPP

@@ -3,7 +3,6 @@
 
 #include <vector>
 
-
 class Bloque {
   public:
     std::vector<int> bloque;

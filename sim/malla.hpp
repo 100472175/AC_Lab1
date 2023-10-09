@@ -4,11 +4,11 @@
 #include "Bloques.hpp"
 #include "vector_3d.hpp"
 
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 class Malla {
-public:
+  public:
     std::vector<Bloque> bloques;
     int n_x;
     int n_y;
@@ -18,10 +18,9 @@ public:
     void crear_bloques();
     void inicializar_malla(Vector3d<double> n);
     // No entiendo el [[nodiscard]], culpas a .clang-tidy
-    [[nodiscard]] int get_pos(int i, int j, int k) const ;
+    [[nodiscard]] int get_pos(int i, int j, int k) const;
     [[nodiscard]] Vector3d<int> fuera_de_rango(Vector3d<int> & indices) const;
     void bloques_contiguos(Bloque & bloque);
-
 };
 
 #endif
