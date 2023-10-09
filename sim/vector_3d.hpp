@@ -17,10 +17,10 @@ struct Vector3d {
         z = c;
     }
     Vector3d<float> to_float() {
-        return Vector3d<float>((float)x, (float)y , (float)z);
+        return {(float)x, (float)y , (float)z};
     }
     Vector3d<double> to_double() {
-        return Vector3d<double>((double)x, (double)y, (double)z);
+        return {(double)x, (double)y, (double)z};
     }
     static double distancia(Vector3d pos1, Vector3d pos2) {
         return sqrt(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2) + pow(pos1.z - pos2.z, 2));
