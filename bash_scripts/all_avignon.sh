@@ -1,8 +1,8 @@
-#!/bin/sh
+rm -rf slurm*
 sbatch cmake.sh
-sleep 2
+sleep 5
 sbatch make.sh
-sleep 2
+sleep 15
 job_id_fluid=$(sbatch fluid.sh | awk '{print $4}')
 echo "Submitted batch job $job_id_fluid"
 sleep 3
