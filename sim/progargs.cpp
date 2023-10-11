@@ -48,6 +48,7 @@ int Progargs::read_body(Simulacion & simulacion) {
     simulacion.particulas.posicion.push_back(p.to_double());
     simulacion.particulas.gradiente.push_back(hv.to_double());
     simulacion.particulas.velocidad.push_back(v.to_double());
+    simulacion.particulas.densidad.push_back(0.0);
     simulacion.particulas.aceleracion.push_back(Vector3d<double>(0.0, -9.8, 0.0));
   }
   return 0;
