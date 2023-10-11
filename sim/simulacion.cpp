@@ -10,6 +10,7 @@
    calculadora.indice_bloques(), calculadora.indice_bloques()) malla = inst_malla;
                                            };*/
 
+// Etapa inicial de la simulación
 void Simulacion::iterador() {
   malla.crear_bloques();
   for (int i = 0; i < malla.tamano; i++) { malla.bloques_contiguos(malla.bloques[i]); }
@@ -34,6 +35,8 @@ void Simulacion::poblar_malla() {
   }
 }
 
+
+// Sección 4.3.1 - Página 7 - Reposicionamiento de partículas en la malla
 void Simulacion::reposicionamiento() {
   for (int i = 0; i < malla.tamano; i++) {
     // Limpio las partículas de cada bloue
@@ -47,6 +50,8 @@ void Simulacion::reposicionamiento() {
   }
 }
 
+
+// Sección 4.3.2 - Página 8 - Cálculo de las aceleraciones
 void Simulacion::colisiones_particulas() {
   //En cada iteración se reinician los valores de densidad y aceleración para todas las particulas
   for(int i = 0; i < num_particulas; ++i) {
@@ -102,7 +107,7 @@ void Simulacion::colisiones_particulas_densidad() {
             double const cambio_densidad = calculadora.delta_densidades(distancia_cuadrado);
             particulas.densidad[i], particulas.densidad[i_p_nueva] += cambio_densidad;//actualizar ambas densidades
           }
-        } 
+        }
       }
     }
     particulas.densidad[i] = calculadora.transform_densidad(particulas.densidad[i]);//transformación final para cada particula
@@ -155,84 +160,92 @@ void Simulacion::colisiones_particulas_aceleracion() {
             particulas.aceleracion[i] += cambio_aceleracion; //actualizaciones de aceleración
             particulas.aceleracion[i_p_nueva] -= cambio_aceleracion;
           }
-        }  
+        }
       }
     }
   }
 }*/
 
 
+
+// Sección 4.3.3 - Página 9 - Colisiones de partículas (con límites)
+// Eduardo Alarcón
 void Simulacion::colision_particula_limite() {
   for (int i = 0; i < num_particulas; ++i) {
-    // Podría ahorrarme una función, pero sería menos legible.
-    colision_particula_limite_x(i);
-    colision_particula_limite_y(i);
-    colision_particula_limite_z(i);
+    int const c_x = calculadora.indice_bloque(particulas.posicion[i]).x;
+    if (c_x == 0) {
+      colision_particula_limite_x(i, 0);
+    } else if (c_x == malla.n_x - 1) {
+        colision_particula_limite_x(i, -1);
+    }
+    int const c_y = calculadora.indice_bloque(particulas.posicion[i]).y;
+    if (c_y == 0) {
+        colision_particula_limite_y(i, 0);
+    } else if (c_y == malla.n_x - 1) {
+        colision_particula_limite_y(i, -1);
+    }
+    int const c_z = calculadora.indice_bloque(particulas.posicion[i]).z;
+    if (c_z == 0) {
+        colision_particula_limite_z(i, 0);
+    } else if (c_z == malla.n_x - 1) {
+        colision_particula_limite_z(i, -1);
+    }
   }
-  std::cout << "XDD";
 }
 
-void Simulacion::colision_particula_limite_x(int indice) {
-  int const c_x = calculadora.indice_bloque(particulas.posicion[indice]).x;
-  if (c_x == 0) {
+void Simulacion::colision_particula_limite_x(int indice, int bloque) {
     double const nueva_x = particulas.posicion[indice].x + particulas.gradiente[indice].x * delta_t;
-    double const delta_x = d_p - (nueva_x - b_min.x);
-    if (delta_x > 10e-10) {
-      particulas.aceleracion[indice].x =
-          calculadora.colisiones_limite_eje_x(c_x, delta_x, particulas.velocidad[indice]);
-    }
-  } else if (c_x == malla.n_x - 1) {
-    double const nueva_x = particulas.posicion[indice].x + particulas.gradiente[indice].x * delta_t;
+    if (bloque == 0){
+      double const delta_x = d_p - (nueva_x - b_min.x);
+      if (delta_x > 10e-10) {
+        particulas.aceleracion[indice].x =
+            calculadora.colisiones_limite_eje_x(bloque, delta_x, particulas.velocidad[indice]);
+      }
+    } else if (bloque == -1){
     double const delta_x = d_p - (b_max.x - nueva_x);
     if (delta_x > 10e-10) {
       particulas.aceleracion[indice].x =
-          calculadora.colisiones_limite_eje_x(c_x, delta_x, particulas.velocidad[indice]);
+          calculadora.colisiones_limite_eje_x(bloque, delta_x, particulas.velocidad[indice]);
     }
   }
 }
 
-void Simulacion::colision_particula_limite_y(int indice) {
-  int const c_y = calculadora.indice_bloque(particulas.posicion[indice]).y;
-  if (c_y == 0) {
-    double const nueva_y = particulas.posicion[indice].y + particulas.gradiente[indice].y * delta_t;
+void Simulacion::colision_particula_limite_y(int indice, int bloque) {
+  double const nueva_y = particulas.posicion[indice].y + particulas.gradiente[indice].y * delta_t;
+  if (bloque == 0){
     double const delta_y = d_p - (nueva_y - b_min.y);
     if (delta_y > 10e-10) {
       particulas.aceleracion[indice].y =
-          calculadora.colisiones_limite_eje_y(c_y, delta_y, particulas.velocidad[indice]);
+          calculadora.colisiones_limite_eje_y(bloque, delta_y, particulas.velocidad[indice]);
     }
-  } else if (c_y == malla.n_y - 1) {
-    double const nueva_y = particulas.posicion[indice].y + particulas.gradiente[indice].y * delta_t;
+  } else if (bloque == -1){
     double const delta_y = d_p - (b_max.y - nueva_y);
     if (delta_y > 10e-10) {
       particulas.aceleracion[indice].y =
-          calculadora.colisiones_limite_eje_y(c_y, delta_y, particulas.velocidad[indice]);
+          calculadora.colisiones_limite_eje_y(bloque, delta_y, particulas.velocidad[indice]);
     }
   }
 }
 
-void Simulacion::colision_particula_limite_z(int indice) {
-  int const c_z = calculadora.indice_bloque(particulas.posicion[indice]).z;
-  if (c_z == 0) {
-    double const nueva_z = particulas.posicion[indice].z + particulas.gradiente[indice].z * delta_t;
+void Simulacion::colision_particula_limite_z(int indice, int bloque) {
+  double const nueva_z = particulas.posicion[indice].z + particulas.gradiente[indice].z * delta_t;
+  if (bloque == 0){
     double const delta_z = d_p - (nueva_z - b_min.z);
     if (delta_z > 10e-10) {
       particulas.aceleracion[indice].z =
-          calculadora.colisiones_limite_eje_z(c_z, delta_z, particulas.velocidad[indice]);
+          calculadora.colisiones_limite_eje_z(bloque, delta_z, particulas.velocidad[indice]);
     }
-  } else if (c_z == malla.n_z - 1) {
-    double const nueva_z = particulas.posicion[indice].z + particulas.gradiente[indice].z * delta_t;
+  } else if (bloque == -1) {
     double const delta_z = d_p - (b_max.z - nueva_z);
     if (delta_z > 10e-10) {
       particulas.aceleracion[indice].z =
-          calculadora.colisiones_limite_eje_z(c_z, delta_z, particulas.velocidad[indice]);
+          calculadora.colisiones_limite_eje_z(bloque, delta_z, particulas.velocidad[indice]);
     }
   }
 }
 
-void Simulacion::rebote_particula_limite() {
-  std::cout << "XD";
-}
 
+// Sección 4.3.4 - Página 10 - Movimiento de las partículas
 void Simulacion::movimiento_particulas() {
   for (int i = 0; i < num_particulas; ++i) {
     particulas.posicion[i] = calculadora.actualizar_posicion(
@@ -243,6 +256,88 @@ void Simulacion::movimiento_particulas() {
         calculadora.actualizar_velocidad(particulas.gradiente[i], particulas.aceleracion[i]);
   }
 }
+
+
+// Sección 4.3.5 - Página 11 - Interacciones con los límites del recinto
+// Eduardo Alarcón
+void Simulacion::rebote_particula_limite() {
+  for (int i = 0; i < num_particulas; ++i) {
+    int const c_x = calculadora.indice_bloque(particulas.posicion[i]).x;
+    if (c_x == 0) {
+      rebote_particula_limite_x(0, i);
+    } else if (c_x == malla.n_x - 1) {
+      rebote_particula_limite_x(-1, i);
+    }
+    int const c_y = calculadora.indice_bloque(particulas.posicion[i]).y;
+    if (c_y == 0) {
+      rebote_particula_limite_y(0, i);
+    } else if (c_y == malla.n_x - 1) {
+      rebote_particula_limite_y(-1, i);
+    }
+    int const c_z = calculadora.indice_bloque(particulas.posicion[i]).z;
+    if (c_z == 0) {
+      rebote_particula_limite_z(0, i);
+    } else if (c_z == malla.n_x - 1) {
+      rebote_particula_limite_z(-1, i);
+    }
+  }
+}
+
+void Simulacion::rebote_particula_limite_x(int indice, int bloque) {
+  if (bloque == 0){
+    double const d_x = particulas.posicion[indice].x - b_min.x;
+    if (d_x < 0.0) {
+        calculadora.interacciones_limite_eje_x(d_x, bloque);
+        particulas.velocidad[indice].x = -particulas.velocidad[indice].x;
+        particulas.gradiente[indice].x = -particulas.gradiente[indice].x;
+    }
+  } else if (bloque == -1){
+    double const d_x = b_max.x - particulas.posicion[indice].x;
+    if (d_x < 0.0) {
+          calculadora.interacciones_limite_eje_x(d_x, bloque);
+          particulas.velocidad[indice].x = -particulas.velocidad[indice].x;
+          particulas.gradiente[indice].x = -particulas.gradiente[indice].x;
+    }
+  }
+}
+
+void Simulacion::rebote_particula_limite_y(int indice, int bloque) {
+  if (bloque == 0){
+    double const d_y = particulas.posicion[indice].y - b_min.y;
+    if (d_y < 0.0) {
+          calculadora.interacciones_limite_eje_y(d_y, bloque);
+          particulas.velocidad[indice].y = -particulas.velocidad[indice].y;
+          particulas.gradiente[indice].y = -particulas.gradiente[indice].y;
+    }
+  } else if (bloque == -1){
+    double const d_y = b_max.y - particulas.posicion[indice].y;
+    if (d_y < 0.0) {
+          calculadora.interacciones_limite_eje_y(d_y, bloque);
+          particulas.velocidad[indice].y = -particulas.velocidad[indice].y;
+          particulas.gradiente[indice].y = -particulas.gradiente[indice].y;
+    }
+  }
+}
+
+void Simulacion::rebote_particula_limite_z(int indice, int bloque) {
+  if (bloque == 0){
+    double const d_z = particulas.posicion[indice].z - b_min.z;
+    if (d_z < 0.0) {
+          calculadora.interacciones_limite_eje_z(d_z, bloque);
+          particulas.velocidad[indice].z = -particulas.velocidad[indice].z;
+          particulas.gradiente[indice].z = -particulas.gradiente[indice].z;
+    }
+  } else if (bloque == -1){
+    double const d_z = b_max.z - particulas.posicion[indice].z;
+    if (d_z < 0.0) {
+          calculadora.interacciones_limite_eje_z(d_z, bloque);
+          particulas.velocidad[indice].z = -particulas.velocidad[indice].z;
+          particulas.gradiente[indice].z = -particulas.gradiente[indice].z;
+    }
+  }
+}
+
+
 
 void Simulacion::print_simulation_parameters() {
   Vector3d<double> tamanio_bloque = calculadora.tamanio_bloque();

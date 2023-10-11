@@ -27,11 +27,14 @@ class Simulacion {
     void reposicionamiento();
     // Son funciones para estructurar el código, cambiad lo que sea necesario
     void colisiones_particulas();
-    void colision_particula_limite_x(int indice);
-    void colision_particula_limite_y(int indice);
-    void colision_particula_limite_z(int indice);
     void colision_particula_limite();
+    void colision_particula_limite_x(int indice, int bloque);
+    void colision_particula_limite_y(int indice, int bloque);
+    void colision_particula_limite_z(int indice, int bloque);
     void rebote_particula_limite();
+    void rebote_particula_limite_x(int bloque, int indice);
+    void rebote_particula_limite_y(int bloque, int indice);
+    void rebote_particula_limite_z(int bloque, int indice);
     void movimiento_particulas();
     void print_simulation_parameters();
     void colisiones_particulas_aceleracion();

@@ -9,6 +9,30 @@
 #include <cmath>
 #include <span>
 
+
+// Esto es de Debug, para unas pruebas xd
+void imprime_datos_particula(Simulacion simulacion, int indice) {
+  std::cout << "Posición de la partícula " << indice << "\n";
+  std::cout << "particula: " << simulacion.particulas.posicion[indice].x << ", "
+            << simulacion.particulas.posicion[indice].y << ", "
+            << simulacion.particulas.posicion[indice].z << "\n";
+  std::cout << "Velocidad: de la partícula " << indice << "\n";
+  std::cout << "particula 53: " << simulacion.particulas.velocidad[indice].x << ", "
+            << simulacion.particulas.velocidad[indice].y << ", "
+            << simulacion.particulas.velocidad[indice].z << "\n";
+  std::cout << "Aceleración: de la partícula " << indice << "\n";
+  std::cout << "particula 53: " << simulacion.particulas.aceleracion[indice].x << ", "
+            << simulacion.particulas.aceleracion[indice].y << ", "
+            << simulacion.particulas.aceleracion[indice].z << "\n";
+  std::cout << "Gradiente de la partícula " << indice << "\n";
+  std::cout << "particula 53: " << simulacion.particulas.gradiente[indice].x << ", "
+            << simulacion.particulas.gradiente[indice].y << ", "
+            << simulacion.particulas.gradiente[indice].z << "\n";
+  std::cout << "Densidad de la partícula " << indice << "\n";
+  std::cout << "particula 53: " << simulacion.particulas.densidad[indice] << "\n";
+  std::cout << "\n\n\n\n\n";
+}
+
 int main(int argc, char ** argv) {
   std::span const args_span(argv, static_cast<std::size_t>(argc));
   std::vector<std::string> const argumentos(args_span.begin() + 1, args_span.end());
@@ -36,6 +60,21 @@ int main(int argc, char ** argv) {
   std::cout << "particula 53: " << simulacion.particulas.posicion[53].x << ", "
             << simulacion.particulas.posicion[53].y << ", " << simulacion.particulas.posicion[53].z
             << "\n";
+
+  std::cout << "Ejecutando las partes 4.3.2 -> 4.3.5 \n";
+  for (int i = 0; i < simulacion.num_particulas; i++) {
+    // simulacion.reposicionamiento();
+    simulacion.colisiones_particulas();
+    simulacion.colisiones_particulas_densidad();
+    simulacion.colisiones_particulas_aceleracion();
+    simulacion.colision_particula_limite();
+    simulacion.movimiento_particulas();
+    simulacion.rebote_particula_limite();
+    }
+  //simulacion.print_simulation_parameters();
+  std::cout << "=====FIN DEBUG====\n";
+
+
 
   /*
       //int const argument_validated = Sim::validate_arguments(argc, argv);
@@ -66,3 +105,4 @@ int main(int argc, char ** argv) {
 
   return 0;
 }
+

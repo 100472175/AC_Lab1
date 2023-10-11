@@ -4,8 +4,6 @@
 #include "calculadora.hpp"
 
 
-#include <vector>
-
 // Sección 3.5 - La malla de simulación
 // Se puede iniciar la calculadora cuando tengamos ppm y num_particulas
 void Calculadora::inicializar_calculadora() {
@@ -15,7 +13,7 @@ void Calculadora::inicializar_calculadora() {
 
 Vector3d<double> Calculadora::num_bloques_por_eje() {
   Vector3d<double> aux  = b_max - b_min;
-  aux                  /= (double)suavizado;
+  aux                  /= (double) suavizado;
   aux.x                 = floor(aux.x);
   aux.y                 = floor(aux.y);
   aux.z                 = floor(aux.z);
@@ -45,15 +43,14 @@ double Calculadora::delta_densidades(double const distancia_cuadrado) const {
   return pow((suavizado_temp - distancia_cuadrado), 3);
 }
 
-// Transformación de densidad [pg. 8]
+// Transformación de densidad
 double Calculadora::transform_densidad(double densidad) const {
-  double const parte_1       = densidad + pow(suavizado, 6);
-  double const parte_2 = 315 / (64 * std::numbers::pi * pow(suavizado, 9));
-  return parte_1 * parte_2 * masa;
+  double parte_1 = densidad + pow(suavizado, 6);
+  parte_1 *= 315 / (64 * std::numbers::pi * pow(suavizado, 9));
+  return parte_1 * masa;
 }
 
-// Transferencia de aceleración [pg. 8]
-
+// Transferencia de aceleración
 Vector3d<double> Calculadora::aceleracion_primera_parte(Vector3d<double> & posicion_1,
                                                         Vector3d<double> & posicion_2,
                                                         double densidad_1,
@@ -126,54 +123,34 @@ Vector3d<double> Calculadora::actualizar_gradiente(Vector3d<double> & gradiente,
 // Cuando se llame a la función, hay que comprobar si el rsultado es negativo, y si lo es, invertir
 // la velocidad y el gradiente
 // Colisiones con los límites en el eje x [pg. 10]
-double Calculadora::interacciones_limite_eje_x(Vector3d<double> posicion) {
-  double new_dx = 0.0;
-  int const c_x = Calculadora::indice_bloque(posicion).x;
-  if (c_x == 0) {
-    new_dx = posicion.x - b_min.x;
-    if (new_dx < 0.0) {
-      posicion.x = b_min.x - new_dx;
-      return new_dx;
-    }
-  } else if (c_x == Calculadora::num_bloques_por_eje().x - 1) {
-    new_dx = b_max.x - posicion.x;
-    if (new_dx < 0.0) { posicion.x = b_min.x + new_dx; }
+double Calculadora::interacciones_limite_eje_x(double const d_x, int bloque) {
+  if (bloque == 0) {
+    return b_min.x - d_x;
   }
-  return new_dx;
+  if (bloque == -1) {
+    return b_max.x + d_x;
+  }
+  return 0.0;
 }
 
-// Colisiones con los límites en el eje y [pg. 10]
-double Calculadora::interacciones_limite_eje_y(Vector3d<double> posicion) {
-  double new_dy = 0.0;
-  int const c_y = Calculadora::indice_bloque(posicion).y;
-  if (c_y == 0) {
-    new_dy = posicion.y - b_min.y;
-    if (new_dy < 0.0) {
-      posicion.y = b_min.y - new_dy;
-      return new_dy;
-    }
-  } else if (c_y == Calculadora::num_bloques_por_eje().y - 1) {
-    new_dy = b_max.y - posicion.y;
-    if (new_dy < 0.0) { posicion.y = b_min.y + new_dy; }
+double Calculadora::interacciones_limite_eje_y(double const d_x, int bloque) {
+  if (bloque == 0) {
+    return b_min.x - d_x;
   }
-  return new_dy;
+  if (bloque == -1) {
+    return b_max.x + d_x;
+  }
+  return 0.0;
 }
 
-// Colisiones con los límites en el eje z [pg. 10]
-double Calculadora::interacciones_limite_eje_z(Vector3d<double> posicion) {
-  double new_dz = 0.0;
-  int const c_z = Calculadora::indice_bloque(posicion).z;
-  if (c_z == 0) {
-    new_dz = posicion.z - b_min.z;
-    if (new_dz < 0.0) {
-      posicion.z = b_min.z - new_dz;
-      return new_dz;
-    }
-  } else if (c_z == Calculadora::num_bloques_por_eje().z - 1) {
-    new_dz = b_max.z - posicion.z;
-    if (new_dz < 0.0) { posicion.z = b_min.z + new_dz; }
+double Calculadora::interacciones_limite_eje_z(double const d_x, int bloque) {
+  if (bloque == 0) {
+    return b_min.x - d_x;
   }
-  return new_dz;
+  if (bloque == -1) {
+    return b_max.x + d_x;
+  }
+  return 0.0;
 }
 
 // Funciones Extras
