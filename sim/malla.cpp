@@ -11,7 +11,8 @@ void Malla::crear_bloques() {
 void Malla::inicializar_malla(Vector3d<double> n) {
   n_x    = int(n.x);
   n_y    = int(n.y);
-  tamano = n_x * n_y * int(n.z);
+  n_z    = int(n.z);
+  tamano = n_x * n_y * n_z;
   crear_bloques();
 }
 
