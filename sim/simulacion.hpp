@@ -34,6 +34,8 @@ class Simulacion {
     void rebote_particula_limite();
     void movimiento_particulas();
     void print_simulation_parameters();
+    void colisiones_particulas_aceleracion();
+    void colisiones_particulas_densidad();
 };
 
 #endif  // FLUID_SIMULACION_HPP

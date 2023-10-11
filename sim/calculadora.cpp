@@ -3,7 +3,7 @@
 //
 #include "calculadora.hpp"
 
-#include <math.h>
+
 #include <vector>
 
 // Sección 3.5 - La malla de simulación
@@ -40,17 +40,14 @@ void Calculadora::init_densidad_accel() {
 }
 
 // Incremento de densidades [pg. 8]
-double Calculadora::delta_densidades(Vector3d<double> pos_1, Vector3d<double> pos_2) const {
+double Calculadora::delta_densidades(double const distancia_cuadrado) const {
   double const suavizado_temp = suavizado * suavizado;
-  double distancia            = pos_1.distancia(pos_1, pos_2);
-  distancia                   = distancia * distancia;
-  if (distancia >= suavizado_temp) { return 0.0; }
-  return pow((suavizado_temp - distancia), 3);
+  return pow((suavizado_temp - distancia_cuadrado), 3);
 }
 
 // Transformación de densidad [pg. 8]
 double Calculadora::transform_densidad(double densidad) const {
-  double parte_1       = densidad + pow(suavizado, 6);
+  double const parte_1       = densidad + pow(suavizado, 6);
   double const parte_2 = 315 / (64 * std::numbers::pi * pow(suavizado, 9));
   return parte_1 * parte_2 * masa;
 }
@@ -61,16 +58,13 @@ Vector3d<double> Calculadora::aceleracion_primera_parte(Vector3d<double> & posic
                                                         Vector3d<double> & posicion_2,
                                                         double densidad_1,
                                                         double densidad_2) const {
-  double distancia = posicion_1.distancia(posicion_1, posicion_2);
-  distancia        = distancia * distancia;
-  if (distancia < pow(suavizado, 2)) {
-    Vector3d<double> const diff_posiciones = posicion_1 - posicion_2;
-    double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) * masa *
-                                  pow(suavizado - distancia, 2) / distancia;
-    double const acceleration_3 = densidad_1 + densidad_2 - 2 * dens_fluido;
-    return diff_posiciones * acceleration_2 * acceleration_3;
-  }
-  return Vector3d<double>{0.0, 0.0, 0.0};
+  double distancia = Vector3d<double>::distancia(posicion_1, posicion_2);
+  distancia = fmax(distancia * distancia, 10e-12);
+  Vector3d<double> const diff_posiciones = posicion_1 - posicion_2;
+  double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) *(3*masa*p_s*0.5) *
+                                pow(suavizado - distancia, 2) / distancia;
+  double const acceleration_3 = densidad_1 + densidad_2 - 2 * dens_fluido;
+  return diff_posiciones * acceleration_2 * acceleration_3;
 }
 
 Vector3d<double> Calculadora::aceleracion_segunda_parte(Vector3d<double> & velocidad_1,
@@ -82,9 +76,9 @@ Vector3d<double> Calculadora::aceleracion_segunda_parte(Vector3d<double> & veloc
 // Devuelve la aceleación que se tiene que sumar o restar a la original
 Vector3d<double> Calculadora::transferencia_aceleracion(Vector3d<double> & parte1,
                                                         Vector3d<double> & parte2,
-                                                        double const denominador) {
+                                                        double const &denom) {
   parte1 += parte2;
-  parte1 /= denominador;
+  parte1 /= denom;
   return parte1;
 }
 
@@ -183,6 +177,6 @@ double Calculadora::interacciones_limite_eje_z(Vector3d<double> posicion) {
 }
 
 // Funciones Extras
-double Calculadora::cuadradodistancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2) {
+double Calculadora::cuadrado_distancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2) {
   return pow(Vector3d<double>::distancia(posicion_1, posicion_2), 2);
 }

@@ -28,6 +28,8 @@ constexpr double const delta_t{1e-3};                 // Paso de tiempo
 Vector3d<double> const b_max(0.065, 0.1, 0.065);      // Límites de la caja máximos
 Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mínimos
 Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
+constexpr double const densidad_inicial{0.0};
+
 
 class Calculadora {
   public:
@@ -48,7 +50,7 @@ class Calculadora {
     // Inidiación de densidad y aceleraciones [pg. 8]
     void init_densidad_accel();
 
-    double delta_densidades(Vector3d<double> pos_1, Vector3d<double> pos_2) const;
+    double delta_densidades(double distancia_cuadrado) const;
 
     double transform_densidad(double densidad) const;
 
@@ -61,7 +63,7 @@ class Calculadora {
                                                Vector3d<double> & velocidad_2) const;
 
     Vector3d<double> transferencia_aceleracion(Vector3d<double> & parte1, Vector3d<double> & parte2,
-                                               double const denominador);
+                                               double const &denom);
 
     // 4.3.3
     double colisiones_limite_eje_x(int bloque, double const & delta_x,
@@ -85,7 +87,7 @@ class Calculadora {
     double interacciones_limite_eje_z(Vector3d<double> posicion);
 
     // Funciones Extras
-    double cuadradodistancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2);
+    static double cuadrado_distancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2);
 
 };
 #endif  // PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
