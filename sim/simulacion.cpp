@@ -37,7 +37,7 @@ void Simulacion::poblar_malla() {
 void Simulacion::reposicionamiento() {
   for (int i = 0; i < malla.tamano; i++) {
     // Limpio las partículas de cada bloue
-    malla.bloques[i].bloque.erase(malla.bloques[i].bloque.begin(), malla.bloques[i].bloque.end());
+    malla.bloques[i].bloque.clear();
   }
   // Y la vuelvo a repoblar
   for (int cont = 0; cont < num_particulas; cont++) {
