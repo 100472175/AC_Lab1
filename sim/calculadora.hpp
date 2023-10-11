@@ -83,5 +83,9 @@ class Calculadora {
     double interacciones_limite_eje_x(Vector3d<double> posicion);
     double interacciones_limite_eje_y(Vector3d<double> posicion);
     double interacciones_limite_eje_z(Vector3d<double> posicion);
+
+    // Funciones Extras
+    double cuadradodistancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2);
+
 };
 #endif  // PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP

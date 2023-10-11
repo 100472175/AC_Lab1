@@ -181,3 +181,8 @@ double Calculadora::interacciones_limite_eje_z(Vector3d<double> posicion) {
   }
   return new_dz;
 }
+
+// Funciones Extras
+double Calculadora::cuadradodistancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2) {
+  return pow(Vector3d<double>::distancia(posicion_1, posicion_2), 2);
+}
