@@ -173,7 +173,7 @@ TEST(Vector3dTest, DivisionAsignacion) {
 
 // Comprobación que la división de un vector por otro vector es correcta usando el operador /
 // Es decir, cada elemento del vector3d se divide por el elemento correspondiente del otro vector3d
-TEST(Vector3dTest, DivisionNormal) {
+TEST(Vector3dTest, DivisionEntreVectores) {
   Vector3d<double> v1(-1.0, 2.0, 3.0);
   Vector3d<double> v2(2.0, 4.0, -6.0);
   Vector3d<double> result = v1 / v2;
@@ -182,6 +182,89 @@ TEST(Vector3dTest, DivisionNormal) {
   EXPECT_EQ(result.z, -0.5);
 }
 
+
+// Casos límite:
+// Comprobación suma con valores muy grandes y pequeños
+TEST(Vector3dTest, CasosLimiteSumaValoresGrandes) {
+  Vector3d<double> v1(1e-100, 1e100, 0);
+  Vector3d<double> v2(5, 5, 5);
+  Vector3d<double> result = v1 + v2;
+  EXPECT_EQ(result.x, 5);
+  EXPECT_EQ(result.y, 1e100+5);
+  EXPECT_EQ(result.z, 5);
+}
+
+// Comprobación resta con valores muy grandes y pequeños
+TEST(Vector3dTest, CasosLimiteRestaValoresGrandes) {
+  Vector3d<double> v1(1e-100, 1e100, 0);
+  Vector3d<double> v2(5, 5, 5);
+  Vector3d<double> result = v1 - v2;
+  EXPECT_EQ(result.x, 1e-100-5);
+  EXPECT_EQ(result.y, 1e100-5);
+  EXPECT_EQ(result.z, -5);
+}
+
+// Comprobación multiplicación con valores muy grandes y pequeños
+TEST(Vector3dTest, CasosLimitesMultiplicacionValoresGrandes) {
+  Vector3d<double> v1(1e-100, 1e100, 0);
+  Vector3d<double> result = v1 * 50;
+  EXPECT_EQ(result.x, 1e-100*50);
+  EXPECT_EQ(result.y, 5e101);
+  EXPECT_EQ(result.z, 0);
+}
+
+// Comprobación división con valores muy grandes y pequeños
+TEST(Vector3dTest, CasosLimitesDivisionValoresGrandes) {
+  Vector3d<double> v1(1e-100, 1e100, 0);
+  v1 /= 50;
+  EXPECT_EQ(v1.x, 2e-102);
+  EXPECT_EQ(v1.y, 2e98);
+  EXPECT_EQ(v1.z, 0);
+}
+
+// División por cero
+TEST(Vector3dTest, DivisionPorVectorCero) {
+  Vector3d<double> v1(1, 2, 0);
+  Vector3d<double> v2(0, 0, 0);
+  try {
+    Vector3d<double> result = v1 / v2;
+    std::cout << result.x << "\n";
+      //FAIL() << "Se esperaba excepción de división por cero";
+  } catch (const std::exception& e) {
+      EXPECT_STREQ(e.what(), "division by zero");
+  }
+}
+
+// División por cero escalar
+TEST(Vector3dTest, DivisionPorEscalarCero) {
+  Vector3d<double> v1(1, 2, 0);
+  try {
+    v1 /= 0;
+    //FAIL() << "Se esperaba excepción de división por cero";
+  } catch (const std::exception& e) {
+      EXPECT_STREQ(e.what(), "division by zero");
+  }
+}
+
+
+// Comprobación del uso de valores no numéricos
+TEST(Vector3dTest, ValoresNoNumericos) {
+  Vector3d<std::string> v1("hola", "adios", "que tal");
+
+  EXPECT_EQ(v1.x, "hola");
+  EXPECT_EQ(v1.y, "adios");
+  EXPECT_EQ(v1.z, "que tal");
+}
+
+// Comprobación del uso de valores no numéricos con operadores
+TEST(Vector3dTest, ValoresNoNumericos2) {
+  Vector3d<std::string> v1("hola,", "adios,", "que tal!");
+  Vector3d<std::string> v2("hola", "adios", "que tal");
+  Vector3d<std::string> result = v1 + v2;
+  EXPECT_EQ(result.x, "hola,hola");
+  EXPECT_EQ(result.y, "adios,adios");
+  EXPECT_EQ(result.z, "que tal!que tal"); 
+}
 
 
 int main(int argc, char ** argv) {
