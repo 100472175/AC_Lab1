@@ -128,15 +128,15 @@ double Calculadora::interacciones_limite_eje_x(double const d_x, int bloque) {
   return 0.0;
 }
 
-double Calculadora::interacciones_limite_eje_y(double const d_x, int bloque) {
-  if (bloque == 0) { return b_min.x - d_x; }
-  if (bloque == -1) { return b_max.x + d_x; }
+double Calculadora::interacciones_limite_eje_y(double const d_y, int bloque) {
+  if (bloque == 0) { return b_min.y - d_y; }
+  if (bloque == -1) { return b_max.y + d_y; }
   return 0.0;
 }
 
-double Calculadora::interacciones_limite_eje_z(double const d_x, int bloque) {
-  if (bloque == 0) { return b_min.x - d_x; }
-  if (bloque == -1) { return b_max.x + d_x; }
+double Calculadora::interacciones_limite_eje_z(double const d_y, int bloque) {
+  if (bloque == 0) { return b_min.z - d_y; }
+  if (bloque == -1) { return b_max.z + d_y; }
   return 0.0;
 }
 
