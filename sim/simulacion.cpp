@@ -266,21 +266,21 @@ void Simulacion::rebote_particula_limite() {
   for (int i = 0; i < num_particulas; ++i) {
     int const c_x = calculadora.indice_bloque(particulas.posicion[i]).x;
     if (c_x == 0) {
-      rebote_particula_limite_x(0, i);
+      rebote_particula_limite_x(i, 0);
     } else if (c_x == malla.n_x - 1) {
-      rebote_particula_limite_x(-1, i);
+      rebote_particula_limite_x(i, -1);
     }
     int const c_y = calculadora.indice_bloque(particulas.posicion[i]).y;
     if (c_y == 0) {
-      rebote_particula_limite_y(0, i);
+      rebote_particula_limite_y(i, 0);
     } else if (c_y == malla.n_x - 1) {
-      rebote_particula_limite_y(-1, i);
+      rebote_particula_limite_y(i, -1);
     }
     int const c_z = calculadora.indice_bloque(particulas.posicion[i]).z;
     if (c_z == 0) {
-      rebote_particula_limite_z(0, i);
+      rebote_particula_limite_z(i, 0);
     } else if (c_z == malla.n_x - 1) {
-      rebote_particula_limite_z(-1, i);
+      rebote_particula_limite_z(i, -1);
     }
   }
 }
