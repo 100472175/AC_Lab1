@@ -73,8 +73,7 @@ void Simulacion::colisiones_particulas() {
 void Simulacion::colisiones_particulas_densidad() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
     std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
-    std::vector<int> const particulas_bloque = malla.bloques[indice_bloque].particulas;
-    for (const auto & ind_part: particulas_bloque) {
+    for (const auto & ind_part: malla.bloques[indice_bloque].particulas) {
       for (const auto & contiguo : contiguos) {  // bucle que reccore los bloques contiguos
         for (int const & i_p_nueva :
              malla.bloques[contiguo].particulas) {                // en cada bucle se buscan todas las particulas
@@ -123,14 +122,14 @@ void Simulacion::colisiones_particulas_densidad() {
 void Simulacion::colisiones_particulas_aceleracion() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
     std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
-    std::vector<int> const particulas_bloque = malla.bloques[indice_bloque].particulas;
-    for (const auto & ind_part: particulas_bloque) {
+    for (const auto & ind_part: malla.bloques[indice_bloque].particulas) {
       for (const auto & contiguo : contiguos) {
         for (int const & i_p_nueva : malla.bloques[contiguo].particulas) {
           if (i_p_nueva > ind_part) {
             double const distancia_cuadrado = Calculadora::cuadrado_distancias(
                 particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
-            if (distancia_cuadrado < (calculadora.suavizado * calculadora.suavizado)) {
+            double const suavizado_cuadrado = (calculadora.suavizado * calculadora.suavizado);
+            if (distancia_cuadrado < suavizado_cuadrado) {
               Vector3d<double> operador_1 = calculadora.aceleracion_primera_parte(
                   particulas.posicion[ind_part], particulas.posicion[i_p_nueva], particulas.densidad[ind_part],
                   particulas.densidad[i_p_nueva]);

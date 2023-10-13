@@ -55,8 +55,7 @@ Vector3d<double> Calculadora::aceleracion_primera_parte(Vector3d<double> & posic
                                                         double densidad_1,
                                                         double densidad_2) const {
   double distancia                       = Vector3d<double>::distancia(posicion_1, posicion_2);
-  distancia                              = fmax(distancia * distancia, 1e-12);
-  distancia                              = pow(distancia, 0.5);
+  distancia                              = sqrt(fmax(distancia * distancia, 1e-12));
   Vector3d<double> const diff_posiciones = posicion_1 - posicion_2;
   double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) *
                                 (3 * masa * p_s * 0.5) * pow(suavizado - distancia, 2) / distancia;
@@ -67,7 +66,7 @@ Vector3d<double> Calculadora::aceleracion_primera_parte(Vector3d<double> & posic
 Vector3d<double> Calculadora::aceleracion_segunda_parte(Vector3d<double> & velocidad_1,
                                                         Vector3d<double> & velocidad_2) const {
   return (velocidad_2 - velocidad_1) *
-         (45 / (std::numbers::pi * pow(suavizado, 6) * viscosidad * masa));
+         ((45 / (std::numbers::pi * pow(suavizado, 6)) * viscosidad * masa));
 }
 
 // Devuelve la aceleación que se tiene que sumar o restar a la original
@@ -129,15 +128,15 @@ double Calculadora::interacciones_limite_eje_x(double const d_x, int bloque) {
   return 0.0;
 }
 
-double Calculadora::interacciones_limite_eje_y(double const d_y, int bloque) {
-  if (bloque == 0) { return b_min.y - d_y; }
-  if (bloque == -1) { return b_max.y + d_y; }
+double Calculadora::interacciones_limite_eje_y(double const d_x, int bloque) {
+  if (bloque == 0) { return b_min.x - d_x; }
+  if (bloque == -1) { return b_max.x + d_x; }
   return 0.0;
 }
 
-double Calculadora::interacciones_limite_eje_z(double const d_z, int bloque) {
-  if (bloque == 0) { return b_min.z - d_z; }
-  if (bloque == -1) { return b_max.z + d_z; }
+double Calculadora::interacciones_limite_eje_z(double const d_x, int bloque) {
+  if (bloque == 0) { return b_min.x - d_x; }
+  if (bloque == -1) { return b_max.x + d_x; }
   return 0.0;
 }
 
