@@ -28,17 +28,17 @@ Vector3d<int> Malla::fuera_de_rango(Vector3d<int> & indices) const {
   if (indices.x < 0) {
     indices.x = 0;
   } else if (indices.x > n_x - 1) {
-    indices.x = n_x;
+    indices.x = n_x - 1;
   }
   if (indices.y < 0) {
     indices.y = 0;
   } else if (indices.y > n_y - 1) {
-    indices.y = n_y;
+    indices.y = n_y - 1;
   }
   if (indices.z < 0) {
     indices.z = 0;
-  } else if (indices.z > n_z) {
-    indices.z = n_z;
+  } else if (indices.z > n_z - 1) {
+    indices.z = n_z - 1;
   }
   return indices;
 }

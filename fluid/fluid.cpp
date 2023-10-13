@@ -29,7 +29,7 @@ void imprime_datos_particula(Simulacion simulacion, int indice) {
             << simulacion.particulas.gradiente[indice].y << ", "
             << simulacion.particulas.gradiente[indice].z << "\n";
   std::cout << "Densidad de la partícula " << indice << "\n";
-  std::cout << "particula 53: " << simulacion.particulas.densidad[indice] << "\n";
+  std::cout << "particula 53 densidad: " << simulacion.particulas.densidad[indice] << "\n";
   std::cout << "\n\n\n\n\n";
 }
 
@@ -54,6 +54,9 @@ int main(int argc, char ** argv) {
 
   nuestros_args.read_body(simulacion);
   simulacion.print_simulation_parameters();
+  imprime_datos_particula(simulacion, 53);
+  simulacion.iterador();
+  imprime_datos_particula(simulacion, 53);
 
   std::cout << "\n\n=====DEBUG====\n";
   nuestros_args.write_file(simulacion);
@@ -70,7 +73,7 @@ int main(int argc, char ** argv) {
             << simulacion.particulas.aceleracion[3000].y << ", " << simulacion.particulas.aceleracion[3000].z
             << "\n";
 
-
+  /*
   std::cout << "Ejecutando las partes 4.3.2 -> 4.3.5 \n";
   for (int i = 0; i < simulacion.num_particulas; i++) {
     // simulacion.reposicionamiento();
@@ -82,7 +85,7 @@ int main(int argc, char ** argv) {
     simulacion.rebote_particula_limite();
     }
   //simulacion.print_simulation_parameters();
-  std::cout << "=====FIN DEBUG====\n";
+  std::cout << "=====FIN DEBUG====\n";*/
 
 
 

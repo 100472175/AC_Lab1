@@ -17,15 +17,19 @@ void Simulacion::iterador() {
     malla.bloques_contiguos(malla.bloques[i].posicion_bloque);
   }
   poblar_malla();
-  for (int i = 0; i < num_iteraciones; i++) { iteracion(); }
+  colisiones_particulas();
+  colision_particula_limite();
+  movimiento_particulas();
+  rebote_particula_limite();
+  for (int i = 1; i < num_iteraciones; i++) { iteracion(); }
 }
 
 void Simulacion::iteracion() {
-  for (int i = 0; i < num_particulas; i++) { reposicionamiento(); }
-  for (int i = 0; i < num_particulas; i++) { colisiones_particulas(); }
-  for (int i = 0; i < num_particulas; i++) { colision_particula_limite(); }
-  for (int i = 0; i < num_particulas; i++) { movimiento_particulas(); }
-  for (int i = 0; i < num_particulas; i++) { rebote_particula_limite(); }
+  reposicionamiento();
+  colisiones_particulas();
+  colision_particula_limite();
+  movimiento_particulas();
+  rebote_particula_limite();
 }
 
 void Simulacion::poblar_malla() {
