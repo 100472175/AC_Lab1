@@ -4,6 +4,7 @@
 #include "Bloques.hpp"
 #include "vector_3d.hpp"
 
+#include <array>
 #include <algorithm>
 #include <vector>
 
@@ -20,7 +21,7 @@ class Malla {
     // No entiendo el [[nodiscard]], culpas a .clang-tidy
     [[nodiscard]] int get_pos(int i, int j, int k) const;
     [[nodiscard]] Vector3d<int> fuera_de_rango(Vector3d<int> & indices) const;
-    void bloques_contiguos(Bloque & bloque);
+    void bloques_contiguos(int pos_bloques);
 };
 
 #endif
