@@ -6,7 +6,7 @@
 #include <iostream>
 
 void Malla::crear_bloques() {
-  bloques = std::vector<Bloque>(tamano);
+  bloques = std::vector<Bloque>(tamano, Bloque(0,0,0,0));
   for (int z = 0; z < n_z; z++) {
       for (int y = 0; y < n_y; y++) {
           for (int x = 0; x < n_x; x++) {
