@@ -36,8 +36,9 @@ int main(int argc, char** argv) {
     for (int32_t block = 0; block < totalBlocks; ++block) {
         int64_t numParticles;
         file.read(reinterpret_cast<char*>(&numParticles), sizeof(int64_t));
-        std::cout <<"Particles in the block: " << numParticles << "\n";
         std::cout << "Bloque: " << block << "\n";
+        std::cout <<"Particles in the block: " << numParticles << "\n";
+
         for (int64_t particle = 0; particle < numParticles; ++particle) {
             std::cout << "***********\n";
             std::cout << "Particula: " << particle << "\n";
