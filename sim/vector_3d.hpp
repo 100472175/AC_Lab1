@@ -22,6 +22,10 @@ struct Vector3d {
     Vector3d<double> to_double() {
         return {(double)x, (double)y, (double)z};
     }
+
+    static double sq_distancia(Vector3d pos1, Vector3d pos2){
+        return pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2) + pow(pos1.z - pos2.z, 2);
+    }
     static double distancia(Vector3d pos1, Vector3d pos2) {
         return sqrt(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2) + pow(pos1.z - pos2.z, 2));
     }
