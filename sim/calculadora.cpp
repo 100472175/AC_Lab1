@@ -3,7 +3,6 @@
 //
 #include "calculadora.hpp"
 
-
 // Sección 3.5 - La malla de simulación
 // Se puede iniciar la calculadora cuando tengamos ppm y num_particulas
 void Calculadora::inicializar_calculadora() {
@@ -45,8 +44,8 @@ double Calculadora::delta_densidades(double const distancia_cuadrado) const {
 
 // Transformación de densidad
 double Calculadora::transform_densidad(double densidad) const {
-  double parte_1 = densidad + pow(suavizado, 6);
-  parte_1 *= 315 / (64 * std::numbers::pi * pow(suavizado, 9));
+  double parte_1  = densidad + pow(suavizado, 6);
+  parte_1        *= 315 / (64 * std::numbers::pi * pow(suavizado, 9));
   return parte_1 * masa;
 }
 
@@ -55,11 +54,11 @@ Vector3d<double> Calculadora::aceleracion_primera_parte(Vector3d<double> & posic
                                                         Vector3d<double> & posicion_2,
                                                         double densidad_1,
                                                         double densidad_2) const {
-  double distancia = Vector3d<double>::distancia(posicion_1, posicion_2);
-  distancia = fmax(distancia * distancia, 10e-12);
+  double distancia                       = Vector3d<double>::distancia(posicion_1, posicion_2);
+  distancia                              = fmax(distancia * distancia, 10e-12);
   Vector3d<double> const diff_posiciones = posicion_1 - posicion_2;
-  double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) *(3*masa*p_s*0.5) *
-                                pow(suavizado - distancia, 2) / distancia;
+  double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) *
+                                (3 * masa * p_s * 0.5) * pow(suavizado - distancia, 2) / distancia;
   double const acceleration_3 = densidad_1 + densidad_2 - 2 * dens_fluido;
   return diff_posiciones * acceleration_2 * acceleration_3;
 }
@@ -73,7 +72,7 @@ Vector3d<double> Calculadora::aceleracion_segunda_parte(Vector3d<double> & veloc
 // Devuelve la aceleación que se tiene que sumar o restar a la original
 Vector3d<double> Calculadora::transferencia_aceleracion(Vector3d<double> & parte1,
                                                         Vector3d<double> & parte2,
-                                                        double const &denom) {
+                                                        double const & denom) {
   parte1 += parte2;
   parte1 /= denom;
   return parte1;
@@ -124,32 +123,20 @@ Vector3d<double> Calculadora::actualizar_gradiente(Vector3d<double> & gradiente,
 // la velocidad y el gradiente
 // Colisiones con los límites en el eje x [pg. 10]
 double Calculadora::interacciones_limite_eje_x(double const d_x, int bloque) {
-  if (bloque == 0) {
-    return b_min.x - d_x;
-  }
-  if (bloque == -1) {
-    return b_max.x + d_x;
-  }
+  if (bloque == 0) { return b_min.x - d_x; }
+  if (bloque == -1) { return b_max.x + d_x; }
   return 0.0;
 }
 
 double Calculadora::interacciones_limite_eje_y(double const d_x, int bloque) {
-  if (bloque == 0) {
-    return b_min.x - d_x;
-  }
-  if (bloque == -1) {
-    return b_max.x + d_x;
-  }
+  if (bloque == 0) { return b_min.x - d_x; }
+  if (bloque == -1) { return b_max.x + d_x; }
   return 0.0;
 }
 
 double Calculadora::interacciones_limite_eje_z(double const d_x, int bloque) {
-  if (bloque == 0) {
-    return b_min.x - d_x;
-  }
-  if (bloque == -1) {
-    return b_max.x + d_x;
-  }
+  if (bloque == 0) { return b_min.x - d_x; }
+  if (bloque == -1) { return b_max.x + d_x; }
   return 0.0;
 }
 
