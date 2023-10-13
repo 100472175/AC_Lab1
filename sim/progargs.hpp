@@ -28,6 +28,8 @@ class Progargs {
 
     int read_body(Simulacion & simulacion);
 
+    int read_till_end(int num_particulas, int leidas);
+
     int write_file(Simulacion & simulacion);
 
     static int my_is_digit(std::string const &);

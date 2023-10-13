@@ -4,6 +4,30 @@
 
 // Created by paula on 29/09/23.
 
+void add_particulas(Simulacion & simulacion, Vector3d<double> p, Vector3d<double> hv, Vector3d<double> v) {
+    simulacion.particulas.posicion.push_back(p.to_double());
+    simulacion.particulas.gradiente.push_back(hv.to_double());
+    simulacion.particulas.velocidad.push_back(v.to_double());
+    simulacion.particulas.densidad.push_back(0.0);
+    simulacion.particulas.aceleracion.push_back(Vector3d<double>(0.0, -9.8, 0.0));
+}
+
+int Progargs::read_till_end(int num_particulas, int leidas) {
+    while (archivo_entrada.gcount() > 0) {
+        Vector3d<Vector3d<float>> dummy(Vector3d<float>(0.0, 0.0, 0.0), Vector3d<float>(0.0, 0.0, 0.0),
+                                        Vector3d<float>(0.0, 0.0, 0.0));
+        archivo_entrada.read(reinterpret_cast<char *>(&dummy), 36);
+        if (archivo_entrada.gcount() > 0) leidas++;
+    }
+    if (leidas > num_particulas) {
+        //num_particles < particulas
+        std::cerr << "Error: Number of particles mismatch. Header: " << num_particulas
+                  << ", Found: " << leidas << "\n";
+        return -5;
+    }
+    return 0;
+}
+
 Progargs::Progargs(std::vector<std::string> const &args) {
     if (args.size() != 3) {
         std::cerr << "Error: invalid number of arguments: " << args.size() << ".\n";
@@ -37,7 +61,6 @@ int Progargs::read_head(Malla &malla, Calculadora &calculadora) {
 }
 
 int Progargs::read_body(Simulacion &simulacion) {
-    // body
     int leidas;
     simulacion.num_iteraciones = numero_iteraciones;
     for (leidas = 0; leidas < simulacion.num_particulas; leidas++) {
@@ -51,28 +74,12 @@ int Progargs::read_body(Simulacion &simulacion) {
         }
         archivo_entrada.read(reinterpret_cast<char *>(&hv), 12);  // lectura h particula i
         archivo_entrada.read(reinterpret_cast<char *>(&v), 12);   // lectura velocidad particula i
+        add_particulas(simulacion, p.to_double(), hv.to_double(), v.to_double());
 
-        simulacion.particulas.posicion.push_back(p.to_double());
-        simulacion.particulas.gradiente.push_back(hv.to_double());
-        simulacion.particulas.velocidad.push_back(v.to_double());
-        simulacion.particulas.densidad.push_back(0.0);
-        simulacion.particulas.aceleracion.push_back(Vector3d<double>(0.0, -9.8, 0.0));
     }
     // comprobar que haya más partículas de las especificadas
+    return read_till_end(simulacion.num_particulas, leidas);
 
-    while (archivo_entrada.gcount() > 0) {
-        Vector3d<Vector3d<float>> dummy(Vector3d<float>(0.0, 0.0, 0.0), Vector3d<float>(0.0, 0.0, 0.0),
-                                        Vector3d<float>(0.0, 0.0, 0.0));
-        archivo_entrada.read(reinterpret_cast<char *>(&dummy), 36);
-        if (archivo_entrada.gcount() > 0) leidas++;
-    }
-
-    if (leidas > simulacion.num_particulas) {
-        //num_particles < particulas
-        std::cerr << "Error: Number of particles mismatch. Header: " << simulacion.num_particulas
-                  << ", Found: " << leidas << "\n";
-        return -5;
-    }
     return 0;
 }
 
