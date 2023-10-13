@@ -79,8 +79,6 @@ int Progargs::read_body(Simulacion &simulacion) {
     }
     // comprobar que haya más partículas de las especificadas
     return read_till_end(simulacion.num_particulas, leidas);
-
-    return 0;
 }
 
 std::ifstream Progargs::valida_entrada(std::string const &argumento_entrada) {
