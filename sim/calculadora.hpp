@@ -82,7 +82,7 @@ class Calculadora {
 
     double interacciones_limite_eje_x(double const d_x, int bloque);
     double interacciones_limite_eje_y(double const d_y, int bloque);
-    double interacciones_limite_eje_z(double const d_y, int bloque);
+    double interacciones_limite_eje_z(double const d_z, int bloque);
 
     // Funciones Extras
     static double cuadrado_distancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2);

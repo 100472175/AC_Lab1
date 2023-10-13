@@ -104,7 +104,7 @@ double Calculadora::colisiones_limite_eje_z(int bloque, double const & delta_z,
 Vector3d<double> Calculadora::actualizar_posicion(Vector3d<double> & posicion,
                                                   Vector3d<double> & gradiente,
                                                   Vector3d<double> & aceleracion) {
-  return posicion + gradiente * delta_t + aceleracion * delta_t * delta_t;
+  return posicion + (gradiente * delta_t) + (aceleracion * (delta_t * delta_t));
 }
 
 Vector3d<double> Calculadora::actualizar_velocidad(Vector3d<double> & gradiente,
@@ -134,9 +134,9 @@ double Calculadora::interacciones_limite_eje_y(double const d_y, int bloque) {
   return 0.0;
 }
 
-double Calculadora::interacciones_limite_eje_z(double const d_y, int bloque) {
-  if (bloque == 0) { return b_min.z - d_y; }
-  if (bloque == -1) { return b_max.z + d_y; }
+double Calculadora::interacciones_limite_eje_z(double const d_z, int bloque) {
+  if (bloque == 0) { return b_min.z - d_z; }
+  if (bloque == -1) { return b_max.z + d_z; }
   return 0.0;
 }
 
