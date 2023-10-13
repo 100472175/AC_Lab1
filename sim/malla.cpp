@@ -3,11 +3,18 @@
 //
 #include "malla.hpp"
 
+#include <iostream>
+
 void Malla::crear_bloques() {
   bloques = std::vector<Bloque>(tamano);
-  for (int i = 0; i < tamano; i++) {
-    bloques[i] = Bloque();
-    bloques[i].posicion_bloque = i;
+  for (int z = 0; z < n_z; z++) {
+      for (int y = 0; y < n_y; y++) {
+          for (int x = 0; x < n_x; x++) {
+              int pos = get_pos(x, y, z);
+              Bloque bloque(x, y, z, pos);
+              bloques[pos] = bloque;
+          }
+      }
   }
 }
 
@@ -59,6 +66,7 @@ void Malla::bloques_contiguos(int pos_bloque) {
             desplaz_i * factor_despl_i + desplaz_j * factor_despl_j + desplaz_k * factor_despl_k;
         pos_bloq_cont = pos_bloque + pos_temp;
         // Si cualquier combinación se sale de la malla no se guarda el particulas porque no existe
+        std::cout << "bloque contiguo: "<< pos_bloq_cont << "\n";
         if (pos_bloq_cont >= 0 && pos_bloq_cont < tamano) {
           // Guardo pos_bloq_contiguos en los bloques contiguos
           // del bloque dado por la posicion pos_bloque
