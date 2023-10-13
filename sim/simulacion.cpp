@@ -76,11 +76,11 @@ void Simulacion::colisiones_particulas_densidad() {
     for (auto const & ind_part : malla.bloques[indice_bloque].particulas) {
       for (auto const & contiguo : contiguos) {  // bucle que reccore los bloques contiguos
         for (int const & i_p_nueva :
-             malla.bloques[contiguo].particulas) {  // en cada bucle se buscan todas las particulas
+             malla.bloques[contiguo].particulas) {// en cada bucle se buscan todas las particulas
           if (i_p_nueva > ind_part) {
             // para que solo se ejecute cada par 1 vez
-            double const distancia_cuadrado = Calculadora::cuadrado_distancias(
-                particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
+            //double const distancia_cuadrado = Calculadora::cuadrado_distancias(particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
+            double const distancia_cuadrado = Vector3d<double>::sq_distancia(particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
             if (distancia_cuadrado <
                 (calculadora.suavizado *
                  calculadora.suavizado)) {
@@ -127,8 +127,8 @@ void Simulacion::colisiones_particulas_aceleracion() {
       for (auto const & contiguo : contiguos) {
         for (int const & i_p_nueva : malla.bloques[contiguo].particulas) {
           if (i_p_nueva > ind_part) {
-            double const distancia_cuadrado = Calculadora::cuadrado_distancias(
-                particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
+            //double const distancia_cuadrado = Calculadora::cuadrado_distancias(particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
+            double const distancia_cuadrado = Vector3d<double>::sq_distancia(particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
             double const suavizado_cuadrado = (calculadora.suavizado * calculadora.suavizado);
             if (distancia_cuadrado < suavizado_cuadrado) {
               Vector3d<double> operador_1 = calculadora.aceleracion_primera_parte(
