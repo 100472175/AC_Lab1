@@ -68,12 +68,12 @@ void Simulacion::colisiones_particulas() {
 
 void Simulacion::colisiones_particulas_densidad() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
-    std::vector<Bloque> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
+    std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
     std::vector<int> const particulas_bloque = malla.bloques[indice_bloque].particulas;
     for (const auto & ind_part: particulas_bloque) {
       for (const auto & contiguo : contiguos) {  // bucle que reccore los bloques contiguos
         for (int const & i_p_nueva :
-             contiguo.particulas) {                // en cada bucle se buscan todas las particulas
+             malla.bloques[contiguo].particulas) {                // en cada bucle se buscan todas las particulas
           if (i_p_nueva > ind_part) {  // para que solo se ejecute cada par 1 vez
             double const distancia_cuadrado = Calculadora::cuadrado_distancias(
                 particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
@@ -118,11 +118,11 @@ void Simulacion::colisiones_particulas_densidad() {
 
 void Simulacion::colisiones_particulas_aceleracion() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
-    std::vector<Bloque> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
+    std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
     std::vector<int> const particulas_bloque = malla.bloques[indice_bloque].particulas;
     for (const auto & ind_part: particulas_bloque) {
       for (const auto & contiguo : contiguos) {
-        for (int const & i_p_nueva : contiguo.particulas) {
+        for (int const & i_p_nueva : malla.bloques[contiguo].particulas) {
           if (i_p_nueva > ind_part) {
             double const distancia_cuadrado = Calculadora::cuadrado_distancias(
                 particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
