@@ -179,21 +179,21 @@ void Simulacion::colisiones_particulas_aceleracion() {
 void Simulacion::colision_particula_limite() {
   for (int i = 0; i < num_particulas; ++i) {
     int const c_x = calculadora.indice_bloque(particulas.posicion[i]).x;
-    if (c_x == 0) {
+    if (c_x <= 0) {
       colision_particula_limite_x(i, 0);
-    } else if (c_x == malla.n_x - 1) {
+    } else if (c_x >= malla.n_x - 1) {
       colision_particula_limite_x(i, -1);
     }
     int const c_y = calculadora.indice_bloque(particulas.posicion[i]).y;
-    if (c_y == 0) {
+    if (c_y <= 0) {
       colision_particula_limite_y(i, 0);
-    } else if (c_y == malla.n_x - 1) {
+    } else if (c_y >= malla.n_x - 1) {
       colision_particula_limite_y(i, -1);
     }
     int const c_z = calculadora.indice_bloque(particulas.posicion[i]).z;
-    if (c_z == 0) {
+    if (c_z <= 0) {
       colision_particula_limite_z(i, 0);
-    } else if (c_z == malla.n_x - 1) {
+    } else if (c_z >= malla.n_x - 1) {
       colision_particula_limite_z(i, -1);
     }
   }
@@ -269,21 +269,21 @@ void Simulacion::movimiento_particulas() {
 void Simulacion::rebote_particula_limite() {
   for (int i = 0; i < num_particulas; ++i) {
     int const c_x = calculadora.indice_bloque(particulas.posicion[i]).x;
-    if (c_x == 0) {
+    if (c_x <= 0) {
       rebote_particula_limite_x(i, 0);
-    } else if (c_x == malla.n_x - 1) {
+    } else if (c_x >= malla.n_x - 1) {
       rebote_particula_limite_x(i, -1);
     }
     int const c_y = calculadora.indice_bloque(particulas.posicion[i]).y;
-    if (c_y == 0) {
+    if (c_y <= 0) {
       rebote_particula_limite_y(i, 0);
-    } else if (c_y == malla.n_x - 1) {
+    } else if (c_y >= malla.n_x - 1) {
       rebote_particula_limite_y(i, -1);
     }
     int const c_z = calculadora.indice_bloque(particulas.posicion[i]).z;
-    if (c_z == 0) {
+    if (c_z <= 0) {
       rebote_particula_limite_z(i, 0);
-    } else if (c_z == malla.n_x - 1) {
+    } else if (c_z >= malla.n_x - 1) {
       rebote_particula_limite_z(i, -1);
     }
   }
