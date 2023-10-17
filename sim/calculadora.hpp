@@ -30,6 +30,7 @@ Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mí
 Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
 constexpr double const densidad_inicial{0.0};
 
+
 class Calculadora {
   public:
     double ppm;
@@ -60,8 +61,9 @@ class Calculadora {
     Vector3d<double> aceleracion_segunda_parte(Vector3d<double> & velocidad_1,
                                                Vector3d<double> & velocidad_2) const;
 
-    Vector3d<double> transferencia_aceleracion(Vector3d<double> & parte1, Vector3d<double> & parte2,
-                                               double const & denom);
+    Vector3d<double> transferencia_aceleracion(Vector3d<double> & parte1,
+                                               Vector3d<double> const & parte2,
+                                               double const & denom) const;
 
     // 4.3.3
     double colisiones_limite_eje_x(int bloque, double const & delta_x,
@@ -73,8 +75,9 @@ class Calculadora {
 
     // 4.3.4
 
-    Vector3d<double> actualizar_posicion(Vector3d<double> & posicion, Vector3d<double> & gradiente,
-                                         Vector3d<double> & aceleracion);
+    Vector3d<double> actualizar_posicion(Vector3d<double> const & posicion,
+                                         Vector3d<double> const & gradiente,
+                                         Vector3d<double> const & aceleracion);
     Vector3d<double> actualizar_velocidad(Vector3d<double> & gradiente,
                                           Vector3d<double> & aceleracion);
     Vector3d<double> actualizar_gradiente(Vector3d<double> & gradiente,

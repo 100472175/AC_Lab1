@@ -71,8 +71,8 @@ Vector3d<double> Calculadora::aceleracion_segunda_parte(Vector3d<double> & veloc
 
 // Devuelve la aceleación que se tiene que sumar o restar a la original
 Vector3d<double> Calculadora::transferencia_aceleracion(Vector3d<double> & parte1,
-                                                        Vector3d<double> & parte2,
-                                                        double const & denom) {
+                                                        Vector3d<double> const & parte2,
+                                                        double const & denom) const {
   parte1 += parte2;
   parte1 /= denom;
   return parte1;
@@ -101,10 +101,10 @@ double Calculadora::colisiones_limite_eje_z(int bloque, double const & delta_z,
 }
 
 // Movimiento de las partículas 4.3.4
-Vector3d<double> Calculadora::actualizar_posicion(Vector3d<double> & posicion,
-                                                  Vector3d<double> & gradiente,
-                                                  Vector3d<double> & aceleracion) {
-  return posicion + (gradiente * delta_t) + (aceleracion * (delta_t * delta_t));
+Vector3d<double> Calculadora::actualizar_posicion(Vector3d<double> const & posicion,
+                                                  Vector3d<double> const & gradiente,
+                                                  Vector3d<double> const & aceleracion) {
+  return posicion + (gradiente * delta_t) + (aceleracion * delta_t * delta_t);
 }
 
 Vector3d<double> Calculadora::actualizar_velocidad(Vector3d<double> & gradiente,

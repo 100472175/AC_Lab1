@@ -3,6 +3,8 @@
 //
 #include "simulacion.hpp"
 
+#include "../sim/progargs.hpp"
+
 /*Simulacion::Simulacion() : num_iteraciones(0), num_particulas(0), ppm(0.0) {
                                              Calculadora inst_calculadora(ppm);
                                              calculadora = inst_calculadora;
@@ -14,13 +16,15 @@
 void Simulacion::iterador() {
   malla.crear_bloques();
   for (int i = 0; i < malla.tamano; i++) {
-    malla.bloques_contiguos(malla.bloques[i].i,malla.bloques[i].j, malla.bloques[i].k);
+    malla.bloques_contiguos(malla.bloques[i].i, malla.bloques[i].j, malla.bloques[i].k);
   }
   poblar_malla();
   colisiones_particulas();
   colision_particula_limite();
   movimiento_particulas();
+  std::cout << "He hecho movimiento particulas\n";
   rebote_particula_limite();
+  std::cout << "He hecho rebote particulas\n";
   for (int i = 1; i < num_iteraciones; i++) { iteracion(); }
 }
 
@@ -41,7 +45,6 @@ void Simulacion::poblar_malla() {
   }
 }
 
-
 // Sección 4.3.1 - Página 7 - Reposicionamiento de partículas en la malla
 void Simulacion::reposicionamiento() {
   for (int i = 0; i < malla.tamano; i++) {
@@ -50,23 +53,25 @@ void Simulacion::reposicionamiento() {
   }
   // Y la vuelvo a repoblar
   for (int cont = 0; cont < num_particulas; cont++) {
-    Vector3d<int> const bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
-    int const ind_real = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
+    Vector3d<int> bloque_coords = calculadora.indice_bloque(particulas.posicion[cont]);
+    bloque_coords               = malla.fuera_de_rango(bloque_coords);
+    int const ind_real          = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
     malla.bloques[ind_real].particulas.push_back(cont);
   }
 }
 
-
 // Sección 4.3.2 - Página 8 - Cálculo de las aceleraciones
 void Simulacion::colisiones_particulas() {
-  //En cada iteración se reinician los valores de densidad y aceleración para todas las particulas
-  for(int i = 0; i < num_particulas; ++i) {
-    particulas.densidad[i] = 0.0;
+  // En cada iteración se reinician los valores de densidad y aceleración para todas las particulas
+  for (int i = 0; i < num_particulas; ++i) {
+    particulas.densidad[i]    = 0.0;
     particulas.aceleracion[i] = gravedad;
   }
-  //Función encargada de actualizar las densidades de cada particula
+
+  // Función encargada de actualizar las densidades de cada particula
   Simulacion::colisiones_particulas_densidad();
-  //función para actualizar la aceleración de todas las particulas, cuyas densidades tienen que estar actualizadas
+  // función para actualizar la aceleración de todas las particulas, cuyas densidades tienen que
+  // estar actualizadas
   Simulacion::colisiones_particulas_aceleracion();
 }
 
@@ -172,8 +177,6 @@ void Simulacion::colisiones_particulas_aceleracion() {
   }
 }*/
 
-
-
 // Sección 4.3.3 - Página 9 - Colisiones de partículas (con límites)
 // Eduardo Alarcón
 void Simulacion::colision_particula_limite() {
@@ -201,15 +204,16 @@ void Simulacion::colision_particula_limite() {
 
 void Simulacion::colision_particula_limite_x(int indice, int bloque) {
   double const nueva_x = particulas.posicion[indice].x + particulas.gradiente[indice].x * delta_t;
+  particulas.posicion[indice].x = nueva_x;
   if (bloque == 0) {
     double const delta_x = d_p - (nueva_x - b_min.x);
-    if (delta_x > 10e-10) {
+    if (delta_x > 1e-10) {
       particulas.aceleracion[indice].x +=
           calculadora.colisiones_limite_eje_x(bloque, delta_x, particulas.velocidad[indice]);
     }
   } else if (bloque == -1) {
     double const delta_x = d_p - (b_max.x - nueva_x);
-    if (delta_x > 10e-10) {
+    if (delta_x > 1e-10) {
       particulas.aceleracion[indice].x +=
           calculadora.colisiones_limite_eje_x(bloque, delta_x, particulas.velocidad[indice]);
     }
@@ -218,15 +222,16 @@ void Simulacion::colision_particula_limite_x(int indice, int bloque) {
 
 void Simulacion::colision_particula_limite_y(int indice, int bloque) {
   double const nueva_y = particulas.posicion[indice].y + particulas.gradiente[indice].y * delta_t;
+  particulas.posicion[indice].y = nueva_y;
   if (bloque == 0) {
     double const delta_y = d_p - (nueva_y - b_min.y);
-    if (delta_y > 10e-10) {
+    if (delta_y > 1e-10) {
       particulas.aceleracion[indice].y +=
           calculadora.colisiones_limite_eje_y(bloque, delta_y, particulas.velocidad[indice]);
     }
   } else if (bloque == -1) {
     double const delta_y = d_p - (b_max.y - nueva_y);
-    if (delta_y > 10e-10) {
+    if (delta_y > 1e-10) {
       particulas.aceleracion[indice].y +=
           calculadora.colisiones_limite_eje_y(bloque, delta_y, particulas.velocidad[indice]);
     }
@@ -235,34 +240,33 @@ void Simulacion::colision_particula_limite_y(int indice, int bloque) {
 
 void Simulacion::colision_particula_limite_z(int indice, int bloque) {
   double const nueva_z = particulas.posicion[indice].z + particulas.gradiente[indice].z * delta_t;
+  particulas.posicion[indice].z = nueva_z;
   if (bloque == 0) {
     double const delta_z = d_p - (nueva_z - b_min.z);
-    if (delta_z > 10e-10) {
+    if (delta_z > 1e-10) {
       particulas.aceleracion[indice].z +=
           calculadora.colisiones_limite_eje_z(bloque, delta_z, particulas.velocidad[indice]);
     }
   } else if (bloque == -1) {
     double const delta_z = d_p - (b_max.z - nueva_z);
-    if (delta_z > 10e-10) {
+    if (delta_z > 1e-10) {
       particulas.aceleracion[indice].z +=
           calculadora.colisiones_limite_eje_z(bloque, delta_z, particulas.velocidad[indice]);
     }
   }
 }
-
 
 // Sección 4.3.4 - Página 10 - Movimiento de las partículas
 void Simulacion::movimiento_particulas() {
   for (int i = 0; i < num_particulas; ++i) {
     particulas.posicion[i] = calculadora.actualizar_posicion(
         particulas.posicion[i], particulas.gradiente[i], particulas.aceleracion[i]);
-    particulas.gradiente[i] =
-        calculadora.actualizar_gradiente(particulas.gradiente[i], particulas.aceleracion[i]);
     particulas.velocidad[i] =
         calculadora.actualizar_velocidad(particulas.gradiente[i], particulas.aceleracion[i]);
+    particulas.gradiente[i] =
+        calculadora.actualizar_gradiente(particulas.gradiente[i], particulas.aceleracion[i]);
   }
 }
-
 
 // Sección 4.3.5 - Página 11 - Interacciones con los límites del recinto
 // Eduardo Alarcón
@@ -342,8 +346,6 @@ void Simulacion::rebote_particula_limite_z(int indice, int bloque) {
     }
   }
 }
-
-
 
 void Simulacion::print_simulation_parameters() {
   Vector3d<double> tamanio_bloque = calculadora.tamanio_bloque();
