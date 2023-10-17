@@ -81,9 +81,7 @@ void Simulacion::colisiones_particulas_densidad() {
             // para que solo se ejecute cada par 1 vez
             //double const distancia_cuadrado = Calculadora::cuadrado_distancias(particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
             double const distancia_cuadrado = Vector3d<double>::sq_distancia(particulas.posicion[ind_part], particulas.posicion[i_p_nueva]);
-            if (distancia_cuadrado <
-                (calculadora.suavizado *
-                 calculadora.suavizado)) {
+            if (distancia_cuadrado <(calculadora.suavizado *calculadora.suavizado)) {
               // comprobar que realmente interactuan
               double const cambio_densidad    = calculadora.delta_densidades(distancia_cuadrado);
               particulas.densidad[ind_part]  += cambio_densidad;
@@ -92,8 +90,10 @@ void Simulacion::colisiones_particulas_densidad() {
           }
         }
       }
-      particulas.densidad[ind_part] = calculadora.transform_densidad(particulas.densidad[ind_part]);
     }
+  }
+  for (int contador = 0; contador < num_particulas; contador++){
+    particulas.densidad[contador] = calculadora.transform_densidad(particulas.densidad[contador]);
   }
 }
 
