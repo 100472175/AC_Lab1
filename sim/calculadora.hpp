@@ -20,8 +20,8 @@
 constexpr double const radio{1.695};                  // Radio
 constexpr double const dens_fluido{1e3};              // Densidad de fluido
 constexpr double p_s{3.0};                            // Presión de rigidez
-constexpr double s_c{128.0};                          // Collisión de rigidez
-constexpr double const d_v{2e-3};                     // Amortiguamiento
+constexpr double s_c{3e4};                            // Collisión de rigidez
+constexpr double const d_v{128};                      // Amortiguamiento
 constexpr double const viscosidad{0.4};               // Viscosidad
 constexpr double const d_p{2e-4};                     // Tamaño de la partícula
 constexpr double const delta_t{1e-3};                 // Paso de tiempo
@@ -29,7 +29,6 @@ Vector3d<double> const b_max(0.065, 0.1, 0.065);      // Límites de la caja má
 Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mínimos
 Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
 constexpr double const densidad_inicial{0.0};
-
 
 class Calculadora {
   public:
@@ -71,7 +70,7 @@ class Calculadora {
     double colisiones_limite_eje_y(int bloque, double const & delta_y,
                                    Vector3d<double> & velocidad);
     double colisiones_limite_eje_z(int bloque, double const & delta_z,
-                                   Vector3d<double> & velocidad);
+                                   Vector3d<double> const & velocidad);
 
     // 4.3.4
 
@@ -86,8 +85,5 @@ class Calculadora {
     double interacciones_limite_eje_x(double const d_x, int bloque);
     double interacciones_limite_eje_y(double const d_y, int bloque);
     double interacciones_limite_eje_z(double const d_z, int bloque);
-
-    // Funciones Extras
-    static double cuadrado_distancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2);
 };
 #endif  // PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP

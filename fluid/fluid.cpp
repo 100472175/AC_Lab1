@@ -53,24 +53,25 @@ int main(int argc, char ** argv) {
   nuestros_args.read_body(simulacion);
   simulacion.print_simulation_parameters();
 
-  imprime_datos_particula(simulacion, 53);
+  imprime_datos_particula(simulacion, 519);
   simulacion.iterador();
-  imprime_datos_particula(simulacion, 53);
+  imprime_datos_particula(simulacion, 519);
 
   std::cout << "\n\n=====DEBUG====\n";
   nuestros_args.write_file(simulacion);
-  std::cout << "particula 53: " << simulacion.particulas.posicion[53].x << ", "
-            << simulacion.particulas.posicion[53].y << ", " << simulacion.particulas.posicion[53].z
-            << "\n";
-  std::cout << "particula 3000.pos: " << simulacion.particulas.posicion[3000].x << ", "
-            << simulacion.particulas.posicion[3000].y << ", "
-            << simulacion.particulas.posicion[3000].z << "\n";
-  std::cout << "particula 3000.grad: " << simulacion.particulas.gradiente[3000].x << ", "
-            << simulacion.particulas.gradiente[3000].y << ", "
-            << simulacion.particulas.gradiente[3000].z << "\n";
-  std::cout << "particula 3000.acel: " << simulacion.particulas.aceleracion[3000].x << ", "
-            << simulacion.particulas.aceleracion[3000].y << ", "
-            << simulacion.particulas.aceleracion[3000].z << "\n";
+  /*  std::cout << "particula 53: " << simulacion.particulas.posicion[53].x << ", "
+              << simulacion.particulas.posicion[53].y << ", " <<
+    simulacion.particulas.posicion[53].z
+              << "\n";
+    std::cout << "particula 3000.pos: " << simulacion.particulas.posicion[3000].x << ", "
+              << simulacion.particulas.posicion[3000].y << ", "
+              << simulacion.particulas.posicion[3000].z << "\n";
+    std::cout << "particula 3000.grad: " << simulacion.particulas.gradiente[3000].x << ", "
+              << simulacion.particulas.gradiente[3000].y << ", "
+              << simulacion.particulas.gradiente[3000].z << "\n";
+    std::cout << "particula 3000.acel: " << simulacion.particulas.aceleracion[3000].x << ", "
+              << simulacion.particulas.aceleracion[3000].y << ", "
+              << simulacion.particulas.aceleracion[3000].z << "\n";*/
 
   /*
   std::cout << "Ejecutando las partes 4.3.2 -> 4.3.5 \n";

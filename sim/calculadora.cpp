@@ -84,20 +84,20 @@ Vector3d<double> Calculadora::transferencia_aceleracion(Vector3d<double> & parte
 /// parámetros
 double Calculadora::colisiones_limite_eje_x(int bloque, double const & delta_x,
                                             Vector3d<double> & velocidad) {
-  if (bloque == 0) { return s_c * delta_x - d_v * velocidad.x; }
-  return -s_c * delta_x + d_v * d_v * velocidad.x;
+  if (bloque == 0) { return (s_c * delta_x - d_v * velocidad.x); }
+  return -(s_c * delta_x + d_v * velocidad.x);
 }
 
 double Calculadora::colisiones_limite_eje_y(int bloque, double const & delta_y,
                                             Vector3d<double> & velocidad) {
-  if (bloque == 0) { return s_c * delta_y - d_v * velocidad.y; }
-  return -s_c * delta_y + d_v * d_v * velocidad.y;
+  if (bloque == 0) { return (s_c * delta_y - d_v * velocidad.y); }
+  return -(s_c * delta_y + d_v * velocidad.y);
 }
 
 double Calculadora::colisiones_limite_eje_z(int bloque, double const & delta_z,
-                                            Vector3d<double> & velocidad) {
-  if (bloque == 0) { return s_c * delta_z - d_v * velocidad.z; }
-  return -s_c * delta_z + d_v * d_v * velocidad.z;
+                                            Vector3d<double> const & velocidad) {
+  if (bloque == 0) { return (s_c * delta_z - d_v * velocidad.z); }
+  return -(s_c * delta_z + d_v * velocidad.z);
 }
 
 // Movimiento de las partículas 4.3.4
@@ -109,8 +109,7 @@ Vector3d<double> Calculadora::actualizar_posicion(Vector3d<double> const & posic
 
 Vector3d<double> Calculadora::actualizar_velocidad(Vector3d<double> & gradiente,
                                                    Vector3d<double> & aceleracion) {
-  Vector3d<double> velocidad = gradiente + aceleracion * (delta_t / (double) 2);
-  return velocidad;
+  return gradiente + (aceleracion * (delta_t / (double) 2));
 }
 
 Vector3d<double> Calculadora::actualizar_gradiente(Vector3d<double> & gradiente,
@@ -138,9 +137,4 @@ double Calculadora::interacciones_limite_eje_z(double const d_z, int bloque) {
   if (bloque == 0) { return b_min.z - d_z; }
   if (bloque == -1) { return b_max.z + d_z; }
   return 0.0;
-}
-
-// Funciones Extras
-double Calculadora::cuadrado_distancias(Vector3d<double> posicion_1, Vector3d<double> posicion_2) {
-  return pow(Vector3d<double>::distancia(posicion_1, posicion_2), 2);
 }
