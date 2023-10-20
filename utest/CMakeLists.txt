@@ -1,9 +1,7 @@
 enable_testing()
 
 add_executable(utest
-        fluid_test.cpp)
-
-add_executable(vector3d_test
+        fluid_test.cpp
         vector3d_test.cpp)
 
 target_link_libraries(utest
@@ -12,13 +10,6 @@ target_link_libraries(utest
         GTest::gtest_main
         #Microsoft.GSL::GSL
 )
-
-target_link_libraries(vector3d_test
-        PRIVATE
-        sim
-        GTest::gtest_main
-        #Microsoft.GSL::GSL
-        )
 
 
 
