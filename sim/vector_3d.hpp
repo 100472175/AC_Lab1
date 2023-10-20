@@ -25,6 +25,8 @@ struct Vector3d {
 
     Vector3d<double> to_double() { return {(double) x, (double) y, (double) z}; }
 
+    Vector3d<int> to_int() { return {(int) x, (int) y, (int) z}; }
+
     static double sq_distancia(Vector3d pos1, Vector3d pos2) {
       return cuadrado(pos1.x - pos2.x) + cuadrado(pos1.y - pos2.y) + cuadrado(pos1.z - pos2.z);
     }
