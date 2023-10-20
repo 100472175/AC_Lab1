@@ -31,9 +31,9 @@ class Simulacion {
     void colision_particula_limite_y(int indice, int bloque);
     void colision_particula_limite_z(int indice, int bloque);
     void rebote_particula_limite();
-    void rebote_particula_limite_x(int indice, int bloque);
-    void rebote_particula_limite_y(int indice, int bloque);
-    void rebote_particula_limite_z(int indice, int bloque);
+    void rebote_particula_limite_x(std::vector<int> & particulas, int bloque);
+    void rebote_particula_limite_y(std::vector<int> & particulas, int bloque);
+    void rebote_particula_limite_z(std::vector<int> & particulas, int bloque);
     void movimiento_particulas();
     void print_simulation_parameters();
     void colisiones_particulas_aceleracion();

@@ -266,3 +266,4 @@ TEST(Vector3dTest, ValoresNoNumericos2) {
   EXPECT_EQ(result.z, "que tal!que tal"); 
 }
 
+

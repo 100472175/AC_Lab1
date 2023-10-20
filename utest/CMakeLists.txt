@@ -1,8 +1,9 @@
 enable_testing()
 
 add_executable(utest
-        fluid_test.cpp
-        vector3d_test.cpp)
+        main.cpp
+        vector3d_test.cpp
+        calculadora_test.cpp)
 
 target_link_libraries(utest
         PRIVATE
