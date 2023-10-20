@@ -16,11 +16,10 @@ class Simulacion {
   public:
     int num_iteraciones;
     int num_particulas;
-    double ppm;
     Particulas particulas;
     Malla malla;
     Calculadora calculadora;
-
+    Simulacion(int n_i, int n_p, Calculadora calc, Malla m) : num_iteraciones(n_i), num_particulas(n_p) ,malla(m), calculadora(calc){}
     void iterador();
     void iteracion();
     void poblar_malla();

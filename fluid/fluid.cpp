@@ -35,7 +35,9 @@ int main(int argc, char ** argv) {
   std::span const args_span(argv, static_cast<std::size_t>(argc));
   std::vector<std::string> const argumentos(args_span.begin() + 1, args_span.end());
 
-  Progargs nuestros_args{argumentos};
+  Progargs nuestros_args{};
+  int const validar_progargs = nuestros_args.asignar_valores(argumentos);
+  if (validar_progargs != 0 ){return validar_progargs;}
 
   Malla malla{};
   Calculadora calc{};
@@ -44,11 +46,7 @@ int main(int argc, char ** argv) {
 
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
-  Simulacion simulacion;
-  simulacion.num_particulas = calc.num_particulas;
-  simulacion.ppm            = calc.ppm;
-  simulacion.calculadora    = calc;
-  simulacion.malla          = malla;
+  Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
 
   nuestros_args.read_body(simulacion);
   simulacion.print_simulation_parameters();
@@ -58,7 +56,7 @@ int main(int argc, char ** argv) {
   imprime_datos_particula(simulacion, 519);
 
   std::cout << "\n\n=====DEBUG====\n";
-  nuestros_args.write_file(simulacion);
+  nuestros_args.write_file(calc.ppm,simulacion);
   /*  std::cout << "particula 53: " << simulacion.particulas.posicion[53].x << ", "
               << simulacion.particulas.posicion[53].y << ", " <<
     simulacion.particulas.posicion[53].z

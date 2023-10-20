@@ -28,14 +28,25 @@ int Progargs::read_till_end(int num_particulas, int leidas) {
     return 0;
 }
 
-Progargs::Progargs(std::vector<std::string> const &args) {
+int Progargs::getter_num_iteraciones() const {
+    return numero_iteraciones;
+}
+
+int Progargs::asignar_valores(std::vector<std::string> const &args) {
     if (args.size() != 3) {
         std::cerr << "Error: invalid number of arguments: " << args.size() << ".\n";
-        std::exit(-1);
+        return -1;
     };
-    numero_iteraciones = my_is_digit(args[0]);
-    archivo_entrada = valida_entrada(args[1]);
-    archivo_salida = valida_salida(args[2]);
+    int const validar_iteraciones = my_is_digit(args[0]);
+    if (validar_iteraciones < 0) { return validar_iteraciones; }
+    numero_iteraciones = validar_iteraciones;
+    if(valida_entrada(args[1]) < 0){
+        return -3;
+    }
+    if( valida_salida(args[2]) < 0){
+        return -4;
+    }
+    return 0;
 }
 
 int Progargs::read_head(Malla &malla, Calculadora &calculadora) {
@@ -62,7 +73,6 @@ int Progargs::read_head(Malla &malla, Calculadora &calculadora) {
 
 int Progargs::read_body(Simulacion &simulacion) {
     int leidas;
-    simulacion.num_iteraciones = numero_iteraciones;
     for (leidas = 0; leidas < simulacion.num_particulas; leidas++) {
         Vector3d<float> p(0.0, 0.0, 0.0), hv(0.0, 0.0, 0.0), v(0.0, 0.0, 0.0);
         archivo_entrada.read(reinterpret_cast<char *>(&p), 12);  // lectura posicion particula i
@@ -81,25 +91,27 @@ int Progargs::read_body(Simulacion &simulacion) {
     return read_till_end(simulacion.num_particulas, leidas);
 }
 
-std::ifstream Progargs::valida_entrada(std::string const &argumento_entrada) {
+int Progargs::valida_entrada(std::string const &argumento_entrada) {
     std::ifstream entrada(argumento_entrada);
     if (entrada.fail()) {
         std::cerr << "Error: Cannot open " << argumento_entrada << " for reading\n";
-        std::exit(-3);
+        return -3;
     }
-    return entrada;
+    archivo_entrada = std::move(entrada);
+    return 0;
 }
 
-std::ofstream Progargs::valida_salida(std::string const &argumento_salida) {
+int Progargs::valida_salida(std::string const &argumento_salida) {
     std::ofstream salida(argumento_salida, std::ios::binary);
     if (salida.fail()) {
         std::cerr << "Error: Cannot open " << argumento_salida << " for writing\n";
-        std::exit(-4);
+        return -4;
     }
-    return salida;
+    archivo_salida = std::move(salida);
+    return 0;
 }
 
-int Progargs::write_file(Simulacion &simulacion) {
+int Progargs::write_file(double ppm, Simulacion &simulacion) {
     std::cout << "writing file...\n";
     /*
     std::ofstream file(archivo_salida, std::ios::binary);
@@ -107,7 +119,7 @@ int Progargs::write_file(Simulacion &simulacion) {
         std::cerr << "Error: Cannot open " << archivo_salida << "file\n";
         return -4;
     }*/
-    float ppm_float = (float) simulacion.ppm;
+    float ppm_float = (float) ppm;
     archivo_salida.write(reinterpret_cast<char *>(&ppm_float), 4);
     archivo_salida.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
 
@@ -129,17 +141,17 @@ int Progargs::my_is_digit(std::string const &string_to_try) {
         negativo = true;
     } else if (std::isdigit(string_to_try[0]) == 0) {
         std::cerr << "Error: time steps must be numeric.\n";
-        std::exit(-1);
+        return -1;
     }
     for (int i = 1; i < int(string_to_try.length()); i++) {
         if (std::isdigit(string_to_try[i]) == 0) {
             std::cerr << "Error: time steps must be numeric.\n";
-            std::exit(-1);
+            return -1;
         }
     }
     if (negativo) {
         std::cerr << "Error: Invalid number of time steps.\n";
-        std::exit(-2);
+        return -2;
     }
     return stoi(string_to_try);
 }

@@ -14,6 +14,9 @@
 
 // Etapa inicial de la simulación
 void Simulacion::iterador() {
+  if (num_iteraciones == 0) {
+    return;
+  }
   malla.crear_bloques();
   for (int i = 0; i < malla.tamano; i++) {
     malla.bloques_contiguos(malla.bloques[i].i, malla.bloques[i].j, malla.bloques[i].k);
@@ -395,7 +398,7 @@ void Simulacion::rebote_particula_limite_z(int indice, int bloque) {
 void Simulacion::print_simulation_parameters() {
   Vector3d<double> tamanio_bloque = calculadora.tamanio_bloque();
   std::cout << "Number of particles: " << num_particulas << "\n"
-            << "Particles per meter: " << ppm << "\n"
+            //<< "Particles per meter: " << ppm << "\n"
             << "Smoothing length: " << calculadora.suavizado << "\n"
             << "Particle mass: " << calculadora.masa << "\n"
             << "Grid size: " << malla.n_x << " x " << malla.n_y << " x " << malla.n_z << "\n"

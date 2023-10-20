@@ -22,7 +22,8 @@ class Progargs {
     // std::ifstream input_file;
 
   public:
-    Progargs(std::vector<std::string> const & args);
+    int getter_num_iteraciones() const;
+    int asignar_valores(std::vector<std::string> const &args);
 
     int read_head(Malla & malla, Calculadora & calculadora);
 
@@ -30,16 +31,15 @@ class Progargs {
 
     int read_till_end(int num_particulas, int leidas);
 
-    int write_file(Simulacion & simulacion);
+    int write_file(double ppm,Simulacion & simulacion);
 
     static int my_is_digit(std::string const &);
 
     // int validate_arguments(int, char **);
 
     static Vector3d<int> fuera_de_rango(Vector3d<int>);
-    std::ifstream valida_entrada(std::string const & argumento_entrada);
-    std::ifstream valida_fichero(std::string const & fichero_a_probar, bool tipo);
-    std::ofstream valida_salida(std::string const & argumento_salida);
+    int valida_entrada(std::string const & argumento_entrada);
+    int valida_salida(std::string const & argumento_salida);
 };
 
 // namespace Sim
