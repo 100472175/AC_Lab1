@@ -1,4 +1,5 @@
 clang++ -o lectura_traza ../../herramientas/lectura_traza.cpp
+echo "He compilado y voy a ejecutar lectura_traza"
 ./lectura_traza ../large/acctransf-base-1.trz > acctransf-base-1.txt
 ./lectura_traza ../large/acctransf-base-2.trz > acctransf-base-2.txt
 ./lectura_traza ../large/acctransf-base-3.trz > acctransf-base-3.txt

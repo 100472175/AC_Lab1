@@ -19,8 +19,8 @@
 
 constexpr double const radio{1.695};                  // Radio
 constexpr double const dens_fluido{1e3};              // Densidad de fluido
-constexpr double p_s{3.0};                            // Presión de rigidez
-constexpr double s_c{3e4};                            // Collisión de rigidez
+constexpr double const p_s{3.0};                      // Presión de rigidez
+constexpr double const s_c{3e4};                      // Collisión de rigidez
 constexpr double const d_v{128};                      // Amortiguamiento
 constexpr double const viscosidad{0.4};               // Viscosidad
 constexpr double const d_p{2e-4};                     // Tamaño de la partícula
@@ -29,6 +29,7 @@ Vector3d<double> const b_max(0.065, 0.1, 0.065);      // Límites de la caja má
 Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mínimos
 Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
 constexpr double const densidad_inicial{0.0};
+
 
 class Calculadora {
   public:
