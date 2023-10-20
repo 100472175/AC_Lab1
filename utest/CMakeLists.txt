@@ -15,4 +15,3 @@ target_link_libraries(utest
 
 include(GoogleTest)
 gtest_discover_tests(utest)
-gtest_discover_tests(vector3d_test)
