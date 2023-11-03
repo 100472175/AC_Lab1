@@ -132,6 +132,7 @@ int Progargs::write_file(double ppm, Simulacion &simulacion) {
         archivo_salida.write(reinterpret_cast<char *>(&hv), 12);
         archivo_salida.write(reinterpret_cast<char *>(&v), 12);
     }
+    archivo_salida.close();
     return 0;
 }
 
