@@ -53,7 +53,7 @@ class Calculadora {
       return (b_max - b_min) / num_bloques_por_eje();
     };
 
-    Vector3d<int> indice_bloque(Vector3d<double> const & posicion) const;
+    [[nodiscard]] Vector3d<int> indice_bloque(Vector3d<double> const & posicion) const;
 
     // 4.3.2
     // Inidiación de densidad y aceleraciones [pg. 8]

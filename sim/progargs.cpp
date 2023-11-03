@@ -50,8 +50,8 @@ int Progargs::asignar_valores(std::vector<std::string> const &args) {
 }
 
 int Progargs::read_head(Malla &malla, Calculadora &calculadora) {
-    float float_ppm;
-    int num_particulas;
+    float float_ppm = 0;
+    int num_particulas = 0;
 
     archivo_entrada.read(reinterpret_cast<char *>(&float_ppm), 4);
     archivo_entrada.read(reinterpret_cast<char *>(&num_particulas), 4);

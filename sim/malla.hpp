@@ -22,7 +22,7 @@ class Malla {
     [[nodiscard]] int get_pos(int i, int j, int k) const;
     [[nodiscard]] Vector3d<int> fuera_de_rango(Vector3d<int> & indices) const;
     void bloques_contiguos(int i, int j, int k);
-    int existe_bloque(int i, int j, int k) const;
+    [[nodiscard]] int existe_bloque(int i, int j, int k) const;
 };
 
 #endif

@@ -35,7 +35,7 @@ class Simulacion {
     void rebote_particula_limite_y(std::vector<int> & particulas, int bloque);
     void rebote_particula_limite_z(std::vector<int> & particulas, int bloque);
     void movimiento_particulas();
-    void print_simulation_parameters();
+    void print_simulation_parameters() const;
     void colisiones_particulas_aceleracion();
     void colisiones_particulas_densidad();
 };

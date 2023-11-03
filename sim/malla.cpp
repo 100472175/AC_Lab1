@@ -7,11 +7,11 @@
 
 void Malla::crear_bloques() {
   bloques = std::vector<Bloque>(tamano, Bloque(0,0,0,0));
-  for (int z = 0; z < n_z; z++) {
-      for (int y = 0; y < n_y; y++) {
-          for (int x = 0; x < n_x; x++) {
-              int pos = get_pos(x, y, z);
-              Bloque bloque(x, y, z, pos);
+  for (int eje_z = 0; eje_z < n_z; eje_z++) {
+      for (int eje_y = 0; eje_y < n_y; eje_y++) {
+          for (int eje_x = 0; eje_x < n_x; eje_x++) {
+              int const pos = get_pos(eje_x, eje_y, eje_z);
+              Bloque const bloque(eje_x, eje_y, eje_z, pos);
               bloques[pos] = bloque;
           }
       }

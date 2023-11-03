@@ -16,7 +16,7 @@
 
 class Progargs {
   private:
-    int numero_iteraciones;
+    int numero_iteraciones{};
     std::ifstream archivo_entrada;
     std::ofstream archivo_salida;
     // std::ifstream input_file;
