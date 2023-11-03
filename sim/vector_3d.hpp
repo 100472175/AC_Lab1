@@ -14,11 +14,6 @@ template <typename T>
 struct Vector3d {
     T x, y, z;
 
-    void set_values(T a, T b, T c) {
-      x = a;
-      y = b;
-      z = c;
-    }
 
     constexpr Vector3d<float> to_float() { return {(float) x, (float) y, (float) z}; }
 
