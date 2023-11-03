@@ -119,7 +119,7 @@ int Progargs::write_file(double ppm, Simulacion &simulacion) {
         std::cerr << "Error: Cannot open " << archivo_salida << "file\n";
         return -4;
     }*/
-    float ppm_float = (float) ppm;
+    auto ppm_float = (float) ppm;
     archivo_salida.write(reinterpret_cast<char *>(&ppm_float), 4);
     archivo_salida.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
 

@@ -5,14 +5,12 @@
 
 #include <vector>
 
-class Bloque {
-  public:
+struct Bloque {
     int i, j, k;
+    int posicion_bloque;
     std::vector<int> particulas{};
     std::vector<int> bloques_contiguos{};
-    int posicion_bloque;
 
-    Bloque(int i, int j, int k, int pos) : i(i), j(j), k(k), posicion_bloque(pos) {};
 };
 
 #endif
