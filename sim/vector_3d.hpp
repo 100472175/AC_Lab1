@@ -13,7 +13,6 @@ constexpr double cuadrado(double numero) {
 template <typename T>
 struct Vector3d {
     T x, y, z;
-    constexpr Vector3d(T x, T y, T z) : x(x), y(y), z(z){};
 
     void set_values(T a, T b, T c) {
       x = a;
@@ -21,58 +20,58 @@ struct Vector3d {
       z = c;
     }
 
-    Vector3d<float> to_float() { return {(float) x, (float) y, (float) z}; }
+    constexpr Vector3d<float> to_float() { return {(float) x, (float) y, (float) z}; }
 
-    Vector3d<double> to_double() { return {(double) x, (double) y, (double) z}; }
+    constexpr Vector3d<double> to_double() { return {(double) x, (double) y, (double) z}; }
 
-    Vector3d<int> to_int() { return {(int) x, (int) y, (int) z}; }
+    constexpr Vector3d<int> to_int() { return {(int) x, (int) y, (int) z}; }
 
-    static double sq_distancia(Vector3d pos1, Vector3d pos2) {
+    constexpr static double sq_distancia(Vector3d pos1, Vector3d pos2) {
       return cuadrado(pos1.x - pos2.x) + cuadrado(pos1.y - pos2.y) + cuadrado(pos1.z - pos2.z);
     }
 
-    static double distancia(Vector3d pos1, Vector3d pos2) {
+    constexpr static double distancia(Vector3d pos1, Vector3d pos2) {
       return sqrt(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2) + pow(pos1.z - pos2.z, 2));
     }
 
     // Para sumar dos vectores
-    Vector3d operator+=(Vector3d<T> const & v) {
+    constexpr Vector3d operator+=(Vector3d<T> const & v) {
       x += v.x;
       y += v.y;
       z += v.z;
       return *this;
     }
 
-    Vector3d operator+(Vector3d<T> const & other) const {
+    constexpr Vector3d operator+(Vector3d<T> const & other) const {
       return {this->x + other.x, this->y + other.y, this->z + other.z};
     }
 
     // Para restar dos vectores
-    Vector3d operator-=(Vector3d const & v) {
+    constexpr Vector3d operator-=(Vector3d const & v) {
       x -= v.x;
       y -= v.y;
       z -= v.z;
       return *this;
     }
 
-    Vector3d operator-(Vector3d const & other) const {
+    constexpr Vector3d operator-(Vector3d const & other) const {
       return {this->x - other.x, this->y - other.y, this->z - other.z};
     }
 
     // Para multiplicar todos los elementos por un escalar
-    Vector3d operator*=(double const & scalar) {
+    constexpr Vector3d operator*=(double const & scalar) {
       x *= scalar;
       y *= scalar;
       z *= scalar;
       return *this;
     }
 
-    Vector3d operator*(T const scalar) const {
+    constexpr Vector3d operator*(T const scalar) const {
       return {this->x * scalar, this->y * scalar, this->z * scalar};
     }
 
     // Para dividir todos los elementos por un escalar
-    Vector3d operator/=(double const & scalar) {
+    constexpr Vector3d operator/=(double const & scalar) {
       x /= scalar;
       y /= scalar;
       z /= scalar;
@@ -80,7 +79,7 @@ struct Vector3d {
     }
 
     // Para dividir todos los elementos por un vector
-    Vector3d<double> operator/(Vector3d<T> const & other) const {
+    constexpr Vector3d<double> operator/(Vector3d<T> const & other) const {
       return {this->x / (double) other.x, this->y / (double) other.y, this->z / (double) other.z};
     }
 };
