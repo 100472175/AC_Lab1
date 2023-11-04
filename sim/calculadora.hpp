@@ -29,7 +29,9 @@ Vector3d<double> const b_max(0.065, 0.1, 0.065);      // Límites de la caja má
 Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mínimos
 Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
 constexpr double const densidad_inicial{0.0};
-
+constexpr int const seis{6};
+constexpr int const nueve{9};
+constexpr double const operador_densidad{315 / (64 * std::numbers::pi)};
 
 class Calculadora {
   public:
@@ -64,16 +66,16 @@ class Calculadora {
     };
 
     [[nodiscard]] constexpr double transform_densidad(double densidad) const{
-      double parte_1  = densidad + pow(suavizado, 6);
-      parte_1        *= 315 / (64 * std::numbers::pi * pow(suavizado, 9));
+      double parte_1  = densidad + pow(suavizado, seis);
+      parte_1        *= operador_densidad / pow(suavizado, nueve);
       return parte_1 * masa;
     };
 
     constexpr Vector3d<double> aceleracion_primera_parte(Vector3d<double> & posicion_1,
                                                Vector3d<double> & posicion_2, double densidad_1,
                                                double densidad_2) const {
-      double distancia                       = Vector3d<double>::distancia(posicion_1, posicion_2);
-      distancia                              = sqrt(fmax(distancia * distancia, 1e-12));
+      double distancia                       = Vector3d<double>::sq_distancia(posicion_1, posicion_2);
+      distancia                              = sqrt(fmax(distancia , 1e-12));
       Vector3d<double> const diff_posiciones = posicion_1 - posicion_2;
       double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) *
                                     (3 * masa * p_s * 0.5) * pow(suavizado - distancia, 2) / distancia;

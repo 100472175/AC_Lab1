@@ -6,12 +6,12 @@
 #include <iostream>
 
 void Malla::crear_bloques() {
-  bloques = std::vector<Bloque>(tamano, Bloque(0,0,0,0));
+  bloques = std::vector<Bloque>(tamano, Bloque(0,0,0));
   for (int eje_z = 0; eje_z < n_z; eje_z++) {
       for (int eje_y = 0; eje_y < n_y; eje_y++) {
           for (int eje_x = 0; eje_x < n_x; eje_x++) {
               int const pos = get_pos(eje_x, eje_y, eje_z);
-              Bloque const bloque(eje_x, eje_y, eje_z, pos);
+              Bloque const bloque(eje_x, eje_y, eje_z);
               bloques[pos] = bloque;
           }
       }

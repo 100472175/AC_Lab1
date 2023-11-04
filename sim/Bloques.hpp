@@ -7,7 +7,6 @@
 
 struct Bloque {
     int i, j, k;
-    int posicion_bloque;
     std::vector<int> particulas{};
     std::vector<int> bloques_contiguos{};
 

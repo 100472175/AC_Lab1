@@ -35,9 +35,6 @@ class Progargs {
 
     static int my_is_digit(std::string const &);
 
-    // int validate_arguments(int, char **);
-
-    static Vector3d<int> fuera_de_rango(Vector3d<int>);
     int valida_entrada(std::string const & argumento_entrada);
     int valida_salida(std::string const & argumento_salida);
 };
