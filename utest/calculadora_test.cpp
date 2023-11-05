@@ -5,6 +5,9 @@
 #include "gtest/gtest.h"
 #include "../sim/calculadora.hpp"
 
+#include <cmath>
+#include <numbers>
+
 class CalculadoraTest : public testing::Test {
 public:
 
@@ -22,6 +25,8 @@ public:
 
     Calculadora calculadora_init;
     Calculadora calculadora;
+    double tolerance = 0.005;
+
 
 };
 
@@ -58,17 +63,38 @@ TEST_F(CalculadoraTest, IndiceBloque) {
     EXPECT_EQ(result.z, expect.z);
 }
 
+TEST_F(CalculadoraTest, DeltaDensidades) {
+    double dist_squere = 6.283185308;
+    double temp = calculadora.suavizado*calculadora.suavizado - dist_squere;
+    double expect = pow(temp, 3);
+    double result = calculadora.delta_densidades(dist_squere);
+    if (expect < result) {
+        double aux = expect;
+        expect = result; 
+        result = aux;
+    }
+    double error = (expect - result)/expect;
+    EXPECT_LE(error, tolerance);
+}
 
+
+TEST_F(CalculadoraTest, TransformDensidad) {
+    double suavizado6 = calculadora.suavizado, suavizado9 = calculadora.suavizado;
+    double dens = 0.01570796327;
+    double cte = 315 / (64 * std::numbers::pi);
+    suavizado6 = pow(suavizado6, 6);
+    suavizado9 = pow(suavizado9, 9);
+    double expect = calculadora.masa * ((dens + suavizado9) * cte/suavizado9);
+    double result = calculadora.transform_densidad(dens);
+    if (expect < result) {
+        double aux = expect;
+        expect = result; 
+        result = aux;
+    }
+    double error = (expect - result)/expect;
+    EXPECT_LE(error, tolerance);
+}
 /*
-TEST(CalculadoraTest, DeltaDensidades) {
-
-}
-
-
-TEST(CalculadoraTest, TransformDensidad) {
-
-}
-
 TEST(CalculadoraTest, AceleracionPrimeraParte) {
 
 }
@@ -147,39 +173,108 @@ TEST_F(CalculadoraTest, ColisionesLimiteEjeZ_bloque1) {
     EXPECT_EQ(result, -expect);
 }
 
-/*
+
 TEST_F(CalculadoraTest, ActualizarPosicion) {
     Vector3d<double> gradiente(0.1, 0.2, 0.3);
-    //Vector3d<double> velocidad(0.4, 0.5, 0.6);
     Vector3d<double> aceleracion(3.1, -4.0, 1.69);
-    Vector3d<double> expect = gradiente * 1e-3 + aceleracion*delta_t * 1e-3 * 1e-3;
+    Vector3d<double> expect = gradiente * 1e-3 + aceleracion * 1e-3 * 1e-3;
     Vector3d<double> pos(0.0, 0.0, 0.0);
     Vector3d<double> result = calculadora.actualizar_posicion(pos, gradiente, aceleracion);
-    //EXPECT_EQ(expect, result);
+    EXPECT_EQ(result.x, expect.x);
+    EXPECT_EQ(result.y, expect.y);
+    EXPECT_EQ(result.z, expect.z);
 }
 
 TEST_F(CalculadoraTest, ActualizarVelocidad) {
     Vector3d<double> aceleracion(3.1, -4.0, 1.69);
-    Vector3d<double> expect =  aceleracion*delta_t * 5e-4;
+    Vector3d<double> expect =  aceleracion * 5e-4;
     Vector3d<double> grad(0.0, 0.0, 0.0);
 
     Vector3d<double> result = calculadora.actualizar_velocidad(grad, aceleracion);
-    //EXPECT_EQ(result, expect);
-}
-*/
-/*
-TEST(CalculadoraTest, ActualizarGradiente) {
-
+    EXPECT_EQ(result.x, expect.x);
+    EXPECT_EQ(result.y, expect.y);
+    EXPECT_EQ(result.z, expect.z);
 }
 
-TEST(CalculadoraTest, InteraccionesLimitesEjeX) {
 
+TEST_F(CalculadoraTest, ActualizarGradiente) {
+    Vector3d aceleracion(0.3141592654, 2.718, 1.61803398875);
+    Vector3d<double> expect = aceleracion * 1e-3;
+    Vector3d<double> grad(0.0, 0.0, 0.0);
+    Vector3d<double> result = calculadora.actualizar_gradiente(grad, aceleracion);
+    EXPECT_EQ(result.x, expect.x);
+    EXPECT_EQ(result.y, expect.y);
+    EXPECT_EQ(result.z, expect.z);
 }
 
-TEST(CalculadoraTest, InteraccionesLimitesEjeY) {
-
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeX_bloque0) {
+    int bloque = 0;
+    double dx = 3.141592654;
+    double expect = -0.065 - dx;
+    double result = calculadora.interacciones_limite_eje_x(dx, bloque);
+    EXPECT_EQ(result, expect);
 }
 
-TEST(CalculadoraTest, InteraccionesLimiteEjeZ) {
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeX_bloque1) {
+    int bloque = -1;
+    double dx = 3.141592654;
+    double expect = 0.065 + dx;
+    double result = calculadora.interacciones_limite_eje_x(dx, bloque);
+    EXPECT_EQ(result, expect);
+}
 
-}*/
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeX_bloque2) {
+    int bloque = 2;
+    double dx = 3.141592654;
+    double expect = 0.0;
+    double result = calculadora.interacciones_limite_eje_x(dx, bloque);
+    EXPECT_EQ(result, expect);
+}
+
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeY_bloque0) {
+    int bloque = 0;
+    double dy = 3.141592654;
+    double expect = -0.08 - dy;
+    double result = calculadora.interacciones_limite_eje_y(dy, bloque);
+    EXPECT_EQ(result, expect);
+}
+
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeY_bloque1) {
+    int bloque = -1;
+    double dy = 3.141592654;
+    double expect = 0.1 + dy;
+    double result = calculadora.interacciones_limite_eje_y(dy, bloque);
+    EXPECT_EQ(result, expect);
+}
+
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeY_bloque2) {
+    int bloque = 2;
+    double dy = 3.141592654;
+    double expect = 0.0;
+    double result = calculadora.interacciones_limite_eje_y(dy, bloque);
+    EXPECT_EQ(result, expect);
+}
+
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeZ_bloque0) {
+    int bloque = 0;
+    double dz= 3.141592654;
+    double expect = -0.065 - dz;
+    double result = calculadora.interacciones_limite_eje_z(dz, bloque);
+    EXPECT_EQ(result, expect);
+}
+
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeZ_bloque1) {
+    int bloque = -1;
+    double dz = 3.141592654;
+    double expect = 0.065 + dz;
+    double result = calculadora.interacciones_limite_eje_z(dz, bloque);
+    EXPECT_EQ(result, expect);
+}
+
+TEST_F(CalculadoraTest, InteraccionesLimitesEjeZ_bloque2) {
+    int bloque = 2;
+    double dz = 3.141592654;
+    double expect = 0.0;
+    double result = calculadora.interacciones_limite_eje_z(dz, bloque);
+    EXPECT_EQ(result, expect);
+}
