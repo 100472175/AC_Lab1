@@ -13,6 +13,8 @@
 #include <utility>
 #include <vector>
 
+constexpr double const dist_max_a_limite{1e-10};
+
 class Simulacion {
   public:
     int num_iteraciones;

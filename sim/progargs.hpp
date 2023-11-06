@@ -33,7 +33,7 @@ class Progargs {
 
     int write_file(double ppm,Simulacion & simulacion);
 
-    static int my_is_digit(std::string const &);
+    static int my_is_digit(std::string const &string_to_try);
 
     int valida_entrada(std::string const & argumento_entrada);
     int valida_salida(std::string const & argumento_salida);

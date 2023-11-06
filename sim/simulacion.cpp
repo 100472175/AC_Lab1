@@ -206,13 +206,13 @@ void Simulacion::colision_particula_limite_x(int indice, int bloque) {
   double const nueva_x = particulas.pos[indice].x + particulas.gradiente[indice].x * delta_t;
   if (bloque == 0) {
     double const delta_x = d_p - (nueva_x - b_min.x);
-    if (delta_x > 1e-10) {
+    if (delta_x > dist_max_a_limite) {
       particulas.aceleracion[indice].x +=
           Calculadora::colisiones_limite_eje_x(bloque, delta_x, particulas.velocidad[indice]);
     }
   } else if (bloque == -1) {
     double const delta_x = d_p - (b_max.x - nueva_x);
-    if (delta_x > 1e-10) {
+    if (delta_x > dist_max_a_limite) {
       particulas.aceleracion[indice].x +=
           Calculadora::colisiones_limite_eje_x(bloque, delta_x, particulas.velocidad[indice]);
     }
@@ -223,13 +223,13 @@ void Simulacion::colision_particula_limite_y(int indice, int bloque) {
   double const nueva_y = particulas.pos[indice].y + particulas.gradiente[indice].y * delta_t;
   if (bloque == 0) {
     double const delta_y = d_p - (nueva_y - b_min.y);
-    if (delta_y > 1e-10) {
+    if (delta_y > dist_max_a_limite) {
       particulas.aceleracion[indice].y +=
           Calculadora::colisiones_limite_eje_y(bloque, delta_y, particulas.velocidad[indice]);
     }
   } else if (bloque == -1) {
     double const delta_y = d_p - (b_max.y - nueva_y);
-    if (delta_y > 1e-10) {
+    if (delta_y > dist_max_a_limite) {
       particulas.aceleracion[indice].y +=
           Calculadora::colisiones_limite_eje_y(bloque, delta_y, particulas.velocidad[indice]);
     }
@@ -240,13 +240,13 @@ void Simulacion::colision_particula_limite_z(int indice, int bloque) {
   double const nueva_z = particulas.pos[indice].z + particulas.gradiente[indice].z * delta_t;
   if (bloque == 0) {
     double const delta_z = d_p - (nueva_z - b_min.z);
-    if (delta_z > 1e-10) {
+    if (delta_z > dist_max_a_limite) {
       particulas.aceleracion[indice].z +=
           Calculadora::colisiones_limite_eje_z(bloque, delta_z, particulas.velocidad[indice]);
     }
   } else if (bloque == -1) {
     double const delta_z = d_p - (b_max.z - nueva_z);
-    if (delta_z > 1e-10) {
+    if (delta_z > dist_max_a_limite) {
       particulas.aceleracion[indice].z +=
           Calculadora::colisiones_limite_eje_z(bloque, delta_z, particulas.velocidad[indice]);
     }
