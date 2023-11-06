@@ -10,6 +10,7 @@
 #include "particle.hpp"
 
 #include <iostream>
+#include <utility>
 #include <vector>
 
 class Simulacion {
@@ -18,8 +19,8 @@ class Simulacion {
     int num_particulas;
     Particulas particulas;
     Malla malla;
-    Calculadora calculadora;
-    Simulacion(int n_i, int n_p, Calculadora calc, Malla m) : num_iteraciones(n_i), num_particulas(n_p) ,malla(m), calculadora(calc){}
+    Calculadora calc;
+    Simulacion(int n_i, int n_p, Calculadora calculadora, Malla m) : num_iteraciones(n_i), num_particulas(n_p) ,malla(std::move(m)), calc(calculadora){}
     void iterador();
     void iteracion();
     void poblar_malla();

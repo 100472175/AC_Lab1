@@ -28,9 +28,6 @@ constexpr double const delta_t{1e-3};                 // Paso de tiempo
 Vector3d<double> const b_max(0.065, 0.1, 0.065);      // Límites de la caja máximos
 Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mínimos
 Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
-constexpr double const densidad_inicial{0.0};
-constexpr int const seis{6};
-constexpr int const nueve{9};
 constexpr double const operador_densidad{315 / (64 * std::numbers::pi)};
 
 class Calculadora {
@@ -71,7 +68,7 @@ class Calculadora {
       return parte_1 * masa;
     };
 
-    constexpr Vector3d<double> aceleracion_primera_parte(Vector3d<double> & posicion_1,
+    constexpr Vector3d<double> acel_p1(Vector3d<double> & posicion_1,
                                                          Vector3d<double> & posicion_2,
                                                          double densidad_1,
                                                          double densidad_2) const {
@@ -85,7 +82,7 @@ class Calculadora {
       return diff_posiciones * acceleration_2 * acceleration_3;
     };
 
-    constexpr Vector3d<double> aceleracion_segunda_parte(Vector3d<double> & velocidad_1,
+    constexpr Vector3d<double> acel_p2(Vector3d<double> & velocidad_1,
                                                          Vector3d<double> & velocidad_2) const {
       Vector3d<double> const resultado =
           (velocidad_2 - velocidad_1) *

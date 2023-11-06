@@ -6,10 +6,10 @@
 
 void add_particulas(Simulacion & simulacion, Vector3d<double> p, Vector3d<double> hv,
                     Vector3d<double> v) {
-  simulacion.particulas.posicion.push_back(p.to_double());
+  simulacion.particulas.pos.push_back(p.to_double());
   simulacion.particulas.gradiente.push_back(hv.to_double());
   simulacion.particulas.velocidad.push_back(v.to_double());
-  simulacion.particulas.densidad.push_back(0.0);
+  simulacion.particulas.dens.push_back(0.0);
   simulacion.particulas.aceleracion.push_back(Vector3d<double>(0.0, -9.8, 0.0));
 }
 
@@ -122,7 +122,7 @@ int Progargs::write_file(double ppm, Simulacion & simulacion) {
   archivo_salida.write(reinterpret_cast<char *>(&simulacion.num_particulas), 4);
 
   for (int i = 0; i < simulacion.num_particulas; ++i) {
-    Vector3d<float> posicion  = simulacion.particulas.posicion[i].to_float();
+    Vector3d<float> posicion  = simulacion.particulas.pos[i].to_float();
     Vector3d<float> gradiente = simulacion.particulas.gradiente[i].to_float();
     Vector3d<float> velocidad = simulacion.particulas.velocidad[i].to_float();
 
