@@ -1,13 +1,16 @@
 //
-// Created by cesar on 08/10/23.
-//
-//
 // Created by edu on 10/14/23.
 //
 
 
 #include "../sim/vector_3d.hpp"
 #include <gtest/gtest.h>
+
+constexpr double dos = 2.0;
+constexpr double tres = 3.0;
+constexpr int cincuenta = 50;
+constexpr double e_100 = 1e-100;
+constexpr double e100 = 1e100;
 
 
 // Tests para Vector3d
@@ -21,18 +24,18 @@ TEST(Vector3dTest, Constructor) {
 
 // Constructor con double
 TEST(Vector3dTest, ConstructorDouble) {
-  Vector3d<double> const vt1(1.0, 2.0, 3.0);
+  Vector3d<double> const vt1(1.0, dos, tres);
   EXPECT_DOUBLE_EQ(vt1.x, 1.0);
-  EXPECT_DOUBLE_EQ(vt1.y, 2.0);
-  EXPECT_DOUBLE_EQ(vt1.z, 3.0);
+  EXPECT_DOUBLE_EQ(vt1.y, dos);
+  EXPECT_DOUBLE_EQ(vt1.z, tres);
 }
 
 // Constructor con float
 TEST(Vector3dTest, ConstructorFloat) {
-  Vector3d<float> const vt1(1.0, 2.0, 3.0);
+  Vector3d<float> const vt1(1.0, dos, tres);
   EXPECT_FLOAT_EQ(vt1.x, 1.0);
-  EXPECT_FLOAT_EQ(vt1.y, 2.0);
-  EXPECT_FLOAT_EQ(vt1.z, 3.0);
+  EXPECT_FLOAT_EQ(vt1.y, dos);
+  EXPECT_FLOAT_EQ(vt1.z, tres);
 }
 
 // Constructor con otro vector
@@ -66,8 +69,8 @@ TEST(Vector3dTest, ToFloat) {
   Vector3d<int> vt1(1, 2, 3);
   Vector3d<float> const vt2 = vt1.to_float();
   EXPECT_FLOAT_EQ(vt2.x, 1.0);
-  EXPECT_FLOAT_EQ(vt2.y, 2.0);
-  EXPECT_FLOAT_EQ(vt2.z, 3.0);
+  EXPECT_FLOAT_EQ(vt2.y, dos);
+  EXPECT_FLOAT_EQ(vt2.z, tres);
 }
 
 // Comprobación de que se puede convertir un vector a double
@@ -75,8 +78,8 @@ TEST(Vector3dTest, ToDouble) {
   Vector3d<int> vt1(1, 2, 3);
   Vector3d<double> const vt2 = vt1.to_double();
   EXPECT_DOUBLE_EQ(vt2.x, 1.0);
-  EXPECT_DOUBLE_EQ(vt2.y, 2.0);
-  EXPECT_DOUBLE_EQ(vt2.z, 3.0);
+  EXPECT_DOUBLE_EQ(vt2.y, dos);
+  EXPECT_DOUBLE_EQ(vt2.z, tres);
 }
 
 // Comprobación que el cuadrado de la distancia entre dos vectores es correcto
@@ -105,7 +108,7 @@ TEST(Vector3dTest, SumaAsignacion) {
 
 // Comprobación que la resta de dos vectores es correcta usando el operador +
 TEST(Vector3dTest, SumaNormal) {
-  Vector3d<double> const vt1(1.0, 2.0, 3.0);
+  Vector3d<double> const vt1(1.0, dos, tres);
   Vector3d<double> const vt2(4.0, 5.0, 6.0);
   Vector3d<double> const result = vt1 + vt2;
   EXPECT_EQ(result.x, 5.0);
@@ -115,46 +118,46 @@ TEST(Vector3dTest, SumaNormal) {
 
 // Comprobación que la resta de dos vectores es correcta usando el operador -=
 TEST(Vector3dTest, RestaAsignacion) {
-  Vector3d<double> vt1(1.0, 2.0, 3.0);
+  Vector3d<double> vt1(1.0, dos, tres);
   Vector3d<double> const vt2(4.0, 5.0, 6.0);
   vt1 -= vt2;
-  EXPECT_EQ(vt1.x, -3.0);
-  EXPECT_EQ(vt1.y, -3.0);
-  EXPECT_EQ(vt1.z, -3.0);
+  EXPECT_EQ(vt1.x, -tres);
+  EXPECT_EQ(vt1.y, -tres);
+  EXPECT_EQ(vt1.z, -tres);
 }
 
 // Comprobación que la resta de dos vectores es correcta usando el operador -
 TEST(Vector3dTest, RestaNormal) {
-  Vector3d<double> const vt1(1.0, 2.0, 3.0);
+  Vector3d<double> const vt1(1.0, dos, tres);
   Vector3d<double> const vt2(4.0, 5.0, 6.0);
   Vector3d<double> const result = vt1 - vt2;
-  EXPECT_EQ(result.x, -3.0);
-  EXPECT_EQ(result.y, -3.0);
-  EXPECT_EQ(result.z, -3.0);
+  EXPECT_EQ(result.x, -tres);
+  EXPECT_EQ(result.y, -tres);
+  EXPECT_EQ(result.z, -tres);
 }
 
 
 // Comprobación que la multiplicación de un vector por un escalar es correcta usando el operador *=
 TEST(Vector3dTest, MultiplicacionAsignacion) {
-  Vector3d<double> vt1(-1.0, 2.0, 3.0);
+  Vector3d<double> vt1(-1.0, dos, tres);
   vt1 *= 2;
-  EXPECT_EQ(vt1.x, -2.0);
+  EXPECT_EQ(vt1.x, -dos);
   EXPECT_EQ(vt1.y, 4.0);
   EXPECT_EQ(vt1.z, 6.0);
 }
 
 // Comparación que la multiplicación de un vector por un escalar es correcta usando el operador *
 TEST(Vector3dTest, MultiplicacionNormal) {
-  Vector3d<double> const vt1(-1.0, 2.0, 3.0);
+  Vector3d<double> const vt1(-1.0, dos, tres);
   Vector3d<double> const result = vt1 * 2;
-  EXPECT_EQ(result.x, -2.0);
+  EXPECT_EQ(result.x, -dos);
   EXPECT_EQ(result.y, 4.0);
   EXPECT_EQ(result.z, 6.0);
 }
 
 // Comprobación que la división de un vector por un escalar es correcta usando el operador /=
 TEST(Vector3dTest, DivisionAsignacion) {
-  Vector3d<double> vt1(-1.0, 2.0, 3.0);
+  Vector3d<double> vt1(-1.0, dos, tres);
   vt1 /= 2;
   EXPECT_EQ(vt1.x, -0.5);
   EXPECT_EQ(vt1.y, 1.0);
@@ -165,8 +168,8 @@ TEST(Vector3dTest, DivisionAsignacion) {
 // Comprobación que la división de un vector por otro vector es correcta usando el operador /
 // Es decir, cada elemento del vector3d se divide por el elemento correspondiente del otro vector3d
 TEST(Vector3dTest, DivisionEntreVectores) {
-  Vector3d<double> const vt1(-1.0, 2.0, 3.0);
-  Vector3d<double> const vt2(2.0, 4.0, -6.0);
+  Vector3d<double> const vt1(-1.0, dos, tres);
+  Vector3d<double> const vt2(dos, 4.0, -6.0);
   Vector3d<double> const result = vt1 / vt2;
   EXPECT_EQ(result.x, -0.5);
   EXPECT_EQ(result.y, 0.5);
@@ -206,8 +209,8 @@ TEST(Vector3dTest, CasosLimitesMultiplicacionValoresGrandes) {
 
 // Comprobación división con valores muy grandes y pequeños
 TEST(Vector3dTest, CasosLimitesDivisionValoresGrandes) {
-  Vector3d<double> vt1(1e-100, 1e100, 0);
-  vt1 /= 50;
+  Vector3d<double> vt1(e_100, e100, 0);
+  vt1 /= cincuenta;
   EXPECT_EQ(vt1.x, 2e-102);
   EXPECT_EQ(vt1.y, 2e98);
   EXPECT_EQ(vt1.z, 0);
@@ -240,7 +243,7 @@ TEST(Vector3dTest, DivisionPorEscalarCero) {
 
 // Comprobación del uso de valores no numéricos
 TEST(Vector3dTest, ValoresNoNumericos) {
-  Vector3d<std::string> vt1("hola", "adios", "que tal");
+  Vector3d<std::string> const vt1("hola", "adios", "que tal");
 
   EXPECT_EQ(vt1.x, "hola");
   EXPECT_EQ(vt1.y, "adios");
@@ -249,9 +252,9 @@ TEST(Vector3dTest, ValoresNoNumericos) {
 
 // Comprobación del uso de valores no numéricos con operadores
 TEST(Vector3dTest, ValoresNoNumericos2) {
-  Vector3d<std::string> vt1("hola,", "adios,", "que tal!");
-  Vector3d<std::string> vt2("hola", "adios", "que tal");
-  Vector3d<std::string> result = vt1 + vt2;
+  Vector3d<std::string> const vt1("hola,", "adios,", "que tal!");
+  Vector3d<std::string> const vt2("hola", "adios", "que tal");
+  Vector3d<std::string> const result = vt1 + vt2;
   EXPECT_EQ(result.x, "hola,hola");
   EXPECT_EQ(result.y, "adios,adios");
   EXPECT_EQ(result.z, "que tal!que tal"); 
