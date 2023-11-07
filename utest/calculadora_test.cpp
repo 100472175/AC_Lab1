@@ -94,16 +94,81 @@ TEST_F(CalculadoraTest, TransformDensidad) {
     double error = (expect - result)/expect;
     EXPECT_LE(error, tolerance);
 }
+
+TEST_F(CalculadoraTest, AceleracionPrimeraParte) {
+    Vector3d<double> posicion1(-0.0208688, -0.0606383, -0.0484482);
+    Vector3d<double> posicion2( -0.0484482, -0.0208688, -0.0606383);
+    Vector3d<double> diff = posicion1 - posicion2;
+
+    double distancia = pow(posicion1.x - posicion2.x, 2) + pow(posicion1.y - posicion2.y, 2) +
+            pow(posicion1.z - posicion2.z, 2);
+    distancia = sqrt(distancia);
+
+    double densidad1 = 0.12345689;
+    double densidad2 = 0.987654321;
+    double operador1 = 15/(std::numbers::pi * pow(calculadora.suavizado, 6));
+    operador1 *= 3 * calculadora.masa * p_s * 0.5 * pow(calculadora.suavizado - distancia, 2) / distancia;
+    double operador2 = densidad1 + densidad2 - (2 * 1e3);
+
+    Vector3d<double> expect = diff * operador1*operador2;
+    Vector3d<double> result = calculadora.acel_p1(posicion1, posicion2, densidad1, densidad2);
+    if (expect.x < result.x) {
+        double aux = expect.x;
+        expect.x = result.x;
+        result.x = aux;
+    }
+    if (expect.y < result.x) {
+        double aux = expect.y;
+        expect.y = result.y;
+        result.y = aux;
+    }
+    if (expect.z < result.x) {
+        double aux = expect.z;
+        expect.z = result.z;
+        result.z = aux;
+    }
+    double error_x = (expect.x - result.x)/expect.x;
+    double error_y = (expect.y - result.y)/expect.y;
+    double error_z = (expect.z - result.z)/expect.z;
+
+    EXPECT_LE(error_x, tolerance);
+    EXPECT_LE(error_y, tolerance);
+    EXPECT_LE(error_z, tolerance);
+
+
+}
+
+TEST_F(CalculadoraTest, AceleracionSegundaParte) {
+    Vector3d<double> vel1(-0.0208688, -0.0606383, -0.0484482), vel2( -0.0484482, -0.0208688, -0.0606383);
+    double operador = 45/(std::numbers::pi * pow(calculadora.suavizado, 6)) * 0.4 * calculadora.masa;
+    Vector3d<double> expect = (vel2 - vel1)*operador;
+    Vector3d<double> result = calculadora.acel_p2(vel1, vel2);
+
+    if (expect.x < result.x) {
+        double aux = expect.x;
+        expect.x = result.x;
+        result.x = aux;
+    }
+    if (expect.y < result.x) {
+        double aux = expect.y;
+        expect.y = result.y;
+        result.y = aux;
+    }
+    if (expect.z < result.x) {
+        double aux = expect.z;
+        expect.z = result.z;
+        result.z = aux;
+    }
+    double error_x = (expect.x - result.x)/expect.x;
+    double error_y = (expect.y - result.y)/expect.y;
+    double error_z = (expect.z - result.z)/expect.z;
+
+    EXPECT_LE(error_x, tolerance);
+    EXPECT_LE(error_y, tolerance);
+    EXPECT_LE(error_z, tolerance);
+}
 /*
-TEST(CalculadoraTest, AceleracionPrimeraParte) {
-
-}
-
-TEST(CalculadoraTest, AceleracionSegundaParte) {
-
-}
-
-TEST(CalculadoraTest, AceleracionTerceraParte) {
+TEST_F(CalculadoraTest, AceleracionTerceraParte) {
 
 }*/
 
