@@ -4,7 +4,8 @@ add_executable(utest
         main.cpp
         vector3d_test.cpp
         calculadora_test.cpp
-        progargs_test.cpp)
+        progargs_test.cpp
+        tools_trazas.cpp)
 
 target_link_libraries(utest
         PRIVATE
