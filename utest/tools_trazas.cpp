@@ -40,3 +40,22 @@ int load_trz(std::string path, Simulacion & sim) {
     }
     return 0;
 }
+
+int write_trz(std::string path ,Simulacion & sim){
+    std::ofstream salida(path);
+    salida.write(reinterpret_cast<char*>(&sim.malla.tamano),4);
+
+    for (int i = 0; i < sim.malla.tamano; i++){
+        int64_t particulas = sim.malla.bloques[i].particulas.size();
+        salida.write(reinterpret_cast<char*>(particulas), 8);
+        for (int j = 0; j < particulas; j++){
+            auto id_part = (int64_t)sim.malla.bloques[i].particulas[j];
+            salida.write(reinterpret_cast<char*>(&id_part),8);
+            salida.write(reinterpret_cast<char*>(&sim.particulas.pos[id_part]),24);
+            salida.write(reinterpret_cast<char*>(&sim.particulas.gradiente[id_part]),24);
+            salida.write(reinterpret_cast<char*>(&sim.particulas.velocidad[id_part]),24);
+            salida.write(reinterpret_cast<char*>(&sim.particulas.dens[id_part]),8);
+            salida.write(reinterpret_cast<char*>(&sim.particulas.aceleracion[id_part]),24);
+        }
+    }
+}

@@ -63,6 +63,7 @@ class ProgargsTest: public testing::Test {
         file.write(reinterpret_cast<char *>(&pos), 12);
         file.write(reinterpret_cast<char *>(&h_v), 12);
         file.write(reinterpret_cast<char *>(&vel), 12);
+        file.close();
       }
     }
     void preparar_ficheros_tests(){
