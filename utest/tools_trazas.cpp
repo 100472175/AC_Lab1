@@ -32,6 +32,7 @@ int load_trz(std::string path, Simulacion & sim) {
             sim.malla.bloques[i].particulas.push_back(id);
             sim.particulas.pos[id] = pos;
             sim.particulas.gradiente[id] = grad;
+            sim.particulas.velocidad[id] = vel;
             sim.particulas.dens[id] = dens;
             sim.particulas.aceleracion[id] = acel;
 
