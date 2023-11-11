@@ -6,7 +6,10 @@ add_executable(utest
         calculadora_test.cpp
         progargs_test.cpp
         tools_trazas.cpp
-        malla_test.cpp)
+        tools_trazas.hpp
+        etapas_simulacion_test.cpp
+        malla_test.cpp
+        etapas_simulacion_test.cpp)
 
 target_link_libraries(utest
         PRIVATE

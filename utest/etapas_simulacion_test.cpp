@@ -43,6 +43,10 @@
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(progargs.getter_num_iteraciones(), calc.num_particulas, calc, malla);
   progargs.read_body(simulacion);
+  simulacion.malla.crear_bloques();
+  for (int i = 0; i < malla.tamano; i++) {
+      simulacion.malla.bloques_contiguos(malla.bloques[i].i, malla.bloques[i].j, malla.bloques[i].k);
+  }
   load_trz("../../traza/small/repos-base-1.trz",simulacion);
   simulacion.colisiones_particulas_densidad();
   write_trz("salida_colisiones_particulas_densidad",simulacion);

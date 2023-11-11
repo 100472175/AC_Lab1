@@ -25,6 +25,7 @@ class ProgargsTest: public testing::Test {
     std::string entrada_np1_particulas_1 = "fichero_entrada_np1_particulas_1.fld";
     std::string entrada_np0 = "fichero_entrada_np0.fld";
     std::string entrada_np_negativo = "fichero_entrada_np_negativo.fld";
+    std::string entrada_no_valida = "fichero_entrada_no_valida";
     std::string entrada_np_2_particulas_1 = "fichero_entrada_np_2_particulas_1.fld";
     std::string entrada_np_1_particulas_2 = "fichero_entrada_np_1_particulas_2.fld";
     std::string salida                    = "salida.fld";
@@ -123,6 +124,12 @@ TEST_F(ProgargsTest, Constructor_n_it_caracter) {
   EXPECT_EQ(progargs_test.asignar_valores(argumentos_test), -1);
 
 }
+TEST_F(ProgargsTest, Constructor_entrada_no_valida){
+  std::vector <std::string> const argumentos_test = {"0",entrada_no_valida, "fichero_salida_1.fld"};
+  Progargs progargs_test{};
+  EXPECT_EQ(progargs_test.asignar_valores(argumentos_test), -3);
+}
+
 
 // Tests para read_head de Progargs ****************************************
 
