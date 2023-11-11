@@ -10,6 +10,7 @@
 
 #include "../sim/vector_3d.hpp"
 #include "../sim/progargs.hpp"
+#include "tools_trazas.hpp"
 #include <gtest/gtest.h>
 #include <fstream>
 #include <iterator>
@@ -21,13 +22,13 @@ class ProgargsTest: public testing::Test {
     void SetUp() override{
       preparar_ficheros_tests();
     }
-    std::string entrada_np1_particulas_1 = "fichero_entrada_np1_particulas_1";
-    std::string entrada_np0 = "fichero_entrada_np0";
-    std::string entrada_np_negativo = "fichero_entrada_np_negativo";
-    std::string entrada_np_2_particulas_1 = "fichero_entrada_np_2_particulas_1";
-    std::string entrada_np_1_particulas_2 = "fichero_entrada_np_1_particulas_2";
-    std::string salida                    = "salida";
-    std::string salida_no_valida = "fichero_salida_no_valida";
+    std::string entrada_np1_particulas_1 = "fichero_entrada_np1_particulas_1.fld";
+    std::string entrada_np0 = "fichero_entrada_np0.fld";
+    std::string entrada_np_negativo = "fichero_entrada_np_negativo.fld";
+    std::string entrada_np_2_particulas_1 = "fichero_entrada_np_2_particulas_1.fld";
+    std::string entrada_np_1_particulas_2 = "fichero_entrada_np_1_particulas_2.fld";
+    std::string salida                    = "salida.fld";
+    std::string salida_no_valida = "fichero_salida_no_valida.fld";
 
     Particulas crear_particulas(int numero_particulas){
       Vector3d<double> p {0.0230779, -0.0804886, -0.0516096};
@@ -63,7 +64,7 @@ class ProgargsTest: public testing::Test {
         file.write(reinterpret_cast<char *>(&pos), 12);
         file.write(reinterpret_cast<char *>(&h_v), 12);
         file.write(reinterpret_cast<char *>(&vel), 12);
-        file.close();
+        //file.close();
       }
     }
     void preparar_ficheros_tests(){
@@ -75,130 +76,6 @@ class ProgargsTest: public testing::Test {
       crear_fichero(salida_no_valida,2,1,2);
     }
 };
-
-Particulas crear_particulas(int numero_particulas){
-  Vector3d<double> p {0.0230779, -0.0804886, -0.0516096};
-  Vector3d<double> hv {-0.124551, 0.0130596, 0.0567288};
-  Vector3d<double> v {-0.129624,0.172922,0.0516096};
-  Particulas particulas;
-  particulas.pos.push_back(p.to_double());
-  particulas.gradiente.push_back(hv.to_double());
-  particulas.velocidad.push_back(v.to_double());
-  particulas.dens.push_back(0.0);
-  particulas.aceleracion.push_back(Vector3d<double>(0.0, -9.8, 0.0));
-  if (numero_particulas > 1){
-    Vector3d<float> p2 {0.0412315, -0.0667779, -0.0500864};
-    Vector3d<float> hv2 {-0.132673, 0.00470201, 0.123793};
-    Vector3d<float> v2 {-0.131581, 0.0102759, 0.12292};
-    particulas.pos.push_back(p2.to_double());
-    particulas.gradiente.push_back(hv2.to_double());
-    particulas.velocidad.push_back(v2.to_double());
-    particulas.dens.push_back(0.0);
-    particulas.aceleracion.push_back(Vector3d<double>(0.0, -9.8, 0.0));
-  }
-  return particulas;
-}
-void crear_fichero(const std::string& archivo,int n_p, float ppm, int numero_particulas) {
-  std::ofstream file(archivo, std::ios::binary);
-  file.write(reinterpret_cast<char *>(&ppm), 4);
-  file.write(reinterpret_cast<char *>(&n_p), 4);
-  Particulas particulas = crear_particulas(numero_particulas);
-  for (int i = 0; i < (int)particulas.dens.size();i++) {
-    Vector3d<float> pos = particulas.pos[i].to_float();
-    Vector3d<float> h_v = particulas.gradiente[i].to_float();
-    Vector3d<float> vel = particulas.velocidad[i].to_float();
-    file.write(reinterpret_cast<char *>(&pos), 12);
-    file.write(reinterpret_cast<char *>(&h_v), 12);
-    file.write(reinterpret_cast<char *>(&vel), 12);
-  }
-}
-
-
-bool compareFiles(const std::string& p1, const std::string& p2) {
-  std::ifstream f1(p1, std::ifstream::binary);
-  std::ifstream f2(p2, std::ifstream::binary);
-
-  if (f1.fail() || f2.fail()) {
-    return false; //file problem
-  }
-  f1.seekg(0, f1.end);
-  f2.seekg(0, f2.end);
-  size_t lengh1 = f1.tellg();
-  size_t lengh2 = f2.tellg();
-  std::cout << lengh1 << " " << lengh2 << "\n";
-  if (lengh1 != lengh2) {
-    std::cout << "size difference\n";
-    return false;
-  }
-
-  f1.seekg(0, std::ifstream::beg);
-  f2.seekg(0, std::ifstream::beg);
-  return std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
-                    std::istreambuf_iterator<char>(),
-                    std::istreambuf_iterator<char>(f2.rdbuf()));
-}
-
-bool diffArchivos(const std::string& archivo1, const std::string& archivo2) {
-  std::ifstream file1(archivo1);
-  std::ifstream file2(archivo2);
-
-  if (!file1.is_open() || !file2.is_open()) {
-    std::cerr << "No se pueden abrir los archivos." << std::endl;
-    return false;
-  }
-
-  std::string linea1, linea2;
-  std::vector<std::string> diferencias;
-
-  int numeroLinea = 1;
-  while (std::getline(file1, linea1) && std::getline(file2, linea2)) {
-    if (linea1 != linea2) {
-      diferencias.push_back("Línea " + std::to_string(numeroLinea) + ":");
-      diferencias.push_back("Archivo 1: " + linea1);
-      diferencias.push_back("Archivo 2: " + linea2);
-    }
-    numeroLinea++;
-  }
-
-  if (diferencias.empty()) {
-    std::cout << "Los archivos son idénticos." << std::endl;
-    return true;
-  } else {
-    std::cerr << "Diferencias encontradas:" << std::endl;
-    for (const std::string& diferencia : diferencias) {
-      std::cerr << diferencia << std::endl;
-    }
-    return false;
-  }
-}
-
-
-bool comparar_archivos(const std::string& archivo1, const std::string& archivo2) {
-  std::ifstream file1(archivo1);
-  std::ifstream file2(archivo2);
-
-  if (!file1.is_open() || !file2.is_open()) {
-    std::cerr << "No se pueden abrir los archivos." << '\n';
-    return false;
-  }
-  int num1 = file1.gcount();
-  int num2 = file2.gcount();
-  if (num1 != num2) {
-    return false;
-  }
-  std::string linea1;
-  std::string linea2;
-  for(int i = 0; i < file1.gcount(); i++){
-    std::getline(file1, linea1);
-    std::getline(file2, linea2);
-    if (linea1 != linea2) {
-      return false;
-    }
-  }
-  return true;
-}
-
-
 
 // Tests para Constructor de Progargs *********************************************
 
