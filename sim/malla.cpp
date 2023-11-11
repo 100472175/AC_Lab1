@@ -6,6 +6,8 @@
 #include <iostream>
 
 void Malla::crear_bloques() {
+  switch (tamano)
+  case 0: tamano += 1;
   bloques = std::vector<Bloque>(tamano, Bloque(0,0,0));
   for (int eje_z = 0; eje_z < n_z; eje_z++) {
       for (int eje_y = 0; eje_y < n_y; eje_y++) {

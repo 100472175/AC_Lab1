@@ -26,6 +26,7 @@ int load_trz(std::string path, Simulacion & sim) {
             
             sim.malla.bloques[i].particulas.clear();
             sim.malla.bloques[i].particulas.push_back(id);
+            if (id >= sim.num_particulas || id < 0) {std::cout << "error\n"; return -1;}
             sim.particulas.pos[id] = pos;
             sim.particulas.gradiente[id] = grad;
             sim.particulas.velocidad[id] = vel;
