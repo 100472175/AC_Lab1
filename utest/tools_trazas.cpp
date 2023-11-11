@@ -9,6 +9,7 @@ int load_trz(std::string path, Simulacion & sim) {
 
     for (int i = 0; i < number_blocks; ++i) {
         traza.read(reinterpret_cast<char*>(&particulas_block), 8);
+        sim.malla.bloques[i].particulas.clear();
         for (int j = 0; j < particulas_block; ++j){
             int64_t id;
             Vector3d<double> pos;
@@ -24,9 +25,7 @@ int load_trz(std::string path, Simulacion & sim) {
             traza.read(reinterpret_cast<char*>(&dens), 8);
             traza.read(reinterpret_cast<char*>(&acel), 24);
             
-            sim.malla.bloques[i].particulas.clear();
             sim.malla.bloques[i].particulas.push_back(id);
-            if (id >= sim.num_particulas || id < 0) {std::cout << "error\n"; return -1;}
             sim.particulas.pos[id] = pos;
             sim.particulas.gradiente[id] = grad;
             sim.particulas.velocidad[id] = vel;
