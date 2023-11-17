@@ -7,6 +7,7 @@
 #include <gtest/gtest.h>
 
 TEST(MallaTest, CREACIONEINDEXADOMALLA) {
+  int const cinco = 5;
   // Creando la Malla y comprobando la creación de bloques.
   Malla malla;
   Vector3d<double> const dimensions{3.0, 2.0, 4.0};
@@ -31,7 +32,7 @@ TEST(MallaTest, CREACIONEINDEXADOMALLA) {
   }
 
   // Comprobar si los rangos que están fuera de bloque son correctos:
-  Vector3d<int> outOfRangeIndex{-1, 3, 5};
+  Vector3d<int> outOfRangeIndex {-1, 3, cinco};
   Vector3d<int> inRangeIndex{2, 1, 3};
 
   auto correctedIndex = malla.fuera_de_rango(outOfRangeIndex);
