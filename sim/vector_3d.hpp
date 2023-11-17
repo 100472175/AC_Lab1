@@ -28,6 +28,9 @@ struct Vector3d {
     constexpr static double distancia(Vector3d pos1, Vector3d pos2) {
       return sqrt(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2) + pow(pos1.z - pos2.z, 2));
     }
+    constexpr static Vector3d<double> abs_diff(Vector3d pos1, Vector3d pos2){
+      return {std::abs(pos1.x-pos2.x),std::abs(pos1.y-pos2.y),std::abs(pos1.z-pos2.z)};
+    }
 
     // Para sumar dos vectores
     constexpr Vector3d operator+=(Vector3d<T> const & v) {

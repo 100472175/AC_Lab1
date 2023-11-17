@@ -1,6 +1,7 @@
 
 #include "tools_trazas.hpp"
-
+#include <algorithm>
+#include <array>
 int load_trz(std::string path, Simulacion & sim) {
     int number_blocks;
     int64_t particulas_block;
@@ -38,7 +39,7 @@ int load_trz(std::string path, Simulacion & sim) {
     return 0;
 }
 
-int write_trz(std::string path ,Simulacion & sim){
+int write_trz(const std::string& path ,Simulacion & sim){
     std::ofstream salida(path, std::ios::binary);
     salida.write(reinterpret_cast<char*>(&sim.malla.tamano),4);
     for (int i = 0; i < sim.malla.tamano; i++){
@@ -56,6 +57,32 @@ int write_trz(std::string path ,Simulacion & sim){
     }
     salida.close();
     return 0;
+}
+
+bool compareSims(const Simulacion& real, const Simulacion& expect, int tolerancia){
+    if (real.malla.tamano != expect.malla.tamano){return false;}
+    for (int i = 0; i < real.malla.tamano; i++){
+        if (real.malla.bloques[i].particulas.size() != expect.malla.bloques[i].particulas.size()){return false;}
+        for (int j = 0; j < (int) real.malla.bloques[i].particulas.size(); j++){
+            if (real.malla.bloques[i].particulas[j] != expect.malla.bloques[i].particulas[j]){return false;}
+            int const ident                 = real.malla.bloques[i].particulas[j];
+            Vector3d<double> const diff_pos = (Vector3d<double>::abs_diff(real.particulas.pos[ident],
+                                            expect.particulas.pos[ident]))/expect.particulas.pos[ident];
+            Vector3d<double> const diff_gradiente = (Vector3d<double>::abs_diff(
+                real.particulas.gradiente[ident], expect.particulas.gradiente[ident]))/expect.particulas.gradiente[ident];
+            Vector3d<double> const diff_velocidad = (Vector3d<double>::abs_diff(
+                real.particulas.velocidad[ident], expect.particulas.velocidad[ident]))/expect.particulas.velocidad[ident];
+            Vector3d<double> const diff_aceleracion = (Vector3d<double>::abs_diff(
+                real.particulas.aceleracion[ident], expect.particulas.aceleracion[ident]))/expect.particulas.aceleracion[ident];
+            double const diff_dens = std::abs(real.particulas.dens[ident] - expect.particulas.dens[ident])/expect.particulas.dens[ident];
+            if ((diff_pos.x > tolerancia) || (diff_pos.y > tolerancia) || (diff_pos.z > tolerancia)){return false;}
+            if ((diff_gradiente.x > tolerancia) || (diff_gradiente.y > tolerancia) || (diff_gradiente.z > tolerancia)){return false;}
+            if ((diff_velocidad.x > tolerancia) || (diff_velocidad.y > tolerancia) || (diff_velocidad.z > tolerancia)){return false;}
+            if ((diff_aceleracion.x > tolerancia) || (diff_aceleracion.y > tolerancia) || (diff_aceleracion.z > tolerancia)){return false;}
+            if (diff_dens > tolerancia){return false;}
+        }
+    }
+    return true;
 }
 
 bool compareFiles(const std::string& p1, const std::string& p2) {

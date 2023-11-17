@@ -14,8 +14,10 @@
 
 int load_trz(std::string path, Simulacion & sim);
 
-int write_trz(std::string path, Simulacion & sim);
+int write_trz(const std::string& path, Simulacion & sim);
 
 bool compareFiles(const std::string& p1, const std::string& p2);
+bool compareSims(const Simulacion& real, const Simulacion& expect, int tolerancia);
+
 #endif  // FLUID_TOOLS_TRAZAS_HPP
 
