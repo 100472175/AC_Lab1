@@ -4,14 +4,6 @@
 
 // Created by paula on 29/09/23.
 
-void add_particulas(Simulacion & simulacion, Vector3d<double> p, Vector3d<double> hv,
-                    Vector3d<double> v) {
-  simulacion.particulas.pos.push_back(p.to_double());
-  simulacion.particulas.gradiente.push_back(hv.to_double());
-  simulacion.particulas.velocidad.push_back(v.to_double());
-  simulacion.particulas.dens.push_back(0.0);
-  simulacion.particulas.aceleracion.push_back(gravedad);
-}
 
 int Progargs::read_till_end(int num_particulas, int leidas) {
   int const tamanio_lectura_part           = 36;
@@ -119,7 +111,7 @@ int Progargs::valida_salida(std::string const & argumento_salida) {
   return 0;
 }
 
-int Progargs::write_file(double ppm, Simulacion & simulacion) {
+void Progargs::write_file(double ppm, Simulacion & simulacion) {
   std::cout << "writing file...\n";
   auto ppm_float       = (float) ppm;
   int const size_param = 12;
@@ -140,7 +132,6 @@ int Progargs::write_file(double ppm, Simulacion & simulacion) {
     archivo_salida.write(reinterpret_cast<char *>(&velocidad), size_param);
   }
   archivo_salida.close();
-  return 0;
 }
 
 int Progargs::my_is_digit(std::string const & string_to_try) {

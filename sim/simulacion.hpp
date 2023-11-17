@@ -22,7 +22,10 @@ class Simulacion {
     Particulas particulas;
     Malla malla;
     Calculadora calc;
-    Simulacion(int n_i, int n_p, Calculadora calculadora, Malla m) : num_iteraciones(n_i), num_particulas(n_p) ,malla(std::move(m)), calc(calculadora){}
+
+    Simulacion(int n_i, int n_p, Calculadora calculadora, Malla m)
+      : num_iteraciones(n_i), num_particulas(n_p), malla(std::move(m)), calc(calculadora) { }
+
     void iterador();
     void iteracion();
     void poblar_malla();

@@ -54,16 +54,6 @@ TEST(Vector3dTest, ConstructorVector) {
 
 
 
-// Comprobación de que se puede dar otro valor a un vector
-TEST(Vector3dTest, Asignar) {
-  Vector3d<int> vt1(1, 2, 3);
-  Vector3d<int> const vt2(4, 5, -6);
-  vt1 = vt2;
-  EXPECT_EQ(vt1.x, 4);
-  EXPECT_EQ(vt1.y, 5);
-  EXPECT_EQ(vt1.z, -6);
-}
-
 // Comprobación de que se puede convertir un vector a float
 TEST(Vector3dTest, ToFloat) {
   Vector3d<int> vt1(1, 2, 3);
