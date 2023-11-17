@@ -85,7 +85,6 @@ int Progargs::read_body(Simulacion & simulacion) {
     archivo_entrada.read(reinterpret_cast<char *>(&pos),
                          size_param);  // lectura posicion particula i
     if (archivo_entrada.gcount() < size_param) {
-      // num_particles > particulas
       std::cerr << "Error: Number of particles mismatch. Header: " << simulacion.num_particulas
                 << ", Found: " << leidas << "\n";
       return error_number_particle_mismatch;
@@ -94,7 +93,7 @@ int Progargs::read_body(Simulacion & simulacion) {
     archivo_entrada.read(reinterpret_cast<char *>(&grad), size_param);  // lectura h particula i
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     archivo_entrada.read(reinterpret_cast<char *>(&vel), size_param);  // lectura vel particula i
-    add_particulas(simulacion, pos.to_double(), grad.to_double(), vel.to_double());
+    simulacion.add_particulas(leidas, pos, grad, vel);
   }
   // comprobar que haya más partículas de las especificadas
   return read_till_end(simulacion.num_particulas, leidas);
