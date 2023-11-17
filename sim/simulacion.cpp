@@ -76,11 +76,9 @@ void Simulacion::colisiones_particulas() {
 
 void Simulacion::colisiones_particulas_densidad() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
-    std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
     for (auto const & ind_part : malla.bloques[indice_bloque].particulas) {
-      for (auto const & contiguo : contiguos) {  // bucle que reccore los bloques contiguos
-        for (int const & i_p_nueva :
-             malla.bloques[contiguo].particulas) {  // en cada bucle se buscan todas las particulas
+      for (auto const & contiguo : malla.bloques[indice_bloque].bloques_contiguos) {
+        for (int const & i_p_nueva : malla.bloques[contiguo].particulas) {
           if (i_p_nueva > ind_part) {
             double const distancia_cuadrado =
                 Vector3d<double>::sq_distancia(particulas.pos[ind_part], particulas.pos[i_p_nueva]);
@@ -100,35 +98,12 @@ void Simulacion::colisiones_particulas_densidad() {
   }
 }
 
-/*void Simulacion::colisiones_particulas_densidad() {
-  for(int i = 0; i < num_particulas; ++i){  //bucle que recorre todas las particulas
-    //estas 3 lineas son para tener la lista de bloques contiguos
-    Vector3d<int> const mi_bloque = calculadora.indice_bloque(particulas.posicion[i]);
-    //std::cout << mi_bloque.x << mi_bloque.y << mi_bloque.z;
-    int const indice = malla.get_pos(mi_bloque.x, mi_bloque.y, mi_bloque.z);
-    std::vector<Bloque> const contiguos = malla.bloques[indice].bloques_contiguos;
-    for(const auto & contiguo : contiguos) { //bucle que reccore los bloques contiguos
-      for(int  const& i_p_nueva : contiguo.particulas) {//en cada bucle se buscan todas las
-particulas if (i_p_nueva > i){ //para que solo se ejecute cada par 1 vez double const
-distancia_cuadrado = Calculadora::cuadrado_distancias( particulas.posicion[i],
-particulas.posicion[i_p_nueva]); if (distancia_cuadrado < (calculadora.suavizado *
-calculadora.suavizado)) {//comprobar que realmente interactuan double const cambio_densidad =
-calculadora.delta_densidades(distancia_cuadrado); particulas.densidad[i],
-particulas.densidad[i_p_nueva] += cambio_densidad;//actualizar ambas densidades
-          }
-        }
-      }
-    }
-    particulas.densidad[i] = calculadora.transform_densidad(particulas.densidad[i]);//transformación
-final para cada particula
-  }
-}*/
 
 void Simulacion::colisiones_particulas_aceleracion() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
-    std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
+    //std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
     for (auto const & part1 : malla.bloques[indice_bloque].particulas) {
-      for (auto const & contiguo : contiguos) {
+      for (auto const & contiguo : malla.bloques[indice_bloque].bloques_contiguos) {
         for (int const & part2 : malla.bloques[contiguo].particulas) {
           if (part2 > part1) {
             double const distancia =
@@ -151,31 +126,6 @@ void Simulacion::colisiones_particulas_aceleracion() {
   }
 }
 
-/*void Simulacion::colisiones_particulas_aceleracion() {
-for(int i = 0; i < num_particulas; ++i){
-  Vector3d<int> const mi_bloque = calculadora.indice_bloque(particulas.posicion[i]);
-  int const indice = malla.get_pos(mi_bloque.x, mi_bloque.y, mi_bloque.z);
-  std::vector<Bloque> const contiguos = malla.bloques[indice].bloques_contiguos;
-  for(const auto & contiguo : contiguos) {
-    for(int  const& i_p_nueva : contiguo.particulas){
-      if (i_p_nueva > i) {
-        double const distancia_cuadrado = Calculadora::cuadrado_distancias(particulas.posicion[i],
-particulas.posicion[i_p_nueva]); if (distancia_cuadrado < (calculadora.suavizado *
-calculadora.suavizado)) { Vector3d<double> operador_1 = calculadora.aceleracion_primera_parte(
-            particulas.posicion[i], particulas.posicion[i_p_nueva],
-            particulas.densidad[i], particulas.densidad[i_p_nueva]);
-          Vector3d<double> operador_2 = calculadora.aceleracion_segunda_parte(
-            particulas.velocidad[i], particulas.velocidad[i_p_nueva]);
-          Vector3d<double> const cambio_aceleracion = calculadora.transferencia_aceleracion(
-            operador_1, operador_2,particulas.densidad[i] * particulas.densidad[i_p_nueva]);
-          particulas.aceleracion[i] += cambio_aceleracion; //actualizaciones de aceleración
-          particulas.aceleracion[i_p_nueva] -= cambio_aceleracion;
-        }
-      }
-    }
-  }
-}
-}*/
 
 // Sección 4.3.3 - Página 9 - Colisiones de partículas (con límites)
 // Eduardo Alarcón
@@ -388,3 +338,13 @@ void Simulacion::print_simulation_parameters() const {
             << "Block size: " << tamanio_bloque.x << " x " << tamanio_bloque.y << " x "
             << tamanio_bloque.z << "\n";
 }
+
+
+void Simulacion::add_particulas(int index, Vector3d<float> & pos, Vector3d<float> & hv,
+                                Vector3d<float> & v) {
+  particulas.pos[index] = pos.to_double();
+  particulas.gradiente[index] = hv.to_double();
+  particulas.velocidad[index] = v.to_double();
+  particulas.aceleracion[index] = Vector3d<float>(0.0, 0.0, 0.0).to_double();
+}
+

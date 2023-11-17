@@ -41,6 +41,8 @@ class Simulacion {
     void print_simulation_parameters() const;
     void colisiones_particulas_aceleracion();
     void colisiones_particulas_densidad();
+    void add_particulas(int index, Vector3d<float> & pos, Vector3d<float> & hv,
+                        Vector3d<float> & v);
 };
 
 #endif  // FLUID_SIMULACION_HPP
