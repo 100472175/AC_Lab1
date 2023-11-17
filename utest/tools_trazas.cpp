@@ -38,7 +38,7 @@ int load_trz(std::string path, Simulacion & sim) {
     return 0;
 }
 
-void write_trz(std::string path ,Simulacion & sim){
+int write_trz(std::string path ,Simulacion & sim){
     std::ofstream salida(path, std::ios::binary);
     salida.write(reinterpret_cast<char*>(&sim.malla.tamano),4);
     for (int i = 0; i < sim.malla.tamano; i++){
