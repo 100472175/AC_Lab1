@@ -68,10 +68,10 @@ class Calculadora {
       return parte_1 * masa;
     };
 
-    constexpr Vector3d<double> acel1(Vector3d<double> & pos_1,
-                                                         Vector3d<double> & pos_2,
-                                                         double densidad_1,
-                                                         double densidad_2) const {
+    [[nodiscard]] constexpr Vector3d<double> acel1(Vector3d<double> const & pos_1,
+                                                         Vector3d<double> const & pos_2,
+                                                         double const densidad_1,
+                                                         double const densidad_2) const {
       double const distancia =
           sqrt(fmax(Vector3d<double>::sq_distancia(pos_1, pos_2), 1e-12));
       Vector3d<double> const diff_posiciones = pos_1 - pos_2;
@@ -82,8 +82,8 @@ class Calculadora {
       return diff_posiciones * acceleration_2 * acceleration_3;
     };
 
-    constexpr Vector3d<double> acel2(Vector3d<double> & velocidad_1,
-                                                         Vector3d<double> & velocidad_2) const {
+    [[nodiscard]] constexpr Vector3d<double> acel2(Vector3d<double> const & velocidad_1,
+                                                         Vector3d<double> const & velocidad_2) const {
       Vector3d<double> const resultado =
           (velocidad_2 - velocidad_1) *
           ((45 / (std::numbers::pi * pow(suavizado, 6)) * viscosidad * masa));
@@ -101,7 +101,7 @@ class Calculadora {
 
     // 4.3.3
     constexpr static double colisiones_limite_eje_x(int bloque, double const & delta_x,
-                                                    Vector3d<double> & velocidad) {
+                                                    Vector3d<double> const & velocidad) {
       if (bloque == 0) { return (s_c * delta_x - d_v * velocidad.x); }
       return -(s_c * delta_x + d_v * velocidad.x);
     };
