@@ -46,7 +46,7 @@ TEST(MallaTest, CREACIONEINDEXADOMALLA) {
   EXPECT_EQ(correctedIndex.z, 3);
 }
 
-TEST(MallaTest, VLOQUESVECINOSGENERAL) {
+TEST(MallaTest, BLOQUESVECINOSGENERAL) {
   // Comprobar si los bloques contiguos están correctamente identificados
   Malla malla;
   Vector3d<double> const dimensions{3.0, 3.0, 3.0};
