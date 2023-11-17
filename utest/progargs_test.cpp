@@ -74,6 +74,7 @@ class ProgargsTest: public testing::Test {
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         file.write(reinterpret_cast<char *>(&vel), doce);
       }
+      file.close();
     }
     void preparar_ficheros_tests() const{
       crear_fichero(1, entrada_np1_particulas_1, 1, 1);
@@ -183,7 +184,7 @@ std::vector <std::string> const argumentos_test = {"1",entrada_np1_particulas_1,
 Vector3d<float> const posicion{0.0230779, -0.0804886, -0.0516096};
 Vector3d<float> const gradiente{-0.124551, 0.0130596, 0.0567288};
 Vector3d<float> const velocidad{-0.129624,0.172922,0.0516096};
-Vector3d<float> const aceleracion{0, -9.8, 0};
+Vector3d<float> const aceleracion{0, 0, 0};
 double const densidad  = 0;
 
 Progargs progargs_test{};
@@ -192,6 +193,7 @@ Calculadora calculadora_test{};
 Malla malla_test{};
 progargs_test.read_head(malla_test,calculadora_test);
 Simulacion simulacion_test(1,1,calculadora_test,malla_test);
+simulacion_test.particulas.reserve_space(calculadora_test.num_particulas);
 progargs_test.read_body(simulacion_test);
 
 EXPECT_EQ((float)simulacion_test.num_iteraciones,1);
@@ -219,6 +221,7 @@ Calculadora calculadora_test{};
 Malla malla_test{};
 progargs_test.read_head(malla_test,calculadora_test);
 Simulacion simulacion_test(1,2,calculadora_test,malla_test);
+simulacion_test.particulas.reserve_space(calculadora_test.num_particulas);
 
 
 
@@ -234,6 +237,7 @@ Calculadora calculadora_test{};
 Malla malla_test{};
 progargs_test.read_head(malla_test,calculadora_test);
 Simulacion simulacion_test{1,1,calculadora_test,malla_test};
+simulacion_test.particulas.reserve_space(calculadora_test.num_particulas);
 
 
 EXPECT_EQ(progargs_test.read_body(simulacion_test), -5);
@@ -250,6 +254,7 @@ progargs_test.asignar_valores(argumentos_test);
 Calculadora const calculadora_test{};
 Malla const malla_test{};
 Simulacion simulacion_test{progargs_test.getter_num_iteraciones(),1,calculadora_test,malla_test};
+simulacion_test.particulas.reserve_space(calculadora_test.num_particulas);
 Particulas const particulas = crear_particulas(1);
 simulacion_test.particulas = particulas;
 progargs_test.write_file(1,simulacion_test);
@@ -263,6 +268,7 @@ progargs_test.asignar_valores(argumentos_test);
 Calculadora const calc{};
 Malla const malla{};
 Simulacion simulacion_test(progargs_test.getter_num_iteraciones(), 1, calc, malla);
+simulacion_test.particulas.reserve_space(calc.num_particulas);
 Particulas const particulas = crear_particulas(1);
 simulacion_test.particulas = particulas;
 progargs_test.write_file(1,simulacion_test);
