@@ -5,32 +5,33 @@
 
 #include "gtest/gtest.h"
 #include "../sim/progargs.hpp"
+#include "../utest/tools_trazas.hpp"
 #include <iostream>
 #include <span>
 
 
 bool compareFiles(const std::string& p1, const std::string& p2) {
-  std::ifstream f1(p1, std::ifstream::binary);
-  std::ifstream f2(p2, std::ifstream::binary);
+  std::ifstream f_1(p1, std::ifstream::binary);
+  std::ifstream f_2(p2, std::ifstream::binary);
 
-  if (f1.fail() || f2.fail()) {
+  if (f_1.fail() || f_2.fail()) {
     return false; //file problem
   }
-  f1.seekg(0, f1.end);
-  f2.seekg(0, f2.end);
-  size_t lengh1 = f1.tellg();
-  size_t lengh2 = f2.tellg();
+  f_1.seekg(0, std::ifstream::end);
+  f_2.seekg(0, std::ifstream::end);
+  size_t const lengh1 = f_1.tellg();
+  size_t const lengh2 = f_2.tellg();
   std::cout << lengh1 << " " << lengh2 << "\n";
   if (lengh1 != lengh2) {
     std::cout << "size difference\n";
     return false;
   }
 
-  f1.seekg(0, std::ifstream::beg);
-  f2.seekg(0, std::ifstream::beg);
-  return std::equal(std::istreambuf_iterator<char>(f1.rdbuf()),
+  f_1.seekg(0, std::ifstream::beg);
+  f_2.seekg(0, std::ifstream::beg);
+  return std::equal(std::istreambuf_iterator<char>(f_1.rdbuf()),
                     std::istreambuf_iterator<char>(),
-                    std::istreambuf_iterator<char>(f2.rdbuf()));
+                    std::istreambuf_iterator<char>(f_2.rdbuf()));
 }
 
 TEST(FunctionalTest, primera_iteracion) {
