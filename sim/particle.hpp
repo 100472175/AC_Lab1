@@ -16,6 +16,14 @@ struct Particulas {
     std::vector<Vector3d<double>> velocidad{};    // velocidad
     std::vector<Vector3d<double>> aceleracion{};  // aceleracion
     std::vector<double> dens{};               // densidad
+
+    void reserve_space(int size){
+        pos.reserve(size);
+        gradiente.reserve(size);
+        velocidad.reserve(size);
+        aceleracion.reserve(size);
+        dens.reserve(size);
+    }
 };
 
 #endif  // AC_LAB1_PARTICLE_H
