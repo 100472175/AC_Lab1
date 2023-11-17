@@ -23,13 +23,7 @@ int main(int argc, char ** argv) {
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
-
-  simulacion.particulas.pos.reserve(calc.num_particulas);
-  simulacion.particulas.gradiente.reserve(calc.num_particulas);
-  simulacion.particulas.velocidad.reserve(calc.num_particulas);
-  simulacion.particulas.aceleracion.reserve(calc.num_particulas);
-  simulacion.particulas.dens.reserve(calc.num_particulas);
-
+  simulacion.particulas.reserve_space(calc.num_particulas);
   nuestros_args.read_body(simulacion);
   simulacion.print_simulation_parameters();
 
