@@ -37,8 +37,8 @@ TEST_F(CalculadoraTest, InicializarCalculadora) {
 }
 
 TEST_F(CalculadoraTest, NumBloquesPorEje) {
-    Vector3d<double> expect(15.0, 21.0, 15.0);
-    Vector3d<double> result = calculadora.num_bloques_por_eje();
+    Vector3d<double> const expect(15.0, 21.0, 15.0);
+    Vector3d<double> const result = calculadora.num_bloques_por_eje();
     EXPECT_EQ(result.x, expect.x);
     EXPECT_EQ(result.y, expect.y);
     EXPECT_EQ(result.z, expect.z);
@@ -47,89 +47,88 @@ TEST_F(CalculadoraTest, NumBloquesPorEje) {
 }
 
 TEST_F(CalculadoraTest, TamanioBloque) {
-    Vector3d<double> expect((0.065 + 0.065)/15.0, (0.1 + 0.08)/21.0, (0.065 + 0.065)/15.0);
-    Vector3d<double> result = calculadora.tamanio_bloque();
+    Vector3d<double> const expect((0.065 + 0.065)/15.0, (0.1 + 0.08)/21.0, (0.065 + 0.065)/15.0);
+    Vector3d<double> const result = calculadora.tamanio_bloque();
     EXPECT_EQ(result.x, expect.x);
     EXPECT_EQ(result.y, expect.y);
     EXPECT_EQ(result.z, expect.z);
 }
 
 TEST_F(CalculadoraTest, IndiceBloque) {
-    Vector3d<double> position(-0.0208688, -0.0606383, -0.0484482);
-    Vector3d<int> expect(5, 2, 1);
-    Vector3d<int> result = calculadora.indice_bloque(position);
+    Vector3d<double> const position(-0.0208688, -0.0606383, -0.0484482);
+    Vector3d<int> const expect(5, 2, 1);
+    Vector3d<int> const result = calculadora.indice_bloque(position);
     EXPECT_EQ(result.x, expect.x);
     EXPECT_EQ(result.y, expect.y);
     EXPECT_EQ(result.z, expect.z);
 }
 
 TEST_F(CalculadoraTest, DeltaDensidades) {
-    double dist_squere = 6.283185308;
-    double temp = calculadora.suavizado*calculadora.suavizado - dist_squere;
+    double const dist_squere = 6.283185308;
+    double const temp = calculadora.suavizado*calculadora.suavizado - dist_squere;
     double expect = pow(temp, 3);
     double result = calculadora.delta_densidades(dist_squere);
     if (expect < result) {
-        double aux = expect;
+        double const aux = expect;
         expect = result; 
         result = aux;
     }
-    double error = (expect - result)/expect;
+    double const error = (expect - result)/expect;
     EXPECT_LE(error, tolerance);
 }
 
 
 TEST_F(CalculadoraTest, TransformDensidad) {
-    double suavizado6 = calculadora.suavizado, suavizado9 = calculadora.suavizado;
-    double dens = 0.01570796327;
-    double cte = 315 / (64 * std::numbers::pi);
-    suavizado6 = pow(suavizado6, 6);
+    double suavizado9 = calculadora.suavizado;
+    double const dens = 0.01570796327;
+    double const cte = 315 / (64 * std::numbers::pi);
     suavizado9 = pow(suavizado9, 9);
     double expect = calculadora.masa * ((dens + suavizado9) * cte/suavizado9);
     double result = calculadora.transform_densidad(dens);
     if (expect < result) {
-        double aux = expect;
+        double const aux = expect;
         expect = result; 
         result = aux;
     }
-    double error = (expect - result)/expect;
+    double const error = (expect - result)/expect;
     EXPECT_LE(error, tolerance);
 }
 
 TEST_F(CalculadoraTest, AceleracionPrimeraParte) {
     Vector3d<double> posicion1(-0.0208688, -0.0606383, -0.0484482);
     Vector3d<double> posicion2( -0.0484482, -0.0208688, -0.0606383);
-    Vector3d<double> diff = posicion1 - posicion2;
+    Vector3d<double> const diff = posicion1 - posicion2;
 
     double distancia = pow(posicion1.x - posicion2.x, 2) + pow(posicion1.y - posicion2.y, 2) +
             pow(posicion1.z - posicion2.z, 2);
     distancia = sqrt(distancia);
 
-    double densidad1 = 0.12345689;
-    double densidad2 = 0.987654321;
+    double const densidad1 = 0.12345689;
+    double const densidad2 = 0.987654321;
     double operador1 = 15/(std::numbers::pi * pow(calculadora.suavizado, 6));
     operador1 *= 3 * calculadora.masa * p_s * 0.5 * pow(calculadora.suavizado - distancia, 2) / distancia;
-    double operador2 = densidad1 + densidad2 - (2 * 1e3);
+    double const operador2 = densidad1 + densidad2 - (2 * 1e3);
 
     Vector3d<double> expect = diff * operador1*operador2;
-    Vector3d<double> result = calculadora.acel_p1(posicion1, posicion2, densidad1, densidad2);
+    Vector3d<double> result = calculadora.acel1(posicion1, posicion2, densidad1, densidad2);
     if (expect.x < result.x) {
-        double aux = expect.x;
+        double const aux = expect.x;
         expect.x = result.x;
         result.x = aux;
     }
     if (expect.y < result.x) {
-        double aux = expect.y;
+        double const aux = expect.y;
         expect.y = result.y;
         result.y = aux;
     }
     if (expect.z < result.x) {
-        double aux = expect.z;
+        double const aux = expect.z;
         expect.z = result.z;
         result.z = aux;
     }
-    double error_x = (expect.x - result.x)/expect.x;
-    double error_y = (expect.y - result.y)/expect.y;
-    double error_z = (expect.z - result.z)/expect.z;
+    double const error_x = (expect.x - result.x)/expect.x;
+    double const error_y = (expect.y - result.y)/expect.y;
+    double const error_z = (expect.z - result.z)/expect.z;
 
     EXPECT_LE(error_x, tolerance);
     EXPECT_LE(error_y, tolerance);
@@ -139,123 +138,120 @@ TEST_F(CalculadoraTest, AceleracionPrimeraParte) {
 }
 
 TEST_F(CalculadoraTest, AceleracionSegundaParte) {
-    Vector3d<double> vel1(-0.0208688, -0.0606383, -0.0484482), vel2( -0.0484482, -0.0208688, -0.0606383);
-    double operador = 45/(std::numbers::pi * pow(calculadora.suavizado, 6)) * 0.4 * calculadora.masa;
+    Vector3d<double> vel1(-0.0208688, -0.0606383, -0.0484482);
+    Vector3d<double> vel2( -0.0484482, -0.0208688, -0.0606383);
+    double const operador = 45/(std::numbers::pi * pow(calculadora.suavizado, 6)) * 0.4 * calculadora.masa;
     Vector3d<double> expect = (vel2 - vel1)*operador;
-    Vector3d<double> result = calculadora.acel_p2(vel1, vel2);
+    Vector3d<double> result = calculadora.acel2(vel1, vel2);
 
     if (expect.x < result.x) {
-        double aux = expect.x;
+        double const aux = expect.x;
         expect.x = result.x;
         result.x = aux;
     }
     if (expect.y < result.x) {
-        double aux = expect.y;
+        double const aux = expect.y;
         expect.y = result.y;
         result.y = aux;
     }
     if (expect.z < result.x) {
-        double aux = expect.z;
+        double const aux = expect.z;
         expect.z = result.z;
         result.z = aux;
     }
-    double error_x = (expect.x - result.x)/expect.x;
-    double error_y = (expect.y - result.y)/expect.y;
-    double error_z = (expect.z - result.z)/expect.z;
+    double const error_x = (expect.x - result.x)/expect.x;
+    double const error_y = (expect.y - result.y)/expect.y;
+    double const error_z = (expect.z - result.z)/expect.z;
 
     EXPECT_LE(error_x, tolerance);
     EXPECT_LE(error_y, tolerance);
     EXPECT_LE(error_z, tolerance);
 }
-/*
-TEST_F(CalculadoraTest, AceleracionTerceraParte) {
-
-}*/
 
 TEST_F(CalculadoraTest, TrasferenciaAceleracion) {
     Vector3d<double> parte1(3.5, 4.7, 3.141592);
-    Vector3d<double> parte2(2.718, 6.7, 6.2830);
-    double denom = 5.0;
-    Vector3d<double> expect((parte1.x + parte2.x)/(double)denom, (parte1.y + parte2.y)/(double)denom, (parte1.z + parte2.z)/(double)denom);
-    Vector3d<double> result = calculadora.transferencia_aceleracion(parte1, parte2, denom);
+    Vector3d<double> const parte2(2.718, 6.7, 6.2830);
+    double const denom = 5.0;
+    Vector3d<double> const expect((parte1.x + parte2.x)/(double)denom, (parte1.y + parte2.y)/(double)denom, (parte1.z + parte2.z)/(double)denom);
+    Vector3d<double> const result = Calculadora::transferencia_aceleracion(parte1, parte2, denom);
     EXPECT_EQ(result.x, expect.x);
     EXPECT_EQ(result.y, expect.y);
     EXPECT_EQ(result.z, expect.z);
 }
 
 TEST_F(CalculadoraTest, ColisionesLimiteEjeX_bloque0) {
-    int bloque = 0;
+    int const bloque = 0;
     double const delta_x = 0.005;
-    Vector3d<double> v(0.1, 0.2, 0.3);
-    double expect = 3e4 * delta_x - 128.0 * v.x;
-    double result = calculadora.colisiones_limite_eje_x(bloque, delta_x, v);
+    Vector3d<double> vel(0.1, 0.2, 0.3);
+    double const expect = 3e4 * delta_x - 128.0 * vel.x;
+    double const result = Calculadora::colisiones_limite_eje_x(bloque, delta_x, vel);
     EXPECT_EQ(result, expect);
 }
 
 TEST_F(CalculadoraTest, ColisionesLimiteEjeX_bloque1) {
-    int bloque = 1;
+    int const bloque = 1;
     double const delta_x = 0.005;
-    Vector3d<double> v(0.1, 0.2, 0.3);
-    double expect = 3e4 * delta_x + 128.0 * v.x;
-    double result = calculadora.colisiones_limite_eje_x(bloque, delta_x, v);
+    Vector3d<double> vel(0.1, 0.2, 0.3);
+    double const expect = 3e4 * delta_x + 128.0 * vel.x;
+    double const result = Calculadora::colisiones_limite_eje_x(bloque, delta_x, vel);
     EXPECT_EQ(result, -expect);
 }
 
 
 TEST_F(CalculadoraTest, ColisionesLimiteEjeY_bloque0) {
-    int bloque = 0;
+    int const bloque = 0;
     double const delta_y = 0.005;
-    Vector3d<double> v(0.1, 0.2, 0.3);
-    double expect = 3e4 * delta_y - 128.0 * v.y;
-    double result = calculadora.colisiones_limite_eje_y(bloque, delta_y, v);
+    Vector3d<double> const vel(0.1, 0.2, 0.3);
+    double const expect = 3e4 * delta_y - 128.0 * vel.y;
+    double const result = Calculadora::colisiones_limite_eje_y(bloque, delta_y, vel);
     EXPECT_EQ(result, expect);
 }
 
 TEST_F(CalculadoraTest, ColisionesLimiteEjeY_bloque1) {
-    int bloque = 1;
+    int const bloque = 1;
     double const delta_y = 0.005;
-    Vector3d<double> v(0.1, 0.2, 0.3);
-    double expect = 3e4 * delta_y + 128.0 * v.y;
-    double result = calculadora.colisiones_limite_eje_y(bloque, delta_y, v);
+    Vector3d<double> const vel(0.1, 0.2, 0.3);
+    double const expect = 3e4 * delta_y + 128.0 * vel.y;
+    double const result = Calculadora::colisiones_limite_eje_y(bloque, delta_y, vel);
     EXPECT_EQ(result, -expect);
 }
 
 TEST_F(CalculadoraTest, ColisionesLimiteEjeZ_bloque0) {
-    int bloque = 0;
+    int const bloque = 0;
     double const delta_z = 0.005;
-    Vector3d<double> v(0.1, 0.2, 0.3);
-    double expect = 3e4 * delta_z - 128.0 * v.z;
-    double result = calculadora.colisiones_limite_eje_z(bloque, delta_z, v);
+    Vector3d<double> const vel(0.1, 0.2, 0.3);
+    double const expect = 3e4 * delta_z - 128.0 * vel.z;
+    double const result = Calculadora::colisiones_limite_eje_z(bloque, delta_z, vel);
     EXPECT_EQ(result, expect);
 }
 
 TEST_F(CalculadoraTest, ColisionesLimiteEjeZ_bloque1) {
-    int bloque = 1;
+    int const bloque = 1;
     double const delta_z = 0.005;
-    Vector3d<double> v(0.1, 0.2, 0.3);
-    double expect = 3e4 * delta_z + 128.0 * v.z;
-    double result = calculadora.colisiones_limite_eje_z(bloque, delta_z, v);
+    Vector3d<double> const vel(0.1, 0.2, 0.3);
+    double const expect = 3e4 * delta_z + 128.0 * vel.z;
+    double const result = Calculadora::colisiones_limite_eje_z(bloque, delta_z, vel);
     EXPECT_EQ(result, -expect);
 }
 
 
 TEST_F(CalculadoraTest, ActualizarPosicion) {
-    Vector3d<double> gradiente(0.1, 0.2, 0.3);
-    Vector3d<double> aceleracion(3.1, -4.0, 1.69);
-    Vector3d<double> expect = gradiente * 1e-3 + aceleracion * 1e-3 * 1e-3;
-    Vector3d<double> pos(0.0, 0.0, 0.0);
-    Vector3d<double> result = calculadora.actualizar_posicion(pos, gradiente, aceleracion);
+    Vector3d<double> const gradiente(0.1, 0.2, 0.3);
+    Vector3d<double> const aceleracion(3.1, -4.0, 1.69);
+    Vector3d<double> const expect = gradiente * 1e-3 + aceleracion * 1e-3 * 1e-3;
+    Vector3d<double> const pos(0.0, 0.0, 0.0);
+    Vector3d<double> const result = Calculadora::actualizar_posicion(pos, gradiente, aceleracion);
     EXPECT_EQ(result.x, expect.x);
     EXPECT_EQ(result.y, expect.y);
     EXPECT_EQ(result.z, expect.z);
 }
 
 TEST_F(CalculadoraTest, ActualizarVelocidad) {
-    Vector3d<double> aceleracion(3.1, -4.0, 1.69);
-    Vector3d<double> expect =  aceleracion * 5e-4;
-    Vector3d<double> grad(0.0, 0.0, 0.0);
+    Vector3d<double> const aceleracion(3.1, -4.0, 1.69);
+    Vector3d<double> const expect =  aceleracion * 5e-4;
+    Vector3d<double> const grad(0.0, 0.0, 0.0);
 
-    Vector3d<double> result = calculadora.actualizar_velocidad(grad, aceleracion);
+    Vector3d<double> const result = Calculadora::actualizar_velocidad(grad, aceleracion);
     EXPECT_EQ(result.x, expect.x);
     EXPECT_EQ(result.y, expect.y);
     EXPECT_EQ(result.z, expect.z);
@@ -263,44 +259,44 @@ TEST_F(CalculadoraTest, ActualizarVelocidad) {
 
 
 TEST_F(CalculadoraTest, ActualizarGradiente) {
-    Vector3d aceleracion(0.3141592654, 2.718, 1.61803398875);
-    Vector3d<double> expect = aceleracion * 1e-3;
-    Vector3d<double> grad(0.0, 0.0, 0.0);
-    Vector3d<double> result = calculadora.actualizar_gradiente(grad, aceleracion);
+    Vector3d<double> const aceleracion(0.3141592654, 2.718, 1.61803398875);
+    Vector3d<double> const expect = aceleracion * 1e-3;
+    Vector3d<double> const grad(0.0, 0.0, 0.0);
+    Vector3d<double> const result = Calculadora::actualizar_gradiente(grad, aceleracion);
     EXPECT_EQ(result.x, expect.x);
     EXPECT_EQ(result.y, expect.y);
     EXPECT_EQ(result.z, expect.z);
 }
 
 TEST_F(CalculadoraTest, InteraccionesLimitesEjeX_bloque0) {
-    int bloque = 0;
-    double dx = 3.141592654;
-    double expect = -0.065 - dx;
-    double result = calculadora.interacciones_limite_eje_x(dx, bloque);
+    int const bloque = 0;
+    double const d_x = 3.141592654;
+    double const expect = -0.065 - d_x;
+    double const result = Calculadora::interacciones_limite_eje_x(d_x, bloque);
     EXPECT_EQ(result, expect);
 }
 
 TEST_F(CalculadoraTest, InteraccionesLimitesEjeX_bloque1) {
-    int bloque = -1;
-    double dx = 3.141592654;
-    double expect = 0.065 + dx;
-    double result = calculadora.interacciones_limite_eje_x(dx, bloque);
+    int const bloque = -1;
+    double const d_x = 3.141592654;
+    double const expect = 0.065 + d_x;
+    double const result = Calculadora::interacciones_limite_eje_x(d_x, bloque);
     EXPECT_EQ(result, expect);
 }
 
 TEST_F(CalculadoraTest, InteraccionesLimitesEjeX_bloque2) {
-    int bloque = 2;
-    double dx = 3.141592654;
-    double expect = 0.0;
-    double result = calculadora.interacciones_limite_eje_x(dx, bloque);
+    int const bloque = 2;
+    double const d_x = 3.141592654;
+    double const expect = 0.0;
+    double const result = Calculadora::interacciones_limite_eje_x(d_x, bloque);
     EXPECT_EQ(result, expect);
 }
 
 TEST_F(CalculadoraTest, InteraccionesLimitesEjeY_bloque0) {
-    int bloque = 0;
-    double dy = 3.141592654;
-    double expect = -0.08 - dy;
-    double result = calculadora.interacciones_limite_eje_y(dy, bloque);
+    int const bloque = 0;
+    double const d_y = 3.141592654;
+    double const expect = -0.08 - d_y;
+    double const result = calculadora.interacciones_limite_eje_y(d_y, bloque);
     EXPECT_EQ(result, expect);
 }
 

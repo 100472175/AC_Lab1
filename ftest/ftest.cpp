@@ -44,6 +44,7 @@ TEST(FunctionalTest, primera_iteracion) {
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
+  simulacion.particulas.reserve_space(calc.num_particulas);
   nuestros_args.read_body(simulacion);
 
   simulacion.iterador();
@@ -63,6 +64,7 @@ TEST(FunctionalTest, segunda_iteracion) {
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
+  simulacion.particulas.reserve_space(calc.num_particulas);
   nuestros_args.read_body(simulacion);
 
   simulacion.iterador();
@@ -82,6 +84,7 @@ TEST(FunctionalTest, tercera_iteracion) {
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
+  simulacion.particulas.reserve_space(calc.num_particulas);
   nuestros_args.read_body(simulacion);
 
   simulacion.iterador();
@@ -101,6 +104,7 @@ TEST(FunctionalTest, cuarta_iteracion) {
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
+  simulacion.particulas.reserve_space(calc.num_particulas);
   nuestros_args.read_body(simulacion);
 
   simulacion.iterador();
@@ -120,6 +124,7 @@ TEST(FunctionalTest, quinta_iteracion) {
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
+  simulacion.particulas.reserve_space(calc.num_particulas);
   nuestros_args.read_body(simulacion);
 
   simulacion.iterador();
@@ -140,6 +145,7 @@ TEST(FunctionalTest, no_iteracion) {
   calc.inicializar_calculadora();
   malla.inicializar_malla(calc.num_bloques_por_eje());
   Simulacion simulacion(nuestros_args.getter_num_iteraciones(),calc.num_particulas,calc,malla);
+  simulacion.particulas.reserve_space(calc.num_particulas);
   nuestros_args.read_body(simulacion);
 
   simulacion.iterador();

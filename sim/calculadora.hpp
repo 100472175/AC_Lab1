@@ -68,13 +68,13 @@ class Calculadora {
       return parte_1 * masa;
     };
 
-    constexpr Vector3d<double> acel_p1(Vector3d<double> & posicion_1,
-                                                         Vector3d<double> & posicion_2,
+    constexpr Vector3d<double> acel1(Vector3d<double> & pos_1,
+                                                         Vector3d<double> & pos_2,
                                                          double densidad_1,
                                                          double densidad_2) const {
       double const distancia =
-          sqrt(fmax(Vector3d<double>::sq_distancia(posicion_1, posicion_2), 1e-12));
-      Vector3d<double> const diff_posiciones = posicion_1 - posicion_2;
+          sqrt(fmax(Vector3d<double>::sq_distancia(pos_1, pos_2), 1e-12));
+      Vector3d<double> const diff_posiciones = pos_1 - pos_2;
       double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) *
                                     (3 * masa * p_s * 0.5) * pow(suavizado - distancia, 2) /
                                     distancia;
@@ -82,7 +82,7 @@ class Calculadora {
       return diff_posiciones * acceleration_2 * acceleration_3;
     };
 
-    constexpr Vector3d<double> acel_p2(Vector3d<double> & velocidad_1,
+    constexpr Vector3d<double> acel2(Vector3d<double> & velocidad_1,
                                                          Vector3d<double> & velocidad_2) const {
       Vector3d<double> const resultado =
           (velocidad_2 - velocidad_1) *
@@ -107,7 +107,7 @@ class Calculadora {
     };
 
     constexpr static double colisiones_limite_eje_y(int bloque, double const & delta_y,
-                                                    Vector3d<double> & velocidad) {
+                                                    Vector3d<double> const & velocidad) {
       if (bloque == 0) { return (s_c * delta_y - d_v * velocidad.y); }
       return -(s_c * delta_y + d_v * velocidad.y);
     };
@@ -126,13 +126,13 @@ class Calculadora {
       return posicion + (gradiente * delta_t) + (aceleracion * delta_t * delta_t);
     };
 
-    constexpr static Vector3d<double> actualizar_velocidad(Vector3d<double> & gradiente,
-                                                           Vector3d<double> & aceleracion) {
+    constexpr static Vector3d<double> actualizar_velocidad(Vector3d<double> const & gradiente,
+                                                           Vector3d<double> const & aceleracion) {
       return gradiente + (aceleracion * (delta_t / (double) 2));
     };
 
-    constexpr static Vector3d<double> actualizar_gradiente(Vector3d<double> & gradiente,
-                                                           Vector3d<double> & aceleracion) {
+    constexpr static Vector3d<double> actualizar_gradiente(Vector3d<double> const & gradiente,
+                                                           Vector3d<double> const & aceleracion) {
       return gradiente + aceleracion * delta_t;
     };
 

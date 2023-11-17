@@ -56,6 +56,9 @@ void Simulacion::reposicionamiento() {
     bloque_coords               = malla.fuera_de_rango(bloque_coords);
     int const ind_real          = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
     malla.bloques[ind_real].particulas.push_back(cont);
+    // En cada iteración se reinician los valores de densidad y aceleración para todas las particulas
+    particulas.dens[cont]        = 0.0;
+    particulas.aceleracion[cont] = gravedad;
   }
 }
 
@@ -76,17 +79,19 @@ void Simulacion::colisiones_particulas() {
 
 void Simulacion::colisiones_particulas_densidad() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
-    for (auto const & ind_part : malla.bloques[indice_bloque].particulas) {
-      for (auto const & contiguo : malla.bloques[indice_bloque].bloques_contiguos) {
-        for (int const & i_p_nueva : malla.bloques[contiguo].particulas) {
-          if (i_p_nueva > ind_part) {
-            double const distancia_cuadrado =
-                Vector3d<double>::sq_distancia(particulas.pos[ind_part], particulas.pos[i_p_nueva]);
-            if (distancia_cuadrado < (calc.suavizado * calc.suavizado)) {
-              // comprobar que realmente interactuan
-              double const cambio_densidad  = calc.delta_densidades(distancia_cuadrado);
-              particulas.dens[ind_part]    += cambio_densidad;
-              particulas.dens[i_p_nueva]   += cambio_densidad;  // actualizar ambas densidades
+    for (auto const & contiguo : malla.bloques[indice_bloque].bloques_contiguos) {
+      if (indice_bloque <= contiguo) {
+        for (auto const & ind_part : malla.bloques[indice_bloque].particulas) {
+          for (int const & i_p_nueva : malla.bloques[contiguo].particulas) {
+            if (i_p_nueva > ind_part || indice_bloque != contiguo) {
+              double const distancia_cuadrado = Vector3d<double>::sq_distancia(
+                  particulas.pos[ind_part], particulas.pos[i_p_nueva]);
+              if (distancia_cuadrado < (calc.suavizado * calc.suavizado)) {
+                // comprobar que realmente interactuan
+                double const cambio_densidad  = calc.delta_densidades(distancia_cuadrado);
+                particulas.dens[ind_part]    += cambio_densidad;
+                particulas.dens[i_p_nueva]   += cambio_densidad;  // actualizar ambas densidades
+              }
             }
           }
         }
@@ -101,23 +106,23 @@ void Simulacion::colisiones_particulas_densidad() {
 
 void Simulacion::colisiones_particulas_aceleracion() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
-    //std::vector<int> const contiguos = malla.bloques[indice_bloque].bloques_contiguos;
-    for (auto const & part1 : malla.bloques[indice_bloque].particulas) {
-      for (auto const & contiguo : malla.bloques[indice_bloque].bloques_contiguos) {
-        for (int const & part2 : malla.bloques[contiguo].particulas) {
-          if (part2 > part1) {
-            double const distancia =
-                Vector3d<double>::sq_distancia(particulas.pos[part1], particulas.pos[part2]);
-            double const suavizado_cuadrado = (calc.suavizado * calc.suavizado);
-            if (distancia < suavizado_cuadrado) {
-              Vector3d<double> op_1 = calc.acel_p1(particulas.pos[part1], particulas.pos[part2],
+    for (auto const & contiguo : malla.bloques[indice_bloque].bloques_contiguos) {
+      if (indice_bloque <= contiguo) {
+        for (auto const & part1 : malla.bloques[indice_bloque].particulas) {
+          for (int const & part2 : malla.bloques[contiguo].particulas) {
+            if (part2 > part1 || contiguo != indice_bloque) {
+              double const distancia =
+                  Vector3d<double>::sq_distancia(particulas.pos[part1], particulas.pos[part2]);
+              if (distancia < (calc.suavizado * calc.suavizado)) {
+                Vector3d<double> op_1 = calc.acel1(particulas.pos[part1], particulas.pos[part2],
                                                    particulas.dens[part1], particulas.dens[part2]);
-              Vector3d<double> const op_2 =
-                  calc.acel_p2(particulas.velocidad[part1], particulas.velocidad[part2]);
-              Vector3d<double> const cambio_aceleracion = Calculadora::transferencia_aceleracion(
-                  op_1, op_2, particulas.dens[part1] * particulas.dens[part2]);
-              particulas.aceleracion[part1] += cambio_aceleracion;
-              particulas.aceleracion[part2] -= cambio_aceleracion;
+                Vector3d<double> const op_2 =
+                    calc.acel2(particulas.velocidad[part1], particulas.velocidad[part2]);
+                Vector3d<double> const cambio_aceleracion = Calculadora::transferencia_aceleracion(
+                    op_1, op_2, particulas.dens[part1] * particulas.dens[part2]);
+                particulas.aceleracion[part1] += cambio_aceleracion;
+                particulas.aceleracion[part2] -= cambio_aceleracion;
+              }
             }
           }
         }

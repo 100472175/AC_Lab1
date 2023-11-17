@@ -38,10 +38,9 @@ int load_trz(std::string path, Simulacion & sim) {
     return 0;
 }
 
-int write_trz(std::string path ,Simulacion & sim){
+void write_trz(std::string path ,Simulacion & sim){
     std::ofstream salida(path, std::ios::binary);
     salida.write(reinterpret_cast<char*>(&sim.malla.tamano),4);
-
     for (int i = 0; i < sim.malla.tamano; i++){
         int64_t particulas = sim.malla.bloques[i].particulas.size();
         salida.write(reinterpret_cast<char*>(&particulas), 8);
