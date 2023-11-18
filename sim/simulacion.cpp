@@ -5,13 +5,6 @@
 
 #include "../sim/progargs.hpp"
 
-/*Simulacion::Simulacion() : num_iteraciones(0), num_particulas(0), ppm(0.0) {
-                                             Calculadora inst_calculadora(ppm);
-                                             calculadora = inst_calculadora;
-                                             Malla inst_malla(calculadora.indice_bloques(),
-   calculadora.indice_bloques(), calculadora.indice_bloques()) malla = inst_malla;
-                                           };*/
-
 // Etapa inicial de la simulación
 void Simulacion::iterador() {
   if (num_iteraciones == 0) { return; }
