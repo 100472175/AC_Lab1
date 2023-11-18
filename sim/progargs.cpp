@@ -52,11 +52,11 @@ int Progargs::read_head(Malla & malla, Calculadora & calculadora) {
   calculadora.ppm            = (double) float_ppm;
   calculadora.num_particulas = num_particulas;
 
-  Vector3d<double> const aux = calculadora.num_bloques_por_eje();
+  Vector3d<int> const aux = calculadora.num_bloques_por_eje();
 
-  malla.n_x = int(aux.x);
-  malla.n_y = int(aux.y);
-  malla.n_z = int(aux.z);
+  malla.n_x = aux.x;
+  malla.n_y = aux.y;
+  malla.n_z = aux.z;
 
   return 0;
 }

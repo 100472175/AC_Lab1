@@ -3,7 +3,6 @@
 #include "../sim/malla.hpp"
 #include "../sim/progargs.hpp"
 
-#include <cmath>
 #include <span>
 
 int main(int argc, char ** argv) {

@@ -1,6 +1,3 @@
-//
-// Created by adrian on 11/10/23.
-//
 
 #include "../sim/progargs.hpp"
 #include "tools_trazas.hpp"

@@ -29,7 +29,7 @@ class Malla {
      *
      * @param n tamaño de la malla.
      */
-    void inicializar_malla(Vector3d<double> n);
+    void inicializar_malla(Vector3d<int> n);
 
     /**
      * Dadas tres coordenadas, devuelve el índice de bloques en el array bloques de la malla.

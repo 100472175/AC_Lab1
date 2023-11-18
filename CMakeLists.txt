@@ -10,7 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Opciones de compilacion
 add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
-set(CMAKE_CXX_FLAGS_RELEASE "-march=native -O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-march=native -O3 -Ofast -DNDEBUG")
 set(-DCMAKE_CXX_FLAGS=fsanitize=address -fno-omit-frame-pointer)
 
 include(FetchContent)

@@ -1,7 +1,3 @@
-//
-// Created by cesar on 29/09/23.
-//
-
 #ifndef AC_LAB1_PARTICLE_H
 #define AC_LAB1_PARTICLE_H
 

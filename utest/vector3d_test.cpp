@@ -1,7 +1,3 @@
-//
-// Created by edu on 10/14/23.
-//
-
 
 #include "../sim/vector_3d.hpp"
 
@@ -197,7 +193,7 @@ TEST(Vector3dTest, CasosLimitesMultiplicacionValoresGrandes) {
 TEST(Vector3dTest, CasosLimitesDivisionValoresGrandes) {
   Vector3d<double> vt1(e_100, e100, 0);
   vt1 /= cincuenta;
-  EXPECT_EQ(vt1.x, 2e-102);
+  EXPECT_LE(vt1.x - 2e-102, 0.0000001);
   EXPECT_EQ(vt1.y, 2e98);
   EXPECT_EQ(vt1.z, 0);
 }

@@ -1,6 +1,3 @@
-//
-// Created by cesar on 20/10/23.
-//
 
 #include "../sim/calculadora.hpp"
 
@@ -11,7 +8,7 @@
 constexpr int num_part     = 4800;
 constexpr double ppm       = 204.0;
 constexpr double ppm2      = 2.0;
-constexpr double tolerance = 0.005;
+constexpr double tolerance = 2e-10;
 
 class CalculadoraTest : public testing::Test {
   public:
@@ -36,7 +33,7 @@ TEST_F(CalculadoraTest, InicializarCalculadora) {
 
 TEST_F(CalculadoraTest, NumBloquesPorEje) {
   Vector3d<double> const expect(15.0, 21.0, 15.0);
-  Vector3d<double> const result = calculadora.num_bloques_por_eje();
+  Vector3d<int> const result = calculadora.num_bloques_por_eje();
   EXPECT_EQ(result.x, expect.x);
   EXPECT_EQ(result.y, expect.y);
   EXPECT_EQ(result.z, expect.z);

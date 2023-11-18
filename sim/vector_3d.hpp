@@ -150,16 +150,30 @@ struct Vector3d {
       return {this->x * scalar, this->y * scalar, this->z * scalar};
     }
 
-    // Para dividir todos los elementos por un escalar
-    constexpr Vector3d operator/=(double const & scalar) {
+    /**
+     * Sobrecarga del operador /= para calcular la división del propio Vector3d por un escalar,
+     * almacena el valor en el propio Vector3d.
+     *
+     * @param scalar Variable escalar de cualquier tipo.
+     *
+     * @return Devuelve el propio Vector3d con el valor calculado.
+     */
+    constexpr Vector3d operator/=(T const & scalar) {
       x /= scalar;
       y /= scalar;
       z /= scalar;
       return *this;
     }
 
-    // Para dividir todos los elementos por un vector
-    constexpr Vector3d<double> operator/(Vector3d<T> const & other) const {
+    /**
+     * Sobrecarga del operador / para calcular la división del propio Vector3d por otro Vector3d y
+     * almacena el valor en otro Vector3d.
+     *
+     * @param other Vector3d con el que se realiza la división.
+     *
+     * @return Devuelve un Vector3d con los valores calculados.
+     */
+    constexpr Vector3d<T> operator/(Vector3d<T> const & other) const {
       return {this->x / (double) other.x, this->y / (double) other.y, this->z / (double) other.z};
     }
 };

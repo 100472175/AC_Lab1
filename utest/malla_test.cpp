@@ -1,6 +1,3 @@
-//
-// Created by Eduardo on 10/11/23.
-//
 
 #include "../sim/malla.hpp"
 
@@ -11,7 +8,7 @@ TEST(MallaTest, CREACIONEINDEXADOMALLA) {
   int const cinco = 5;
   // Creando la Malla y comprobando la creación de bloques.
   Malla malla;
-  Vector3d<double> const dimensions{3.0, 2.0, 4.0};
+  Vector3d<int> const dimensions{3, 2, 4};
   malla.inicializar_malla(dimensions);
 
   EXPECT_EQ(malla.n_x, 3);
@@ -50,7 +47,7 @@ TEST(MallaTest, CREACIONEINDEXADOMALLA) {
 TEST(MallaTest, BLOQUESVECINOSGENERAL) {
   // Comprobar si los bloques contiguos están correctamente identificados
   Malla malla;
-  Vector3d<double> const dimensions{3.0, 3.0, 3.0};
+  Vector3d<int> const dimensions{3, 3, 3};
   malla.inicializar_malla(dimensions);
 
   // Crea los bloques contiguos para el bloque 1, 1, 1
@@ -65,7 +62,7 @@ TEST(MallaTest, BLOQUESVECINOSGENERAL) {
 TEST(MallaTest, BLOQUESCONTIGUOSESQUINA) {
   // Comprobar si los bloques de la esquina, que sean contiguos se seleccionan correctamente
   Malla malla;
-  Vector3d<double> const dimensions{10.0, 10.0, 10.0};
+  Vector3d<int> const dimensions{10, 10, 10};
   malla.inicializar_malla(dimensions);
 
   // Crea los bloques contiguos para el bloque 1, 1, 1
@@ -80,7 +77,7 @@ TEST(MallaTest, BLOQUESCONTIGUOSESQUINA) {
 TEST(MallaTest, BLOQUESCONTIGUOSARISTA) {
   // Comprobar si los bloques de la arista, que sean contiguos se seleccionan correctamente
   Malla malla;
-  Vector3d<double> const dimensions{10.0, 10.0, 10.0};
+  Vector3d<int> const dimensions{10, 10, 10};
   malla.inicializar_malla(dimensions);
 
   // Crea los bloques contiguos para el bloque 0, 0, 1
@@ -95,7 +92,7 @@ TEST(MallaTest, BLOQUESCONTIGUOSARISTA) {
 TEST(MallaTest, MALLADIMENSION0) {
   // Comprobar que pasa cuando la dimensión de la malla proporcionada es de dimensión 0
   Malla malla;
-  Vector3d<double> const dimensions{0, 0, 0};
+  Vector3d<int> const dimensions{0, 0, 0};
   malla.inicializar_malla(dimensions);
 
   malla.bloques_contiguos(0, 0, 0);

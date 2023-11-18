@@ -1,7 +1,3 @@
-//
-// Created by adrian on 11/11/23.
-//
-
 #ifndef FLUID_TOOLS_TRAZAS_HPP
 #define FLUID_TOOLS_TRAZAS_HPP
 

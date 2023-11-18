@@ -2,9 +2,8 @@
 #include "malla.hpp"
 
 void Malla::crear_bloques() {
-  switch (tamano)
-  case 0: tamano += 1;
-  bloques = std::vector<Bloque>(tamano, Bloque(0,0,0));
+  if (tamano == 0) { tamano += 1; }
+  bloques = std::vector<Bloque>(tamano, Bloque(0, 0, 0));
   for (int eje_z = 0; eje_z < n_z; eje_z++) {
     for (int eje_y = 0; eje_y < n_y; eje_y++) {
       for (int eje_x = 0; eje_x < n_x; eje_x++) {
@@ -16,10 +15,10 @@ void Malla::crear_bloques() {
   }
 }
 
-void Malla::inicializar_malla(Vector3d<double> n) {
-  n_x    = int(n.x);
-  n_y    = int(n.y);
-  n_z    = int(n.z);
+void Malla::inicializar_malla(Vector3d<int> n) {
+  n_x    = n.x;
+  n_y    = n.y;
+  n_z    = n.z;
   tamano = n_x * n_y * n_z;
   crear_bloques();
 }
