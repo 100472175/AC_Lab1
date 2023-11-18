@@ -21,6 +21,7 @@ int Progargs::read_till_end(int num_particulas, int leidas) {
               << ", Found: " << leidas << "\n";
     return error_number_particle_mismatch;
   }
+  archivo_entrada.close();
   return 0;
 }
 
