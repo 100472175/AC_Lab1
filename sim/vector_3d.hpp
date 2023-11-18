@@ -1,9 +1,6 @@
-//
-// Created by cesar on 29/09/23.
-//
-
 #ifndef AC_LAB1_VECTOR_3D_H
 #define AC_LAB1_VECTOR_3D_H
+
 #include <cmath>
 
 constexpr double cuadrado(double numero) {

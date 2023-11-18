@@ -9,10 +9,9 @@
  * Abstracción de un bloque como conjunto de partículas.
  */
 struct Bloque {
-    int i, j, k; // coordenadas x, y y z del bloque
-    std::vector<int> particulas{}; // conjunto de párticulas dentro del bloque
-    std::vector<int> bloques_contiguos{}; // conjunto de bloques contiguos al bloque
-
+    int i, j, k;                           // coordenadas x, y y z del bloque
+    std::vector<int> particulas{};         // conjunto de párticulas dentro del bloque
+    std::vector<int> bloques_contiguos{};  // conjunto de bloques contiguos al bloque
 };
 
 #endif

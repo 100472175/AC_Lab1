@@ -1,6 +1,4 @@
-//
-// Created by adrian on 10/6/23.
-//
+
 #include "simulacion.hpp"
 
 #include "../sim/progargs.hpp"
@@ -34,22 +32,25 @@ void Simulacion::poblar_malla() {
     bloque_coords               = malla.fuera_de_rango(bloque_coords);
     int const ind_real          = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
     malla.bloques[ind_real].particulas.push_back(cont);
+    particulas.dens[cont]        = 0.0;
+    particulas.aceleracion[cont] = gravedad;
   }
 }
 
 // Sección 4.3.1 - Página 7 - Reposicionamiento de partículas en la malla
 void Simulacion::reposicionamiento() {
   for (int i = 0; i < malla.tamano; i++) {
-    // Limpio las partículas de cada bloue
+    // Limpiar las partículas de cada bloque
     malla.bloques[i].particulas.clear();
   }
-  // Y la vuelvo a repoblar
+  // Repoblar malla
   for (int cont = 0; cont < num_particulas; cont++) {
     Vector3d<int> bloque_coords = calc.indice_bloque(particulas.pos[cont]);
     bloque_coords               = malla.fuera_de_rango(bloque_coords);
     int const ind_real          = malla.get_pos(bloque_coords.x, bloque_coords.y, bloque_coords.z);
     malla.bloques[ind_real].particulas.push_back(cont);
-    // En cada iteración se reinician los valores de densidad y aceleración para todas las particulas
+    // En cada iteración se reinician los valores de densidad y aceleración para todas las
+    // particulas.
     particulas.dens[cont]        = 0.0;
     particulas.aceleracion[cont] = gravedad;
   }
@@ -57,16 +58,8 @@ void Simulacion::reposicionamiento() {
 
 // Sección 4.3.2 - Página 8 - Cálculo de las aceleraciones
 void Simulacion::colisiones_particulas() {
-  // En cada iteración se reinician los valores de densidad y aceleración para todas las particulas
-  for (int i = 0; i < num_particulas; ++i) {
-    particulas.dens[i]        = 0.0;
-    particulas.aceleracion[i] = gravedad;
-  }
-
-  // Función encargada de actualizar las densidades de cada particula
   Simulacion::colisiones_particulas_densidad();
-  // función para actualizar la aceleración de todas las particulas, cuyas densidades tienen que
-  // estar actualizadas
+
   Simulacion::colisiones_particulas_aceleracion();
 }
 
@@ -80,10 +73,9 @@ void Simulacion::colisiones_particulas_densidad() {
               double const distancia_cuadrado = Vector3d<double>::sq_distancia(
                   particulas.pos[ind_part], particulas.pos[i_p_nueva]);
               if (distancia_cuadrado < (calc.suavizado * calc.suavizado)) {
-                // comprobar que realmente interactuan
                 double const cambio_densidad  = calc.delta_densidades(distancia_cuadrado);
                 particulas.dens[ind_part]    += cambio_densidad;
-                particulas.dens[i_p_nueva]   += cambio_densidad;  // actualizar ambas densidades
+                particulas.dens[i_p_nueva]   += cambio_densidad;  // Se actualizan ambas densidades
               }
             }
           }
@@ -95,7 +87,6 @@ void Simulacion::colisiones_particulas_densidad() {
     particulas.dens[contador] = calc.transform_densidad(particulas.dens[contador]);
   }
 }
-
 
 void Simulacion::colisiones_particulas_aceleracion() {
   for (int indice_bloque = 0; indice_bloque < malla.tamano; ++indice_bloque) {
@@ -124,9 +115,7 @@ void Simulacion::colisiones_particulas_aceleracion() {
   }
 }
 
-
 // Sección 4.3.3 - Página 9 - Colisiones de partículas (con límites)
-// Eduardo Alarcón
 void Simulacion::colision_particula_limite() {
   for (int i = 0; i < num_particulas; ++i) {
     int const c_x = calc.indice_bloque(particulas.pos[i]).x;
@@ -214,7 +203,6 @@ void Simulacion::movimiento_particulas() {
 }
 
 // Sección 4.3.5 - Página 11 - Interacciones con los límites del recinto
-// Eduardo Alarcón
 void Simulacion::rebote_particula_limite() {
   for (int j = 0; j < malla.n_y; j++) {
     for (int k = 0; k < malla.n_z; k++) {
@@ -234,30 +222,6 @@ void Simulacion::rebote_particula_limite() {
   }
 }
 
-/*
-for (int i = 0; i < num_particulas; ++i) {
-  if (i == 26) { std::cout << "Tiempo\n"; }
-  int const c_x = calculadora.indice_bloque(particulas.posicion[i]).x;
-  if (c_x <= 0) {
-    rebote_particula_limite_x(i, 0);
-  } else if (c_x >= malla.n_x - 1) {
-    rebote_particula_limite_x(i, -1);
-  }
-  int const c_y = calculadora.indice_bloque(particulas.posicion[i]).y;
-  if (c_y <= 0) {
-    rebote_particula_limite_y(i, 0);
-  } else if (c_y >= malla.n_x - 1) {
-    rebote_particula_limite_y(i, -1);
-  }
-  int const c_z = calculadora.indice_bloque(particulas.posicion[i]).z;
-  if (c_z <= 0) {
-    rebote_particula_limite_z(i, 0);
-  } else if (c_z >= malla.n_x - 1) {
-    rebote_particula_limite_z(i, -1);
-  }
-}
-}
-*/
 void Simulacion::rebote_particula_limite_x(std::vector<int> & part, int bloque) {
   if (bloque == 0) {
     for (auto indice : part) {
@@ -337,12 +301,10 @@ void Simulacion::print_simulation_parameters() const {
             << tamanio_bloque.z << "\n";
 }
 
-
-void Simulacion::add_particulas(int index, Vector3d<float> & pos, Vector3d<float> & hv,
-                                Vector3d<float> & v) {
-  particulas.pos[index] = pos.to_double();
-  particulas.gradiente[index] = hv.to_double();
-  particulas.velocidad[index] = v.to_double();
-  particulas.aceleracion[index] = Vector3d<float>(0.0, 0.0, 0.0).to_double();
+void Simulacion::add_particulas(Vector3d<float> & pos, Vector3d<float> & h_v,
+                                Vector3d<float> & vel) {
+  particulas.pos.push_back(pos.to_double());
+  particulas.gradiente.push_back(h_v.to_double());
+  particulas.velocidad.push_back(vel.to_double());
+  particulas.aceleracion.push_back(Vector3d<double>(0.0, 0.0, 0.0));
 }
-

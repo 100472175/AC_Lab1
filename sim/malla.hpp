@@ -4,21 +4,20 @@
 #include "Bloques.hpp"
 #include "vector_3d.hpp"
 
-#include <array>
 #include <algorithm>
+#include <array>
 #include <vector>
-
 
 /**
  * Abtrascción de la malla como conjunto de bloques.
  */
 class Malla {
-public:
-    std::vector<Bloque> bloques; // conjunto de bloques
-    int n_x;                     // tamaño del eje x en número de bloques
-    int n_y;                     // tamaño del eje y en número de bloques
-    int n_z;                     // tamaño del eje z en número de bloques
-    int tamano;                  // número de bloques de la malla
+  public:
+    std::vector<Bloque> bloques;  // conjunto de bloques
+    int n_x{};                    // tamaño del eje x en número de bloques
+    int n_y{};                    // tamaño del eje y en número de bloques
+    int n_z{};                    // tamaño del eje z en número de bloques
+    int tamano{};                 // número de bloques de la malla
 
     /**
      * inicialización del vector de bloques.
@@ -38,6 +37,7 @@ public:
      * @param i coordenada del eje x.
      * @param j coordenada del eje y.
      * @param k coordenada del eje z.
+     *
      * @return índice del bloque para el array malla.bloques.
      */
     [[nodiscard]] int get_pos(int i, int j, int k) const;

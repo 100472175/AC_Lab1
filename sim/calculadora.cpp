@@ -1,10 +1,8 @@
-//
-// Created by Eduardo Alarcon on 27/9/23.
-//
+
 #include "calculadora.hpp"
 
 // Sección 3.5 - La malla de simulación
-// Se puede iniciar la calculadora cuando tengamos ppm y num_particulas
+// Se puede iniciar la calculadora cuando se tiene ppm y num_particulas
 void Calculadora::inicializar_calculadora() {
   suavizado = radio / ppm;
   masa      = dens_fluido / pow(ppm, 3);

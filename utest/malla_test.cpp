@@ -6,6 +6,7 @@
 
 #include <gtest/gtest.h>
 
+// NOLINTNEXTLINE
 TEST(MallaTest, CREACIONEINDEXADOMALLA) {
   int const cinco = 5;
   // Creando la Malla y comprobando la creación de bloques.
@@ -32,7 +33,7 @@ TEST(MallaTest, CREACIONEINDEXADOMALLA) {
   }
 
   // Comprobar si los rangos que están fuera de bloque son correctos:
-  Vector3d<int> outOfRangeIndex {-1, 3, cinco};
+  Vector3d<int> outOfRangeIndex{-1, 3, cinco};
   Vector3d<int> inRangeIndex{2, 1, 3};
 
   auto correctedIndex = malla.fuera_de_rango(outOfRangeIndex);
@@ -99,7 +100,6 @@ TEST(MallaTest, MALLADIMENSION0) {
 
   malla.bloques_contiguos(0, 0, 0);
 
-int const pos = malla.get_pos(0,0,0);
-EXPECT_EQ(malla.bloques[pos].bloques_contiguos.size(), 0);
+  int const pos = malla.get_pos(0, 0, 0);
+  EXPECT_EQ(malla.bloques[pos].bloques_contiguos.size(), 0);
 }
-

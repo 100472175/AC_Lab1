@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <gtest/gtest.h>
 constexpr double tolerance = 1e-12;
+
 class EtapasTest : public testing::Test {
     void SetUp() override {
       std::vector<std::string> const args = {"1", "../../small.fld", "../../out_test.fld"};
@@ -20,8 +21,8 @@ class EtapasTest : public testing::Test {
     }
 
   public:
-    Progargs progargs      = Progargs{};
-    Progargs progargs2     = Progargs{};
+    Progargs progargs  = Progargs{};
+    Progargs progargs2 = Progargs{};
     Malla malla{};
     Calculadora calc{};
     Malla malla2{};

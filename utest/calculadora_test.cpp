@@ -164,9 +164,9 @@ TEST_F(CalculadoraTest, AceleracionSegundaParte) {
 }
 
 TEST_F(CalculadoraTest, TrasferenciaAceleracion) {
-  const double primero = 3.5;
-  const double segundo = 4.7;
-  const double tercero = 3.141592;
+  double const primero = 3.5;
+  double const segundo = 4.7;
+  double const tercero = 3.141592;
   Vector3d<double> parte1(primero, segundo, tercero);
   Vector3d<double> const parte2(2.718, 6.7, 6.2830);
   double const denom = 5.0;

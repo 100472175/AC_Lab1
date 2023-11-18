@@ -34,7 +34,7 @@ FETCHCONTENT_MAKEAVAILABLE(googletest)
 
 # esto relentiza compilación, se puede desactivar y activar
 # ESTA LINEA NO CONSEGUIMOS QUE HAGA NADA
-#set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
+set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
 
 # incluir todos los directorios de código
 include_directories(PUBLIC .)

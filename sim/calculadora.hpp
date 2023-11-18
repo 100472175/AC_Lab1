@@ -1,7 +1,3 @@
-//
-// Created by Eduardo Alarcón on 27/9/23.
-//
-
 #ifndef PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
 #define PRUEBAS_FLUIDOS_FUNCIONES_FISICAS_HPP
 
@@ -37,9 +33,27 @@ class Calculadora {
     double masa;
     int num_particulas;
 
+    /**
+     * Función de utilidad para calcular e inicializar el suavizado que se utilizará durante la
+     * simulación y la masa de cada partícula.
+     */
     void inicializar_calculadora();
 
-    [[nodiscard]] constexpr Vector3d<double> num_bloques_por_eje() const {
+    /**
+     * Función de utilidad para calcular el bloque en el que se encuentra una partícula.
+     *
+     * @param posicion Vector que tiene las coordenadas de la partícula.
+     *
+     * @return Vector que tiene las coordenadas del bloque en el que se encuentra la partícula.
+     */
+    [[nodiscard]] Vector3d<int> indice_bloque(Vector3d<double> const & posicion) const;
+
+    /**
+     * Función que revuelve el número de bloques que hay en a malla para esta simulación concreta.
+     *
+     * @return Vector con el número de bloques por eje.
+     */
+    [[nodiscard]] constexpr Vector3d<int> num_bloques_por_eje() const {
       Vector3d<double> aux  = b_max - b_min;
       aux                  /= (double) suavizado;
       aux.x                 = floor(aux.x);
@@ -48,15 +62,23 @@ class Calculadora {
       return aux;
     };
 
+    /**
+     * Función que calcula el tamaño de cada bloque.
+     *
+     * @return Vector con el tamaño de cada bloque en las diferentes coordenadas, x, y, z.
+     */
     [[nodiscard]] constexpr Vector3d<double> tamanio_bloque() const {
       return (b_max - b_min) / num_bloques_por_eje();
     };
 
-    [[nodiscard]] Vector3d<int> indice_bloque(Vector3d<double> const & posicion) const;
-
-    // 4.3.2
-    // Inidiación de densidad y aceleraciones [pg. 8]
-
+    /**
+     * Función que devuelve la diferencia entre el suavizado al cuadrado y la distancia al cuadrado
+     * al cubo.
+     *
+     * @param distancia_cuadrado Cuadrado de la distancia entre dos partículas
+     *
+     * @return Diferencia entre el suavizado al cuadrado y la distancia al cuadrado al cubo.
+     */
     [[nodiscard]] constexpr double delta_densidades(double distancia_cuadrado) const {
       double const suavizado_temp = suavizado * suavizado;
       return pow((suavizado_temp - distancia_cuadrado), 3);
@@ -69,11 +91,10 @@ class Calculadora {
     };
 
     [[nodiscard]] constexpr Vector3d<double> acel1(Vector3d<double> const & pos_1,
-                                                         Vector3d<double> const & pos_2,
-                                                         double const densidad_1,
-                                                         double const densidad_2) const {
-      double const distancia =
-          sqrt(fmax(Vector3d<double>::sq_distancia(pos_1, pos_2), 1e-12));
+                                                   Vector3d<double> const & pos_2,
+                                                   double const densidad_1,
+                                                   double const densidad_2) const {
+      double const distancia = sqrt(fmax(Vector3d<double>::sq_distancia(pos_1, pos_2), 1e-12));
       Vector3d<double> const diff_posiciones = pos_1 - pos_2;
       double const acceleration_2            = 15 / (std::numbers::pi * pow(suavizado, 6)) *
                                     (3 * masa * p_s * 0.5) * pow(suavizado - distancia, 2) /
@@ -83,7 +104,7 @@ class Calculadora {
     };
 
     [[nodiscard]] constexpr Vector3d<double> acel2(Vector3d<double> const & velocidad_1,
-                                                         Vector3d<double> const & velocidad_2) const {
+                                                   Vector3d<double> const & velocidad_2) const {
       Vector3d<double> const resultado =
           (velocidad_2 - velocidad_1) *
           ((45 / (std::numbers::pi * pow(suavizado, 6)) * viscosidad * masa));

@@ -1,7 +1,3 @@
-//
-// Created by paula on 29/09/23.
-//
-
 #ifndef FLUID_PROGARGS_HPP
 #define FLUID_PROGARGS_HPP
 

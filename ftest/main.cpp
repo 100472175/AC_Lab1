@@ -1,9 +1,5 @@
-//
-// Created by paula on 10/11/23.
-//
 
 #include "gtest/gtest.h"
-
 
 int main(int argc, char ** argv) {
   ::testing::InitGoogleTest(&argc, argv);

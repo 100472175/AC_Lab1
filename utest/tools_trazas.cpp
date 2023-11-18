@@ -1,13 +1,13 @@
 
+// NOLINTBEGIN
 #include "tools_trazas.hpp"
-
-#include <math.h>
 
 #include <algorithm>
 #include <array>
+#include <cmath>
 
-int load_trz(const std::string& path, Simulacion & sim) {
-  int number_blocks = 0;
+int load_trz(std::string const & path, Simulacion & sim) {
+  int number_blocks        = 0;
   int64_t particulas_block = 0;
   std::ifstream traza(path, std::ios::binary);
   traza.read(reinterpret_cast<char *>(&number_blocks), 4);
@@ -21,8 +21,6 @@ int load_trz(const std::string& path, Simulacion & sim) {
     traza.read(reinterpret_cast<char *>(&particulas_block), 8);
     sim.malla.bloques[i].particulas.clear();
     for (int j = 0; j < particulas_block; ++j) {
-
-
       traza.read(reinterpret_cast<char *>(&ident), 8);
       traza.read(reinterpret_cast<char *>(&pos), 24);
       traza.read(reinterpret_cast<char *>(&grad), 24);
@@ -135,3 +133,5 @@ bool compareFiles(std::string const & p1, std::string const & p2) {
   return std::equal(std::istreambuf_iterator<char>(fich1.rdbuf()), std::istreambuf_iterator<char>(),
                     std::istreambuf_iterator<char>(fich2.rdbuf()));
 }
+
+// NOLINTEND

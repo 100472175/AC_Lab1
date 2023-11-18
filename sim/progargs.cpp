@@ -1,9 +1,5 @@
 
-
 #include "progargs.hpp"
-
-// Created by paula on 29/09/23.
-
 
 int Progargs::read_till_end(int num_particulas, int leidas) {
   int const tamanio_lectura_part           = 36;
@@ -16,7 +12,6 @@ int Progargs::read_till_end(int num_particulas, int leidas) {
     if (archivo_entrada.gcount() > 0) { leidas++; }
   }
   if (leidas > num_particulas) {
-    // num_particles < particulas
     std::cerr << "Error: Number of particles mismatch. Header: " << num_particulas
               << ", Found: " << leidas << "\n";
     return error_number_particle_mismatch;
@@ -33,7 +28,7 @@ int Progargs::asignar_valores(std::vector<std::string> const & args) {
   if (args.size() != 3) {
     std::cerr << "Error: invalid number of arguments: " << args.size() << ".\n";
     return -1;
-  };
+  }
   int const validar_iteraciones = my_is_digit(args[0]);
   if (validar_iteraciones < 0) { return validar_iteraciones; }
   numero_iteraciones = validar_iteraciones;
@@ -86,7 +81,7 @@ int Progargs::read_body(Simulacion & simulacion) {
     archivo_entrada.read(reinterpret_cast<char *>(&grad), size_param);  // lectura h particula i
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     archivo_entrada.read(reinterpret_cast<char *>(&vel), size_param);  // lectura vel particula i
-    simulacion.add_particulas(leidas, pos, grad, vel);
+    simulacion.add_particulas(pos, grad, vel);
   }
   // comprobar que haya más partículas de las especificadas
   return read_till_end(simulacion.num_particulas, leidas);
