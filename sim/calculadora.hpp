@@ -152,23 +152,56 @@ class Calculadora {
       return gradiente + (aceleracion * (delta_t / (double) 2));
     };
 
+    /**
+     * Función que devuelve el nuevo gradiente de una particula, dado el gradiente velocidad y la
+     * aceleración de esa partícula
+     *
+     * @param gradiente Vector3D con las 3 coordenadas del gradiente.
+     * @param aceleracion Vector3D con las 3 coordenadas de la aceleración.
+     *
+     * @return Devuelve un Vector3d de tipo double con las calculos realizados
+     */
     constexpr static Vector3d<double> actualizar_gradiente(Vector3d<double> const & gradiente,
                                                            Vector3d<double> const & aceleracion) {
       return gradiente + aceleracion * delta_t;
     };
 
+    /**
+     * Función que devuelve la nueva posición x de la partícula.
+     *
+     * @param d_x Diferencia entre el borde de la malla y la posición x de la partícula.
+     * @param bloque Indica si es el primer bloque o el último.
+     *
+     * @return Devuelve un double con el valor calculado
+     */
     constexpr static double interacciones_limite_eje_x(double const d_x, int bloque) {
       if (bloque == 0) { return b_min.x - d_x; }
       if (bloque == -1) { return b_max.x + d_x; }
       return 0.0;
     };
 
+    /**
+     * Función que devuelve la nueva posición y de la partícula
+     *
+     * @param d_y Diferencia entre el borde de la malla y la posición y de la particula
+     * @param bloque Indica si es el primer bloque o el último
+     *
+     * @return Devuelve un double con el valor calculado
+     */
     constexpr static double interacciones_limite_eje_y(double const d_y, int bloque) {
       if (bloque == 0) { return b_min.y - d_y; }
       if (bloque == -1) { return b_max.y + d_y; }
       return 0.0;
     };
 
+    /**
+     * Función que devuelve la nueva posición z de la partícula
+     *
+     * @param d_z Diferencia entre el borde de la malla y la posición z de la partícula
+     * @param bloque Indica si es el primer bloque o el último
+     *
+     * @return Devuelve un double con el valor calculado
+     */
     constexpr static double interacciones_limite_eje_z(double const d_z, int bloque) {
       if (bloque == 0) { return b_min.z - d_z; }
       if (bloque == -1) { return b_max.z + d_z; }
