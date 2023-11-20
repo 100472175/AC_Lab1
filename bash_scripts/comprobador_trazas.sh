@@ -1,13 +1,16 @@
 #!/bin/zsh
-cd ..
+cd ../..
 echo "Compilando"
 # If build does not exist, create it
 if [ ! -d "build" ]; then
     mkdir build
 fi
-cd build
-/snap/bin/cmake -D/snap/bin/cmake_BUILD_TYPE=Release ..
-/snap/bin/cmake --build . -j
+. /etc/profile
+module avail
+module load gcc/12.1.0
+cmake --version
+time cmake -S fluid-2023 -B build -DCMAKE_BUILD_TYPE=Release
+time cmake --build build -j
 # shellcheck disable=SC2103
 cd ..
 echo "Probando trazas pequeñas"

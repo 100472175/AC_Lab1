@@ -1,48 +1,29 @@
+#!/bin/bash
+
+# Compile the lectura_traza program
 clang++ -o lectura_traza ../../herramientas/lectura_traza.cpp
-echo "He compilado y voy a ejecutar lectura_traza"
-./lectura_traza ../small/acctransf-base-1.trz > acctransf-base-1.txt
-./lectura_traza ../small/acctransf-base-2.trz > acctransf-base-2.txt
-./lectura_traza ../small/acctransf-base-3.trz > acctransf-base-3.txt
-./lectura_traza ../small/acctransf-base-4.trz > acctransf-base-4.txt
-./lectura_traza ../small/acctransf-base-5.trz > acctransf-base-5.txt
-./lectura_traza ../small/boundint-base-1.trz > boundint-base-1.txt
-./lectura_traza ../small/boundint-base-2.trz > boundint-base-2.txt
-./lectura_traza ../small/boundint-base-3.trz > boundint-base-3.txt
-./lectura_traza ../small/boundint-base-4.trz > boundint-base-4.txt
-./lectura_traza ../small/boundint-base-5.trz > boundint-base-5.txt
-./lectura_traza ../small/densinc-base-1.trz > densinc-base-1.txt 
-./lectura_traza ../small/densinc-base-2.trz > densinc-base-2.txt
-./lectura_traza ../small/densinc-base-3.trz > densinc-base-3.txt
-./lectura_traza ../small/densinc-base-4.trz > densinc-base-4.txt
-./lectura_traza ../small/densinc-base-5.trz > densinc-base-5.txt
-./lectura_traza ../small/denstransf-base-1.trz > denstransf-base-1.txt
-./lectura_traza ../small/denstransf-base-2.trz > denstransf-base-2.txt
-./lectura_traza ../small/denstransf-base-3.trz > denstransf-base-3.txt 
-./lectura_traza ../small/denstransf-base-4.trz > denstransf-base-3.txt
-./lectura_traza ../small/denstransf-base-3.trz > denstransf-base-3.txt
-./lectura_traza ../small/denstransf-base-4.trz > denstransf-base-4.txt
-./lectura_traza ../small/denstransf-base-5.trz > denstransf-base-5.txt
-./lectura_traza ../small/initacc-base-1.trz > initacc-base-1.txt   
-./lectura_traza ../small/initacc-base-2.trz > initacc-base-2.txt
-./lectura_traza ../small/initacc-base-3.trz > initacc-base-2.txt
-./lectura_traza ../small/initacc-base-2.trz > initacc-base-2.txt
-./lectura_traza ../small/initacc-base-3.trz > initacc-base-3.txt
-./lectura_traza ../small/initacc-base-4.trz > initacc-base-4.txt
-./lectura_traza ../small/initacc-base-5.trz > initacc-base-4.txt
-./lectura_traza ../small/initacc-base-4.trz > initacc-base-4.txt
-./lectura_traza ../small/initacc-base-5.trz > initacc-base-5.txt
-./lectura_traza ../small/motion-base-1.trz > motion-base-1.txt
-./lectura_traza ../small/motion-base-2.trz > motion-base-2.txt
-./lectura_traza ../small/motion-base-3.trz > motion-base-3.txt
-./lectura_traza ../small/motion-base-4.trz > motion-base-4.txt
-./lectura_traza ../small/motion-base-5.trz > motion-base-5.txt
-./lectura_traza ../small/partcol-base-1.trz > partcol-base-1.txt
-./lectura_traza ../small/partcol-base-2.trz > partcol-base-2.txt
-./lectura_traza ../small/partcol-base-3.trz > partcol-base-3.txt
-./lectura_traza ../small/partcol-base-4.trz > partcol-base-4.txt
-./lectura_traza ../small/partcol-base-5.trz > partcol-base-5.txt
-./lectura_traza ../small/repos-base-1.trz > repos-base-1.txt
-./lectura_traza ../small/repos-base-2.trz > repos-base-2.txt
-./lectura_traza ../small/repos-base-3.trz > repos-base-3.txt
-./lectura_traza ../small/repos-base-4.trz > repos-base-4.txt
-./lectura_traza ../small/repos-base-5.trz > repos-base-5.txt
+
+# Function to process a single file
+process_file() {
+    input_file=$1
+    output_file=$2
+
+    ./lectura_traza "$input_file" > "$output_file"
+
+    echo "Processed: $input_file -> $output_file"
+}
+
+# Export the function so it can be used by parallel
+export -f process_file
+
+# Array of file prefixes
+files=("acctransf-base" "boundint-base" "densinc-base" "denstransf-base" "initacc-base" "motion-base" "partcol-base" "repos-base")
+
+# Loop through the file prefixes and execute in parallel
+for file_prefix in "${files[@]}"
+do
+    # Use parallel to process files concurrently
+    parallel --jobs 5 process_file ::: "../small/${file_prefix}"-{1..5}.trz ::: "${file_prefix}"-{1..5}.txt
+done
+rm lectura_traza
+echo "All files processed in parallel."

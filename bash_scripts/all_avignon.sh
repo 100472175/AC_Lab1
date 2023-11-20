@@ -1,10 +1,10 @@
+
 rm -rf slurm*
-sbatch cmake.sh
-sleep 5
-sbatch make.sh
-sleep 15
-job_id_fluid=$(sbatch fluid.sh | awk '{print $4}')
+sbatch compila.sh
+sleep 40
+job_id_fluid=$(sbatch ejecuta.sh | awk '{print $4}')
 echo "Submitted batch job $job_id_fluid"
-sleep 3
-tail -f slurm-$job_id_fluid.out &
-sbatch fluid.sh
+sleep 1
+tail -f *$job_id_fluid* &
+
+# Hay que ver si esto funciona bien o no, estaría bien que si
