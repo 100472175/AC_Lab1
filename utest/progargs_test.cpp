@@ -14,16 +14,16 @@ class ProgargsTest : public testing::Test {
     void SetUp() override { preparar_ficheros_tests(); }
 
     std::string entrada_np1_particulas_1 =
-        "../../trz/archivos_utest/fichero_entrada_np1_particulas_1.fld";
-    std::string entrada_np0         = "../../trz/archivos_utest/fichero_entrada_np0.fld";
-    std::string entrada_np_negativo = "../../trz/archivos_utest/fichero_entrada_np_negativo.fld";
-    std::string entrada_no_valida   = "../../trz/archivos_utest/fichero_entrada_no_valida";
+        "trz/archivos_utest/fichero_entrada_np1_particulas_1.fld";
+    std::string entrada_np0         = "trz/archivos_utest/fichero_entrada_np0.fld";
+    std::string entrada_np_negativo = ".trz/archivos_utest/fichero_entrada_np_negativo.fld";
+    std::string entrada_no_valida   = "trz/archivos_utest/fichero_entrada_no_valida";
     std::string entrada_np_2_particulas_1 =
-        "../../trz/archivos_utest/fichero_entrada_np_2_particulas_1.fld";
+        "trz/archivos_utest/fichero_entrada_np_2_particulas_1.fld";
     std::string entrada_np_1_particulas_2 =
-        "../../trz/archivos_utest/fichero_entrada_np_1_particulas_2.fld";
-    std::string salida           = "../../trz/archivos_utest/salida.fld";
-    std::string salida_no_valida = "../../trz/archivos_utest/fichero_salida_no_valida.fld";
+        "trz/archivos_utest/fichero_entrada_np_1_particulas_2.fld";
+    std::string salida           = "trz/archivos_utest/salida.fld";
+    std::string salida_no_valida = "trz/archivos_utest/fichero_salida_no_valida.fld";
 
     static Particulas crear_particulas(u_int numero_particulas) {
       Vector3d<double> const pos{0.0230779, -0.0804886, -0.0516096};
