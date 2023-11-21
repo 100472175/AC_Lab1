@@ -1,5 +1,5 @@
 #!/bin/bash
-clang++ -o ../herramientas/lectura ../herramientas/lectura.cpp
+clang++ -o ../herramientas/lectura ../herramientas/lectura.cpp || exit
 echo "Compilado lectura_traza.cpp"
 # Check if a folder path is provided as a command-line argument
 if [ $# -eq 0 ]; then
