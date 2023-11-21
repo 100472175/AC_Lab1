@@ -23,6 +23,9 @@ Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mí
 Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
 constexpr double const operador_densidad{315 / (64 * std::numbers::pi)};
 
+/**
+ * Clase encargada de la implementación de todas las operaciones matemáticas.
+ */
 class Calculadora {
   public:
     double ppm;

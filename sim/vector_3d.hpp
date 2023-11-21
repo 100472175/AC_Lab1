@@ -7,6 +7,9 @@ constexpr double cuadrado(double numero) {
   return numero * numero;
 }
 
+/**
+ * Plantilla para la implementación de un vector de 3 valores y sus operaciones.
+ */
 template <typename T>
 struct Vector3d {
     T x, y, z;
