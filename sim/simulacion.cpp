@@ -292,7 +292,7 @@ void Simulacion::print_simulation_parameters() const {
   Vector3d<double> const tamanio_bloque = calc.tamanio_bloque();
   std::cout << "Number of particles: " << num_particulas
             << "\n"
-            //<< "Particles per meter: " << ppm << "\n"
+            << "Particles per meter: " << calc.ppm << "\n"
             << "Smoothing length: " << calc.suavizado << "\n"
             << "Particle mass: " << calc.masa << "\n"
             << "Grid size: " << malla.n_x << " x " << malla.n_y << " x " << malla.n_z << "\n"
