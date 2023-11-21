@@ -24,11 +24,7 @@ for file in *.fld; do
     if [ -f "$file" ]; then
         # Define the output file name based on the input file
         output_file="${file%.fld}_output.txt"
-        # Your command here that uses the file as an argument
-        # For example, let's echo the file name and redirect it to the output file
         echo "Processing file: $file" > "$output_file"
-        # Add your command here that uses $file as an argument and appends output to the file
-        # For example: ./your_command.sh "$file" >> "$output_file"
         ../herramientas/lectura "$file" >> "$output_file"
     fi
 done
