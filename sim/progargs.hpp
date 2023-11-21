@@ -10,6 +10,9 @@
 #include <iostream>
 #include <vector>
 
+/**
+ * Clase encargada de la lectura, escritura y validación de parámetros de entrada.
+ */
 class Progargs {
   private:
     int numero_iteraciones{};       // Numero de iteraciones de la simulacion
@@ -18,6 +21,7 @@ class Progargs {
 
   public:
     /**
+     *
      * Función encargada de devolver el número de iteraciones.
      */
     int getter_num_iteraciones() const;

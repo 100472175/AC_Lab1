@@ -24,16 +24,6 @@ FETCHCONTENT_DECLARE(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FETCHCONTENT_MAKEAVAILABLE(googletest)
 
-#enable gsl
-#FETCHCONTENT_DECLARE(
-#        GIT_REPOSITORY "https://github.com/microsoft/GSL"
-#        GIT_TAG v4.0.0
-#        GIT_SHALLOW ON
-#)
-#FETCHCONTENT_MAKEAVAILABLE(GSL)
-
-# esto relentiza compilación, se puede desactivar y activar
-# ESTA LINEA NO CONSEGUIMOS QUE HAGA NADA
 set(CMAKE_CXX_CLANG_TIDY clang-tidy -header-filter=.*)
 
 # incluir todos los directorios de código

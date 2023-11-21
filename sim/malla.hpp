@@ -9,7 +9,8 @@
 #include <vector>
 
 /**
- * Abtrascción de la malla como conjunto de bloques.
+ * Abtrascción de la malla como conjunto de bloques, contiene metodos para crear bloques,
+ * recuperarlos y calcular sus contiguos
  */
 class Malla {
   public:

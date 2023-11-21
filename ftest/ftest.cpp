@@ -30,7 +30,8 @@ bool compareFiles(std::string const & p1, std::string const & p2) {
 }
 
 TEST(FunctionalTest, primera_iteracion) {
-  std::vector<std::string> const argumentos = {"1", "../../small.fld", "../../final.fld"};
+  std::vector<std::string> const argumentos = {"1", "../../in/small.fld",
+                                               "../../trz/archivos_ftest/final.fld"};
   Progargs nuestros_args{};
   nuestros_args.asignar_valores(argumentos);
 
@@ -46,11 +47,12 @@ TEST(FunctionalTest, primera_iteracion) {
   simulacion.iterador();
 
   nuestros_args.write_file(calc.ppm, simulacion);
-  ASSERT_EQ(compareFiles("../../final.fld", "../../out/small-1.fld"), true);
+  ASSERT_EQ(compareFiles("../../trz/archivos_ftest/final.fld", "../../out/small-1.fld"), true);
 }
 
 TEST(FunctionalTest, segunda_iteracion) {
-  std::vector<std::string> const argumentos = {"2", "../../small.fld", "../../final.fld"};
+  std::vector<std::string> const argumentos = {"2", "../../in/small.fld",
+                                               "../../trz/archivos_ftest/final.fld"};
   Progargs nuestros_args{};
   nuestros_args.asignar_valores(argumentos);
 
@@ -66,11 +68,12 @@ TEST(FunctionalTest, segunda_iteracion) {
   simulacion.iterador();
 
   nuestros_args.write_file(calc.ppm, simulacion);
-  ASSERT_EQ(compareFiles("../../final.fld", "../../out/small-2.fld"), true);
+  ASSERT_EQ(compareFiles("../../trz/archivos_ftest/final.fld", "../../out/small-2.fld"), true);
 }
 
 TEST(FunctionalTest, tercera_iteracion) {
-  std::vector<std::string> const argumentos = {"3", "../../small.fld", "../../final.fld"};
+  std::vector<std::string> const argumentos = {"3", "../../in/small.fld",
+                                               "../../trz/archivos_ftest/final.fld"};
   Progargs nuestros_args{};
   nuestros_args.asignar_valores(argumentos);
 
@@ -86,11 +89,12 @@ TEST(FunctionalTest, tercera_iteracion) {
   simulacion.iterador();
 
   nuestros_args.write_file(calc.ppm, simulacion);
-  ASSERT_EQ(compareFiles("../../final.fld", "../../out/small-3.fld"), true);
+  ASSERT_EQ(compareFiles("../../trz/archivos_ftest/final.fld", "../../out/small-3.fld"), true);
 }
 
 TEST(FunctionalTest, cuarta_iteracion) {
-  std::vector<std::string> const argumentos = {"4", "../../small.fld", "../../final.fld"};
+  std::vector<std::string> const argumentos = {"4", "../../in/small.fld",
+                                               "../../trz/archivos_ftest/final.fld"};
   Progargs nuestros_args{};
   nuestros_args.asignar_valores(argumentos);
 
@@ -106,11 +110,12 @@ TEST(FunctionalTest, cuarta_iteracion) {
   simulacion.iterador();
 
   nuestros_args.write_file(calc.ppm, simulacion);
-  ASSERT_EQ(compareFiles("../../final.fld", "../../out/small-4.fld"), true);
+  ASSERT_EQ(compareFiles("../../trz/archivos_ftest/final.fld", "../../out/small-4.fld"), true);
 }
 
 TEST(FunctionalTest, quinta_iteracion) {
-  std::vector<std::string> const argumentos = {"5", "../../small.fld", "../../final.fld"};
+  std::vector<std::string> const argumentos = {"5", "../../in/small.fld",
+                                               "../../trz/archivos_ftest/final.fld"};
   Progargs nuestros_args{};
   nuestros_args.asignar_valores(argumentos);
 
@@ -126,11 +131,12 @@ TEST(FunctionalTest, quinta_iteracion) {
   simulacion.iterador();
 
   nuestros_args.write_file(calc.ppm, simulacion);
-  ASSERT_EQ(compareFiles("../../final.fld", "../../out/small-5.fld"), true);
+  ASSERT_EQ(compareFiles("../../trz/archivos_ftest/final.fld", "../../out/small-5.fld"), true);
 }
 
 TEST(FunctionalTest, no_iteracion) {
-  std::vector<std::string> const argumentos = {"0", "../../small.fld", "../../final.fld"};
+  std::vector<std::string> const argumentos = {"0", "../../in/small.fld",
+                                               "../../trz/archivos_ftest/final.fld"};
   Progargs nuestros_args{};
   nuestros_args.asignar_valores(argumentos);
 
@@ -146,5 +152,5 @@ TEST(FunctionalTest, no_iteracion) {
   simulacion.iterador();
 
   nuestros_args.write_file(calc.ppm, simulacion);
-  ASSERT_EQ(compareFiles("../../final.fld", "../../small.fld"), true);
+  ASSERT_EQ(compareFiles("../../trz/archivos_ftest/final.fld", "../../in/small.fld"), true);
 }
