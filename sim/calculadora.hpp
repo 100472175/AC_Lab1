@@ -18,9 +18,9 @@ constexpr double const d_v{128};                      // Amortiguamiento
 constexpr double const viscosidad{0.4};               // Viscosidad
 constexpr double const d_p{2e-4};                     // Tamaño de la partícula
 constexpr double const delta_t{1e-3};                 // Paso de tiempo
-Vector3d<double> const b_max(0.065, 0.1, 0.065);      // Límites de la caja máximos
-Vector3d<double> const b_min(-0.065, -0.08, -0.065);  // Límites de la caja mínimos
-Vector3d<double> const gravedad(0.0, -9.8, 0.0);      // Gravedad
+Vector3d<double> const b_max{0.065, 0.1, 0.065};      // Límites de la caja máximos
+Vector3d<double> const b_min{-0.065, -0.08, -0.065};  // Límites de la caja mínimos
+Vector3d<double> const gravedad{0.0, -9.8, 0.0};      // Gravedad
 constexpr double const operador_densidad{315 / (64 * std::numbers::pi)};
 
 /**

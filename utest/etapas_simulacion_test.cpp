@@ -8,7 +8,7 @@ constexpr double tolerance = 1e-12;
 
 class EtapasTest : public testing::Test {
     void SetUp() override {
-      std::vector<std::string> const args = {"1", "../../small.fld", "../../out_test.fld"};
+      std::vector<std::string> const args = {"1", "../../in/small.fld", "../../out_test.fld"};
       progargs.asignar_valores(args);
       progargs2.asignar_valores(args);
       progargs.read_head(malla, calc);
@@ -43,7 +43,7 @@ TEST_F(EtapasTest, Poblar_malla) {
                                               malla.bloques[i].k);
   }
   simulacion.poblar_malla();
-  load_trz("../../traza/small/repos-base-1.trz", simulacion_prueba);
+  load_trz("../../trz/small/repos-base-1.trz", simulacion_prueba);
   for (int i = 0; i < simulacion.malla.tamano; i++) {
     std::sort(simulacion.malla.bloques[i].particulas.begin(),
               simulacion.malla.bloques[i].particulas.end());
@@ -66,8 +66,8 @@ TEST_F(EtapasTest, Colisiones_particulas_densidad) {
   for (int i = 0; i < malla.tamano; i++) {
     simulacion.malla.bloques_contiguos(malla.bloques[i].i, malla.bloques[i].j, malla.bloques[i].k);
   }
-  load_trz("../../traza/small/repos-base-1.trz", simulacion);
-  load_trz("../../traza/small/denstransf-base-1.trz", simulacion_prueba);
+  load_trz("../../trz/small/repos-base-1.trz", simulacion);
+  load_trz("../../trz/small/denstransf-base-1.trz", simulacion_prueba);
   simulacion.colisiones_particulas_densidad();
   for (int i = 0; i < simulacion.malla.tamano; i++) {
     std::sort(simulacion.malla.bloques[i].particulas.begin(),
@@ -91,8 +91,8 @@ TEST_F(EtapasTest, Colisiones_particulas_aceleracion) {
   for (int i = 0; i < malla.tamano; i++) {
     simulacion.malla.bloques_contiguos(malla.bloques[i].i, malla.bloques[i].j, malla.bloques[i].k);
   }
-  load_trz("../../traza/small/denstransf-base-1.trz", simulacion);
-  load_trz("../../traza/small/acctransf-base-1.trz", simulacion_prueba);
+  load_trz("../../trz/small/denstransf-base-1.trz", simulacion);
+  load_trz("../../trz/small/acctransf-base-1.trz", simulacion_prueba);
   simulacion.colisiones_particulas_aceleracion();
   for (int i = 0; i < simulacion.malla.tamano; i++) {
     std::sort(simulacion.malla.bloques[i].particulas.begin(),
@@ -112,8 +112,8 @@ TEST_F(EtapasTest, Colisiones_particulas_limite) {
   simulacion_prueba.particulas.reserve_space(calc.num_particulas);
   progargs.read_body(simulacion);
   progargs2.read_body(simulacion_prueba);
-  load_trz("../../traza/small/acctransf-base-1.trz", simulacion);
-  load_trz("../../traza/small/partcol-base-1.trz", simulacion_prueba);
+  load_trz("../../trz/small/acctransf-base-1.trz", simulacion);
+  load_trz("../../trz/small/partcol-base-1.trz", simulacion_prueba);
   simulacion.colision_particula_limite();
   for (int i = 0; i < simulacion.malla.tamano; i++) {
     std::sort(simulacion.malla.bloques[i].particulas.begin(),
@@ -133,8 +133,8 @@ TEST_F(EtapasTest, Movimiento_particulas) {
   simulacion_prueba.particulas.reserve_space(calc.num_particulas);
   progargs.read_body(simulacion);
   progargs2.read_body(simulacion_prueba);
-  load_trz("../../traza/small/partcol-base-1.trz", simulacion);
-  load_trz("../../traza/small/motion-base-1.trz", simulacion_prueba);
+  load_trz("../../trz/small/partcol-base-1.trz", simulacion);
+  load_trz("../../trz/small/motion-base-1.trz", simulacion_prueba);
   simulacion.movimiento_particulas();
   for (int i = 0; i < simulacion.malla.tamano; i++) {
     std::sort(simulacion.malla.bloques[i].particulas.begin(),
@@ -154,8 +154,8 @@ TEST_F(EtapasTest, Rebote_particulas_limite) {
   simulacion_prueba.particulas.reserve_space(calc.num_particulas);
   progargs.read_body(simulacion);
   progargs2.read_body(simulacion_prueba);
-  load_trz("../../traza/small/motion-base-1.trz", simulacion);
-  load_trz("../../traza/small/boundint-base-1.trz", simulacion_prueba);
+  load_trz("../../trz/small/motion-base-1.trz", simulacion);
+  load_trz("../../trz/small/boundint-base-1.trz", simulacion_prueba);
   simulacion.rebote_particula_limite();
   for (int i = 0; i < simulacion.malla.tamano; i++) {
     std::sort(simulacion.malla.bloques[i].particulas.begin(),
@@ -175,8 +175,8 @@ TEST_F(EtapasTest, Reposicionamiento) {
   simulacion_prueba.particulas.reserve_space(calc.num_particulas);
   progargs.read_body(simulacion);
   progargs2.read_body(simulacion_prueba);
-  load_trz("../../traza/small/boundint-base-1.trz", simulacion);
-  load_trz("../../traza/small/repos-base-2.trz", simulacion_prueba);
+  load_trz("../../trz/small/boundint-base-1.trz", simulacion);
+  load_trz("../../trz/small/repos-base-2.trz", simulacion_prueba);
   simulacion.reposicionamiento();
   for (int i = 0; i < simulacion.malla.tamano; i++) {
     std::sort(simulacion.malla.bloques[i].particulas.begin(),

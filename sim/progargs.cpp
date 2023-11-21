@@ -5,8 +5,8 @@ int Progargs::read_till_end(int num_particulas, int leidas) {
   int const tamanio_lectura_part           = 36;
   int const error_number_particle_mismatch = -5;
   while (archivo_entrada.gcount() > 0) {
-    Vector3d<Vector3d<float>> dummy(Vector3d<float>(0.0, 0.0, 0.0), Vector3d<float>(0.0, 0.0, 0.0),
-                                    Vector3d<float>(0.0, 0.0, 0.0));
+    Vector3d<Vector3d<float>> dummy{Vector3d<float>{0.0, 0.0, 0.0}, Vector3d<float>{0.0, 0.0, 0.0},
+                                    Vector3d<float>{0.0, 0.0, 0.0}};
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     archivo_entrada.read(reinterpret_cast<char *>(&dummy), tamanio_lectura_part);
     if (archivo_entrada.gcount() > 0) { leidas++; }
@@ -51,7 +51,6 @@ int Progargs::read_head(Malla & malla, Calculadora & calculadora) {
   }
   calculadora.ppm            = (double) float_ppm;
   calculadora.num_particulas = num_particulas;
-
   Vector3d<int> const aux = calculadora.num_bloques_por_eje();
 
   malla.n_x = aux.x;
@@ -66,9 +65,9 @@ int Progargs::read_body(Simulacion & simulacion) {
   int const error_number_particle_mismatch = -5;
   int const size_param                     = 12;
   for (leidas = 0; leidas < simulacion.num_particulas; leidas++) {
-    Vector3d<float> pos(0.0, 0.0, 0.0);
-    Vector3d<float> grad(0.0, 0.0, 0.0);
-    Vector3d<float> vel(0.0, 0.0, 0.0);
+    Vector3d<float> pos{0.0, 0.0, 0.0};
+    Vector3d<float> grad{0.0, 0.0, 0.0};
+    Vector3d<float> vel{0.0, 0.0, 0.0};
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     archivo_entrada.read(reinterpret_cast<char *>(&pos),
                          size_param);  // lectura posicion particula i

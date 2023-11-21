@@ -306,5 +306,5 @@ void Simulacion::add_particulas(Vector3d<float> & pos, Vector3d<float> & h_v,
   particulas.pos.push_back(pos.to_double());
   particulas.gradiente.push_back(h_v.to_double());
   particulas.velocidad.push_back(vel.to_double());
-  particulas.aceleracion.push_back(Vector3d<double>(0.0, 0.0, 0.0));
+  particulas.aceleracion.push_back(Vector3d<double>{0.0, 0.0, 0.0});
 }
